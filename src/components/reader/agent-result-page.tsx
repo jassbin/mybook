@@ -344,7 +344,7 @@ export function AgentResultPage({
               {evidence}
               {isStreaming && !hasMirror && (
                 <span className="inline-block w-0.5 h-4 ml-0.5 align-middle animate-pulse"
-                  style={{ background: "#C34A28" }} />
+                  style={{ background: "#14b8a6" }} />
               )}
             </div>
           )}
