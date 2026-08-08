@@ -162,6 +162,10 @@ html { font-size: 16px; }
   z-index: 0;
 }
 
+/* ── Hide scrollbar (theme chips row) ─────────────────────── */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
 /* ── Chat bubble styles ───────────────────────────────────── */
 .chat-bubble {
   background: rgba(239,230,201,.85);
