@@ -255,10 +255,10 @@ export default function Home() {
 
   // ── 错误页 ──────────────────────────────────────────────────────────────
   if (error) return (
-    <div className="flex flex-col items-center justify-center min-h-screen gap-4 px-8 text-center" style={{ background: "#050403" }}>
-      <div className="text-2xl font-black" style={{ fontFamily: "'Ma Shan Zheng',serif", color: "#C34A28" }}>出了点问题</div>
-      <p className="text-sm text-[rgba(239,230,201,.7)]">{error}</p>
-      <button onClick={() => { setError(null); setPhase("select"); }} className="px-6 py-2.5 text-sm font-bold text-[#EFE6C9]" style={{ background: "#010101" }}>重新选书</button>
+    <div className="fresh-backdrop flex flex-col items-center justify-center min-h-screen gap-4 px-8 text-center">
+      <div className="relative z-10 text-2xl font-black" style={{ fontFamily: "'Ma Shan Zheng',serif", color: "#0c5a52" }}>出了点问题</div>
+      <p className="relative z-10 text-sm text-[rgba(12,90,82,.65)]">{error}</p>
+      <button onClick={() => { setError(null); setPhase("select"); }} className="relative z-10 px-6 py-2.5 text-sm font-bold text-white rounded-full" style={{ background: "linear-gradient(135deg,#14b8a6,#0ea5b7)", boxShadow: "0 4px 16px rgba(20,184,166,.35)" }}>重新选书</button>
     </div>
   );
 
