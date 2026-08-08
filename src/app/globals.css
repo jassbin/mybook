@@ -166,6 +166,41 @@ html { font-size: 16px; }
 .no-scrollbar::-webkit-scrollbar { display: none; }
 .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
+/* ── Fresh backdrop (首页/结果页 清新+微酷炫) ───────────────── */
+.fresh-backdrop {
+  position: relative;
+  background:
+    radial-gradient(120% 80% at 15% 0%, rgba(58,122,106,.20), transparent 55%),
+    radial-gradient(110% 70% at 90% 100%, rgba(195,74,40,.14), transparent 55%),
+    linear-gradient(170deg, #071012 0%, #050403 55%, #060404 100%);
+}
+.fresh-backdrop::before {
+  content: "";
+  position: fixed;
+  inset: -20%;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(38% 30% at 22% 18%, rgba(90,160,150,.16), transparent 60%),
+    radial-gradient(34% 28% at 82% 78%, rgba(160,120,80,.12), transparent 60%);
+  filter: blur(6px);
+  animation: auroraDrift 16s ease-in-out infinite alternate;
+}
+@keyframes auroraDrift {
+  0%   { transform: translate3d(0,0,0) scale(1); opacity: .9; }
+  50%  { transform: translate3d(2%, -1.5%, 0) scale(1.06); opacity: 1; }
+  100% { transform: translate3d(-1.5%, 1.5%, 0) scale(1.02); opacity: .85; }
+}
+.card-sheen {
+  box-shadow:
+    0 0 0 1px rgba(239,230,201,.14),
+    0 0 34px rgba(90,160,150,.10),
+    0 28px 80px rgba(0,0,0,.55) !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  .fresh-backdrop::before { animation: none; }
+}
+
 /* ── Chat bubble styles ───────────────────────────────────── */
 .chat-bubble {
   background: rgba(239,230,201,.85);
