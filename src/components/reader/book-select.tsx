@@ -93,23 +93,22 @@ export function BookSelect({ onSelect }: BookSelectProps) {
 
   return (
     <div
-      className="flex flex-col items-center justify-center min-h-screen px-0"
-      style={{ background: "#050403", paddingTop: "var(--safe-top)", paddingBottom: "var(--safe-bottom)" }}
+      className="fresh-backdrop flex flex-col items-center justify-center min-h-screen px-0"
+      style={{ paddingTop: "var(--safe-top)", paddingBottom: "var(--safe-bottom)" }}
     >
-      {/* Ambient glow */}
+      {/* Ambient glow：跟随书脊色，冷调透气 */}
       <div
         className="fixed inset-0 pointer-events-none"
         style={{
-          background: `radial-gradient(circle at 25% 18%, ${ambientColor}2e, transparent 42%), radial-gradient(circle at 80% 82%, ${ambientColor}18, transparent 44%), #050403`,
+          background: `radial-gradient(circle at 25% 14%, ${ambientColor}33, transparent 44%), radial-gradient(circle at 82% 84%, ${ambientColor}1c, transparent 46%)`,
           transition: "background 0.45s cubic-bezier(.2,.8,.2,1)",
         }}
       />
 
       {/* Poster card */}
       <div
-        className="paper-surface relative w-full max-w-sm flex flex-col overflow-hidden border border-[rgba(239,230,201,.62)]"
+        className="paper-surface card-sheen relative w-full max-w-sm flex flex-col overflow-hidden border border-[rgba(239,230,201,.62)]"
         style={{
-          boxShadow: "0 0 0 8px #050403, 0 28px 80px rgba(0,0,0,.55)",
           minHeight: "calc(100dvh - var(--safe-top) - var(--safe-bottom) - 18px)",
           margin: "9px auto",
         }}
