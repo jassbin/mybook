@@ -163,6 +163,9 @@ export async function POST(request: NextRequest) {
     }
 
     // 6. 生成第一幕
+    const themeHintBlock = themeBoostActive && themeDomains?.some(d => d === "感情关系" || d === "禁忌诱惑")
+      ? `\n【本局主题偏好——情感线加重】\n玩家选择了「爱情/恋人」主题。在忠于原著的前提下，本幕应优先呈现「${character ?? charName}」与情感/关系相关的两难（爱、羁绊、取舍、背叛、错过等），让感情线成为主要张力。严禁为了主题而发明原著不存在的恋爱关系或人物——只放大原著本就存在的情感处境。`
+      : "";
     const firstActResult = await callActGenerator({
       state,
       dilemmas,
@@ -170,7 +173,7 @@ export async function POST(request: NextRequest) {
       openingHook,
       isFirstAct: true,
       intensifyMode: !!intensify,
-      intensifyTargetBlock,
+      intensifyTargetBlock: intensifyTargetBlock + themeHintBlock,
     });
 
     return NextResponse.json({
