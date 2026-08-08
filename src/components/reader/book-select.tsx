@@ -117,12 +117,12 @@ export function BookSelect({ onSelect }: BookSelectProps) {
         <header className="relative z-10 flex items-baseline justify-between gap-3 px-5 pt-4 pb-2.5">
           <div
             className="text-[36px] font-black leading-none tracking-tight shrink-0"
-            style={{ fontFamily: "'Ma Shan Zheng', serif", color: "#010101", letterSpacing: "-2px" }}
+            style={{ fontFamily: "'Ma Shan Zheng', serif", color: "#0c5a52", letterSpacing: "-2px" }}
           >
             你想成为谁
           </div>
           <div
-            className="text-[12px] font-semibold leading-snug text-right text-[rgba(1,1,1,.5)]"
+            className="text-[12px] font-semibold leading-snug text-right text-[rgba(12,60,58,.6)]"
             style={{ fontFamily: "'Noto Serif SC', serif" }}
           >
             选一本书，附身角色<br />感受风雪，照见自己
@@ -143,9 +143,10 @@ export function BookSelect({ onSelect }: BookSelectProps) {
                   onClick={() => handleThemeChange(tdef.key)}
                   className="shrink-0 px-3.5 py-1.5 text-[13px] font-bold rounded-full border transition-all active:scale-95 whitespace-nowrap"
                   style={{
-                    background: active ? "#010101" : "transparent",
-                    color: active ? "#EFE6C9" : "rgba(1,1,1,.55)",
-                    borderColor: active ? "#010101" : "rgba(1,1,1,.18)",
+                    background: active ? "linear-gradient(135deg,#14b8a6,#0ea5b7)" : "rgba(255,255,255,.5)",
+                    color: active ? "#ffffff" : "rgba(12,60,58,.7)",
+                    borderColor: active ? "transparent" : "rgba(56,189,168,.3)",
+                    boxShadow: active ? "0 4px 14px rgba(20,184,166,.35)" : "none",
                     fontFamily: "'Noto Serif SC', serif",
                   }}
                 >
