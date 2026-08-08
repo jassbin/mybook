@@ -259,7 +259,7 @@ export function AgentResultPage({
                   <span className="text-lg font-black leading-none mt-0.5"
                     style={{ fontFamily: "'Ma Shan Zheng', serif", color: spineText }}>{record.act}</span>
                 </div>
-                <div className="flex-1 bg-[rgba(239,230,201,.75)] px-3 py-2.5 relative">
+                <div className="flex-1 bg-[rgba(255,255,255,.55)] px-3 py-2.5 relative">
                   <span className="absolute top-2 right-2 text-[8px] px-1.5 py-0.5 font-medium"
                     style={{ background: "rgba(1,1,1,.08)", color: "rgba(1,1,1,.45)" }}>
                     {record.socialTag}
@@ -391,7 +391,7 @@ export function AgentResultPage({
                       {fold.ancientScene}
                     </p>
                   </div>
-                  <div className="px-3 py-4 flex flex-col gap-1.5 bg-[rgba(239,230,201,.9)]">
+                  <div className="px-3 py-4 flex flex-col gap-1.5 bg-[rgba(255,255,255,.6)]">
                     <span className="text-[9px] font-bold tracking-widest text-[rgba(1,1,1,.4)]">
                       你 · 今天
                     </span>
