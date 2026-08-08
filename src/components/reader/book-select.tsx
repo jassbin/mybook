@@ -107,7 +107,7 @@ export function BookSelect({ onSelect }: BookSelectProps) {
 
       {/* Poster card */}
       <div
-        className="paper-surface card-sheen relative w-full max-w-sm flex flex-col overflow-hidden border border-[rgba(239,230,201,.62)]"
+        className="glass-panel relative w-full max-w-sm flex flex-col overflow-hidden rounded-2xl"
         style={{
           minHeight: "calc(100dvh - var(--safe-top) - var(--safe-bottom) - 18px)",
           margin: "9px auto",
