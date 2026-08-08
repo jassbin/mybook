@@ -38,12 +38,12 @@ export function PageTopbar({
 }: PageTopbarProps) {
   const [shareFlash, setShareFlash] = useState(false);
 
-  const bg = darkMode ? "rgba(5,4,3,.94)" : "rgba(239,230,201,.97)";
-  const textColor = darkMode ? "rgba(239,230,201,.92)" : "rgba(1,1,1,.82)";
-  const iconBg = darkMode ? "rgba(255,255,255,.1)" : "rgba(1,1,1,.07)";
-  const iconColor = darkMode ? "#EFE6C9" : "#010101";
-  const iconBorder = darkMode ? "rgba(255,255,255,.13)" : "rgba(1,1,1,.15)";
-  const borderBottom = darkMode ? "rgba(255,255,255,.08)" : "rgba(1,1,1,.1)";
+  const bg = darkMode ? "rgba(5,4,3,.94)" : "rgba(255,255,255,.7)";
+  const textColor = darkMode ? "rgba(239,230,201,.92)" : "rgba(12,60,58,.9)";
+  const iconBg = darkMode ? "rgba(255,255,255,.1)" : "rgba(56,189,168,.12)";
+  const iconColor = darkMode ? "#EFE6C9" : "#0c5a52";
+  const iconBorder = darkMode ? "rgba(255,255,255,.13)" : "rgba(56,189,168,.28)";
+  const borderBottom = darkMode ? "rgba(255,255,255,.08)" : "rgba(56,189,168,.18)";
 
   const handleShare = useCallback(() => {
     if (!onShare) return;
