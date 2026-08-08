@@ -1,10 +1,10 @@
 "use client";
 // src/components/reader/book-select.tsx
 import { useEffect, useRef, useState, useMemo } from "react";
-import { buildPresetBooks, lookupBook, ALL_BOOKS, type BookMeta } from "@/lib/reader/types";
+import { buildPresetBooks, buildPresetBooksByTheme, lookupBook, ALL_BOOKS, THEMES, type ThemeKey, type BookMeta } from "@/lib/reader/types";
 
 interface BookSelectProps {
-  onSelect: (bookTitle: string, meta: BookMeta | null) => void;
+  onSelect: (bookTitle: string, meta: BookMeta | null, theme?: ThemeKey) => void;
 }
 
 /** 模糊搜索：只要输入中有任意字符出现在书名里，就纳入候选，按覆盖率排序 */
