@@ -42,6 +42,8 @@ export default function Home() {
 
   // 角色切换：记录已展示过的角色名（避免重复）
   const shownCharactersRef = useRef<string[]>([]);
+  // 主题偏好（选书时选定，传给 init 用于加重对应困境场域）
+  const themeRef = useRef<import("@/lib/reader/types").ThemeKey>("any");
 
   // 旧版 run（保留，用于极压对比）
   const [finalScores, setFinalScores] = useState<Record<string, number>>({});
@@ -104,12 +106,14 @@ export default function Home() {
   }, []);
 
   // ── 选书：init 后先进角色介绍页 ────────────────────────────────────────
-  const handleBookSelect = useCallback(async (title: string, meta: BookMeta | null) => {
+  const handleBookSelect = useCallback(async (title: string, meta: BookMeta | null, theme?: import("@/lib/reader/types").ThemeKey) => {
     setBookTitle(title); setBookMeta(meta); setError(null);
+    themeRef.current = theme ?? "any";
     // 重置已展示角色记录
     shownCharactersRef.current = [];
     setPhase("agent-loading");
     try {
+      const { getThemeDomains } = await import("@/lib/reader/types");
       const res = await fetch("/api/narrative/init", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -117,6 +121,7 @@ export default function Home() {
           bookTitle: title,
           character: meta?.recommendedChar,
           characterDomains: meta?.charDomains ?? [],
+          themeDomains: getThemeDomains(themeRef.current),
         }),
       });
       if (!res.ok) throw new Error((await res.json().catch(() => ({}))).error ?? "初始化失败");
