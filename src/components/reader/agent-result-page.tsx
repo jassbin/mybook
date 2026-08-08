@@ -178,7 +178,7 @@ export function AgentResultPage({
   return (
     <div className="fresh-backdrop flex flex-col min-h-screen"
       style={{ paddingTop: "var(--safe-top)", paddingBottom: "var(--safe-bottom)" }}>
-      <div className="paper-surface card-sheen relative w-full max-w-sm mx-auto flex flex-col border border-[rgba(239,230,201,.5)] anim-up overflow-y-auto"
+      <div className="glass-panel relative w-full max-w-sm mx-auto flex flex-col anim-up overflow-y-auto rounded-2xl"
         style={{
           margin: "8px auto",
           minHeight: "calc(100dvh - var(--safe-top) - var(--safe-bottom) - 16px)",
