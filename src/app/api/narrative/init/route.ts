@@ -11,12 +11,13 @@ import {
 
 export async function POST(request: NextRequest) {
   try {
-    const { bookTitle, character, intensify, normalChoiceHistory, characterDomains } = await request.json() as {
+    const { bookTitle, character, intensify, normalChoiceHistory, characterDomains, themeDomains } = await request.json() as {
       bookTitle: string;
       character?: string;
       intensify?: boolean;
       normalChoiceHistory?: import("@/lib/agent/world-state").ChoiceRecord[];
       characterDomains?: string[];
+      themeDomains?: string[];
     };
     if (!bookTitle?.trim()) {
       return NextResponse.json({ error: "书名不能为空" }, { status: 400 });
