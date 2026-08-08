@@ -207,13 +207,13 @@ export function AgentComparePage({
 
   return (
     <div
-      className="flex flex-col min-h-screen"
-      style={{ background: "#050403", paddingTop: "var(--safe-top)", paddingBottom: "var(--safe-bottom)" }}
+      className="fresh-backdrop flex flex-col min-h-screen"
+      style={{ paddingTop: "var(--safe-top)", paddingBottom: "var(--safe-bottom)" }}
     >
       <div
-        className="paper-surface relative w-full max-w-sm mx-auto flex flex-col border border-[rgba(239,230,201,.5)] anim-up overflow-y-auto"
+        className="paper-surface card-sheen relative w-full max-w-sm mx-auto flex flex-col border border-[rgba(239,230,201,.5)] anim-up overflow-y-auto"
         style={{
-          boxShadow: "0 0 0 6px #050403, 0 28px 80px rgba(0,0,0,.55)", margin: "8px auto",
+          margin: "8px auto",
           minHeight: "calc(100dvh - var(--safe-top) - var(--safe-bottom) - 16px)",
         }}
       >
