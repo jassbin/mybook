@@ -100,9 +100,24 @@ export async function POST(request: NextRequest) {
     }
 
     // 4. 选困境：优先用前端传入的 characterDomains（含新维度），其次 DNA，最后空
-    const domains = (characterDomains && characterDomains.length > 0)
+    const baseDomains = (characterDomains && characterDomains.length > 0)
       ? characterDomains
       : (dna?.dominantDomains ?? []);
+
+    // 4.5 主题偏好加重（严守「原著相符、不硬来」）：
+    // 仅当角色本身的场域与所选主题有交集时，才把主题场域提到最前（加重）。
+    // 若角色原著里根本没有该主题的线索（无交集），则完全忽略主题，绝不硬塞。
+    let domains = baseDomains;
+    let themeBoostActive = false;
+    if (themeDomains && themeDomains.length > 0) {
+      const overlap = themeDomains.filter(d => baseDomains.includes(d));
+      if (overlap.length > 0) {
+        // 有交集 → 把命中的主题场域提到最前，其余保留
+        domains = [...overlap, ...baseDomains.filter(d => !overlap.includes(d))];
+        themeBoostActive = true;
+      }
+      // 无交集 → 保持 baseDomains 不变（不硬来）
+    }
     const dilemmaIntensity: 1 | 2 | 3 = intensify ? 3 : 1;
     const dilemmas = selectDilemmas(domains, dilemmaIntensity, [], 3);
 
