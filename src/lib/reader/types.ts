@@ -594,6 +594,91 @@ export function buildPresetBooks(): BookMeta[] {
   return [classic, ...shuffled(extras)];
 }
 
+// ── 主题偏好 ────────────────────────────────────────────────────
+// 每个主题映射到「困境场域」。选主题只是「优先推荐 + 加重」，
+// 绝不硬塞：只会浮现原著里本就带该场域标签的书与角色。
+export type ThemeKey = "any" | "love" | "career" | "growth" | "family" | "survival";
+
+export interface ThemeDef {
+  key: ThemeKey;
+  label: string;
+  /** 该主题匹配的 dominantDomains（用于给书/角色打分与加重困境） */
+  domains: string[];
+}
+
+export const THEMES: ThemeDef[] = [
+  { key: "any", label: "不限", domains: [] },
+  { key: "love", label: "爱情·恋人", domains: ["感情关系", "禁忌诱惑"] },
+  { key: "career", label: "职场·权力", domains: ["生存底线", "背叛信任"] },
+  { key: "growth", label: "自我·成长", domains: ["身份认同", "命运偏爱"] },
+  { key: "family", label: "家庭·代际", domains: ["家庭代际", "背叛信任"] },
+  { key: "survival", label: "命运·生存", domains: ["生存底线", "命运偏爱"] },
+];
+
+export function getThemeDomains(theme: ThemeKey): string[] {
+  return THEMES.find(t => t.key === theme)?.domains ?? [];
+}
+
+/** 某角色对某主题的匹配分：dominantDomains 命中主题 domains 的数量 */
+function charThemeScore(c: CharCandidate, domains: string[]): number {
+  if (domains.length === 0) return 0;
+  return c.dominantDomains.filter(d => domains.includes(d)).length;
+}
+
+/** 某书对某主题的匹配分：取书中角色的最高匹配分 */
+function bookThemeScore(candidates: CharCandidate[], domains: string[]): number {
+  return candidates.reduce((max, c) => Math.max(max, charThemeScore(c, domains)), 0);
+}
+
+/** 用主题偏好挑选推荐角色：优先命中主题的角色，其次随机 */
+function buildBookMetaForTheme(
+  key: BookKey, title: string, color: string, textColor: string,
+  tagline: string, candidates: CharCandidate[], domains: string[]
+): BookMeta {
+  let picked: CharCandidate;
+  if (domains.length > 0) {
+    const matched = candidates.filter(c => charThemeScore(c, domains) > 0);
+    picked = matched.length > 0
+      ? pickRandom(matched.sort((a, b) => charThemeScore(b, domains) - charThemeScore(a, domains))
+          .filter((c, _, arr) => charThemeScore(c, domains) === charThemeScore(arr[0], domains)))
+      : pickRandom(candidates);
+  } else {
+    picked = pickRandom(candidates);
+  }
+  return { key, title, color, textColor, tagline, candidates,
+    recommendedChar: picked.name, charHook: picked.hook, charDomains: picked.dominantDomains };
+}
+
+/**
+ * 按主题偏好构建书架：
+ * - theme=any → 等同 buildPresetBooks（随机）
+ * - 其它主题 → 优先浮现「原著里本就带该场域」的书与角色，
+ *   数量不足时用随机安全书补齐，保证书架始终 4 本。
+ */
+export function buildPresetBooksByTheme(theme: ThemeKey): BookMeta[] {
+  const domains = getThemeDomains(theme);
+  if (domains.length === 0) return buildPresetBooks();
+
+  // 第一本仍优先四大名著（全部公版），且尽量选命中主题的那本
+  const classicsScored = CLASSICS
+    .map(d => ({ d, score: bookThemeScore(d.candidates, domains) }))
+    .sort((a, b) => b.score - a.score);
+  const topClassicScore = classicsScored[0]?.score ?? 0;
+  const classicPool = classicsScored.filter(x => x.score === topClassicScore).map(x => x.d);
+  const cDef = pickRandom(classicPool.length ? classicPool : CLASSICS);
+  const classic = buildBookMetaForTheme(cDef.key, cDef.title, cDef.color, cDef.textColor, cDef.tagline, cDef.candidates, domains);
+
+  // 其余：版权安全 + 命中主题的书优先，随机补足
+  const safe = EXTRA_BOOKS.filter(b => isCopyrightSafe(b.authorDeathYear));
+  const matched = shuffled(safe.filter(b => bookThemeScore(b.candidates, domains) > 0));
+  const rest = shuffled(safe.filter(b => bookThemeScore(b.candidates, domains) === 0));
+  const extraDefs = [...matched, ...rest].slice(0, 3);
+  const extras = extraDefs.map(def =>
+    buildBookMetaForTheme(def.title, def.title, def.color, def.textColor, def.tagline, def.candidates, domains));
+
+  return [classic, ...extras];
+}
+
 // SSR 静态兜底（hydration 后立刻被客户端覆盖，只用版权安全的书）
 const _safeExtras = EXTRA_BOOKS.filter(b => isCopyrightSafe(b.authorDeathYear));
 export const PRESET_BOOKS: BookMeta[] = [
