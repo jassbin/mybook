@@ -89,7 +89,7 @@ export function BookSelect({ onSelect }: BookSelectProps) {
   const ambientBook = hovered ? books.find((b) => b.key === hovered) : books[0];
   const ambientColor = ambientBook?.color ?? "#1A3A5C";
 
-  if (books.length === 0) return <div style={{ background: "#050403", minHeight: "100dvh" }} />;
+  if (books.length === 0) return <div className="fresh-backdrop" style={{ minHeight: "100dvh" }} />;
 
   return (
     <div
