@@ -467,7 +467,7 @@ export function AgentComparePage({
                     </p>
                   </div>
                   {/* 右：你/今天 */}
-                  <div className="px-3 py-4 flex flex-col gap-1.5 bg-[rgba(239,230,201,.9)]">
+                  <div className="px-3 py-4 flex flex-col gap-1.5 bg-[rgba(255,255,255,.6)]">
                     <span className="text-[9px] font-bold tracking-widest text-[rgba(1,1,1,.4)]">
                       你 · 今天
                     </span>
