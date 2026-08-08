@@ -114,49 +114,42 @@ export function BookSelect({ onSelect }: BookSelectProps) {
           margin: "9px auto",
         }}
       >
-        {/* Header */}
-        <header className="relative z-10 flex items-end justify-between px-5 pt-5 pb-2">
-          <div>
-            <div
-              className="text-[44px] font-black leading-none tracking-tight"
-              style={{ fontFamily: "'Ma Shan Zheng', serif", color: "#010101", letterSpacing: "-2px" }}
-            >
-              你想成为谁
-            </div>
-            <div
-              className="text-base font-semibold leading-snug mt-1.5 text-[rgba(1,1,1,.55)]"
-              style={{ fontFamily: "'Noto Serif SC', serif" }}
-            >
-              选一本书，附身其中的角色
-            </div>
+        {/* Header：标题 + 副标题同一行，紧凑 */}
+        <header className="relative z-10 flex items-baseline justify-between gap-3 px-5 pt-4 pb-2.5">
+          <div
+            className="text-[36px] font-black leading-none tracking-tight shrink-0"
+            style={{ fontFamily: "'Ma Shan Zheng', serif", color: "#010101", letterSpacing: "-2px" }}
+          >
+            你想成为谁
           </div>
-          <div className="text-right text-[11px] leading-relaxed border-l border-[rgba(1,1,1,.24)] pl-3 text-[rgba(1,1,1,.5)] shrink-0 ml-3">
-            感受风雪<br />照见自己
+          <div
+            className="text-[12px] font-semibold leading-snug text-right text-[rgba(1,1,1,.5)]"
+            style={{ fontFamily: "'Noto Serif SC', serif" }}
+          >
+            选一本书，附身角色<br />感受风雪，照见自己
           </div>
         </header>
 
-        <div className="relative z-10 mx-5 h-px bg-[rgba(1,1,1,.1)] mt-3 mb-2" />
-
-        {/* 主题偏好选择 */}
-        <div className="relative z-10 px-4 pb-1">
-          <div className="flex items-center gap-1.5 mb-1.5">
-            <span className="text-[11px] font-bold tracking-wide text-[rgba(1,1,1,.5)]">
-              想读哪类困境
+        {/* 主题偏好：说明 + 芯片同一行，横向滑动，不换行 */}
+        <div className="relative z-10 px-4 pt-1 pb-1.5">
+          <div
+            className="flex items-center gap-1.5 overflow-x-auto no-scrollbar"
+            style={{ scrollbarWidth: "none" }}
+          >
+            <span className="shrink-0 text-[10px] font-bold tracking-wide text-[rgba(1,1,1,.42)] pr-0.5">
+              困境偏好
             </span>
-            <span className="text-[10px] text-[rgba(1,1,1,.32)]">· 忠于原著，不硬来</span>
-          </div>
-          <div className="flex flex-wrap gap-1.5">
             {THEMES.map((tdef) => {
               const active = theme === tdef.key;
               return (
                 <button
                   key={tdef.key}
                   onClick={() => handleThemeChange(tdef.key)}
-                  className="px-2.5 py-1 text-[11px] font-bold rounded-full border transition-all active:scale-95"
+                  className="shrink-0 px-2 py-[3px] text-[11px] font-bold rounded-full border transition-all active:scale-95 whitespace-nowrap"
                   style={{
-                    background: active ? "#010101" : "rgba(239,230,201,.55)",
-                    color: active ? "#EFE6C9" : "rgba(1,1,1,.6)",
-                    borderColor: active ? "#010101" : "rgba(1,1,1,.2)",
+                    background: active ? "#010101" : "transparent",
+                    color: active ? "#EFE6C9" : "rgba(1,1,1,.55)",
+                    borderColor: active ? "#010101" : "rgba(1,1,1,.18)",
                     fontFamily: "'Noto Serif SC', serif",
                   }}
                 >
