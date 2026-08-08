@@ -137,6 +137,36 @@ export function BookSelect({ onSelect }: BookSelectProps) {
 
         <div className="relative z-10 mx-5 h-px bg-[rgba(1,1,1,.1)] mt-3 mb-2" />
 
+        {/* 主题偏好选择 */}
+        <div className="relative z-10 px-4 pb-1">
+          <div className="flex items-center gap-1.5 mb-1.5">
+            <span className="text-[11px] font-bold tracking-wide text-[rgba(1,1,1,.5)]">
+              想读哪类困境
+            </span>
+            <span className="text-[10px] text-[rgba(1,1,1,.32)]">· 忠于原著，不硬来</span>
+          </div>
+          <div className="flex flex-wrap gap-1.5">
+            {THEMES.map((tdef) => {
+              const active = theme === tdef.key;
+              return (
+                <button
+                  key={tdef.key}
+                  onClick={() => handleThemeChange(tdef.key)}
+                  className="px-2.5 py-1 text-[11px] font-bold rounded-full border transition-all active:scale-95"
+                  style={{
+                    background: active ? "#010101" : "rgba(239,230,201,.55)",
+                    color: active ? "#EFE6C9" : "rgba(1,1,1,.6)",
+                    borderColor: active ? "#010101" : "rgba(1,1,1,.2)",
+                    fontFamily: "'Noto Serif SC', serif",
+                  }}
+                >
+                  {tdef.label}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
         {/* Book shelf */}
         <div className="relative z-10 flex-1 grid grid-cols-2 gap-2 px-4 pb-2">
           {books.map((book, i) => (
