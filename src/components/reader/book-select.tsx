@@ -133,19 +133,16 @@ export function BookSelect({ onSelect }: BookSelectProps) {
         {/* 主题偏好：说明 + 芯片同一行，横向滑动，不换行 */}
         <div className="relative z-10 px-4 pt-1 pb-1.5">
           <div
-            className="flex items-center gap-1.5 overflow-x-auto no-scrollbar"
+            className="flex items-center gap-2 overflow-x-auto no-scrollbar"
             style={{ scrollbarWidth: "none" }}
           >
-            <span className="shrink-0 text-[10px] font-bold tracking-wide text-[rgba(1,1,1,.42)] pr-0.5">
-              困境偏好
-            </span>
             {THEMES.map((tdef) => {
               const active = theme === tdef.key;
               return (
                 <button
                   key={tdef.key}
                   onClick={() => handleThemeChange(tdef.key)}
-                  className="shrink-0 px-2 py-[3px] text-[11px] font-bold rounded-full border transition-all active:scale-95 whitespace-nowrap"
+                  className="shrink-0 px-3.5 py-1.5 text-[13px] font-bold rounded-full border transition-all active:scale-95 whitespace-nowrap"
                   style={{
                     background: active ? "#010101" : "transparent",
                     color: active ? "#EFE6C9" : "rgba(1,1,1,.55)",
