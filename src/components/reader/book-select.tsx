@@ -224,8 +224,8 @@ export function BookSelect({ onSelect }: BookSelectProps) {
         </div>
 
         {/* ── 搜索输入区 ── */}
-        <div className="relative z-20 px-4 pb-5 pt-3 border-t border-[rgba(1,1,1,.15)]">
-          <p className="text-xs text-[rgba(1,1,1,.45)] mb-2 tracking-wide">
+        <div className="relative z-20 px-4 pb-5 pt-3 border-t border-[rgba(56,189,168,.2)]">
+          <p className="text-xs text-[rgba(12,60,58,.5)] mb-2 tracking-wide">
             没有喜欢的？搜索书库里的书 ↓
           </p>
 
@@ -241,18 +241,18 @@ export function BookSelect({ onSelect }: BookSelectProps) {
                 if (e.key === "Escape") setShowDropdown(false);
               }}
               placeholder="输入书名，如「骆驼祥子」「悲惨世界」……"
-              className="flex-1 min-w-0 border bg-[rgba(239,230,201,.78)] rounded-full px-4 py-2.5 text-sm font-semibold text-[#010101] focus:outline-none transition-all"
+              className="flex-1 min-w-0 border bg-[rgba(255,255,255,.6)] rounded-full px-4 py-2.5 text-sm font-semibold text-[#0c3c3a] placeholder:text-[rgba(12,60,58,.4)] focus:outline-none focus:border-[rgba(20,184,166,.6)] transition-all"
               style={{
                 fontFamily: "'Noto Serif SC', serif",
-                borderColor: "rgba(1,1,1,.28)",
+                borderColor: "rgba(56,189,168,.3)",
               }}
               autoComplete="off"
             />
             <button
               onClick={handleSubmit}
               disabled={!query.trim()}
-              className="shrink-0 w-10 h-10 flex items-center justify-center font-bold text-[#EFE6C9] rounded-full transition-all active:scale-95 disabled:opacity-40"
-              style={{ background: "#010101", fontSize: 20, lineHeight: 1 }}
+              className="shrink-0 w-10 h-10 flex items-center justify-center font-bold text-white rounded-full transition-all active:scale-95 disabled:opacity-40"
+              style={{ background: "linear-gradient(135deg,#14b8a6,#0ea5b7)", boxShadow: "0 4px 14px rgba(20,184,166,.4)", fontSize: 20, lineHeight: 1 }}
               aria-label="进入"
             >
               →
@@ -262,10 +262,11 @@ export function BookSelect({ onSelect }: BookSelectProps) {
             {showDropdown && suggestions.length > 0 && (
               <div
                 ref={dropdownRef}
-                className="absolute left-0 right-12 bottom-full mb-1.5 border border-[rgba(1,1,1,.18)] overflow-hidden"
+                className="absolute left-0 right-12 bottom-full mb-1.5 border border-[rgba(56,189,168,.25)] overflow-hidden rounded-xl"
                 style={{
-                  background: "rgba(239,230,201,.98)",
-                  boxShadow: "0 -6px 24px rgba(0,0,0,.12)",
+                  background: "rgba(255,255,255,.92)",
+                  backdropFilter: "blur(12px)",
+                  boxShadow: "0 -6px 24px rgba(30,90,90,.14)",
                   zIndex: 50,
                 }}
               >
