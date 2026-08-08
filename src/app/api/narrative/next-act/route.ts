@@ -1,0 +1,101 @@
+// src/app/api/narrative/next-act/route.ts
+// 逐幕生成：接收当前 WorldState + 玩家选择，更新状态，生成下一幕
+import { NextRequest, NextResponse } from "next/server";
+import type { WorldState, ChoiceRecord } from "@/lib/agent/world-state";
+import { applyChoice, summarizeState } from "@/lib/agent/world-state";
+import { getCharacterDNA, selectDilemmas, buildPrinciplesPrompt } from "@/lib/agent";
+import { callActGenerator } from "../init/route";
+
+export async function POST(request: NextRequest) {
+  try {
+    const {
+      state,
+      choiceId,
+      choiceText,
+      revealText,
+      socialTag,
+      consequenceText,
+      scoreDelta,
+      isSelfPreserve,
+      isSacrifice,
+      newTensions,
+      newTone,
+      newAnchors,
+      modernTension,
+    } = await request.json() as {
+      state: WorldState;
+      choiceId: string;
+      choiceText: string;
+      revealText: string;
+      socialTag: string;
+      consequenceText: string;
+      scoreDelta: Record<string, number>;
+      isSelfPreserve: boolean;
+      isSacrifice: boolean;
+      newTensions: string[];
+      newTone: WorldState["emotionalTone"];
+      newAnchors?: string[];
+      modernTension?: string;
+    };
+
+    // 1. 记录本次选择（含结构性张力）
+    const record: ChoiceRecord = {
+      act: state.actNumber,
+      choiceId,
+      choiceText,
+      revealText,
+      socialTag,
+      consequenceText,
+      ...(modernTension ? { modernTension } : {}),
+    };
+
+    // 2. 更新 WorldState（newAnchors 来自上一幕 AI 返回，由前端随请求体传入）
+    const nextState = applyChoice(
+      state, record, scoreDelta,
+      isSelfPreserve, isSacrifice,
+      newTensions, newTone,
+      newAnchors ?? [],
+    );
+
+    // 3. 检查原则，获取反转指令
+    const axesMap = Object.fromEntries(nextState.axes.map(a => [a.key, a.score]));
+    const { instructions, newTwistIds } = buildPrinciplesPrompt(
+      axesMap,
+      nextState.actNumber,
+      nextState.consecutiveSelfPreserve,
+      nextState.consecutiveSacrifice,
+      nextState.triggeredTwists,
+    );
+
+    // 记录已触发的反转，避免重复
+    if (newTwistIds.length > 0) {
+      nextState.triggeredTwists = [...nextState.triggeredTwists, ...newTwistIds];
+    }
+
+    // 4. 从困境库选材料
+    const dna = getCharacterDNA(nextState.character, nextState.book);
+    const domains = dna?.dominantDomains ?? [];
+    const isIntensify = !!(nextState as any).intensifyMode;
+    // 极压模式全程最高强度；普通模式按叙事阶段升级
+    const intensity: 1 | 2 | 3 = isIntensify ? 3
+      : nextState.storyPhase === "合" || nextState.storyPhase === "尾声" ? 3
+      : nextState.storyPhase === "转" ? 2
+      : 1;
+
+    const dilemmas = selectDilemmas(domains, intensity, [], 3);
+
+    // 5. 生成下一幕
+    const act = await callActGenerator({
+      state: nextState,
+      dilemmas,
+      instructions,
+      isFirstAct: false,
+      intensifyMode: isIntensify,
+    });
+
+    return NextResponse.json({ state: nextState, act });
+  } catch (err) {
+    console.error("[narrative/next-act]", err);
+    return NextResponse.json({ error: "下一幕生成失败，请重试" }, { status: 500 });
+  }
+}

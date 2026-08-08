@@ -1,0 +1,368 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* ── 书脊书单 Design Tokens ─────────────────────────────────── */
+@theme inline {
+  --color-paper:        #EFE6C9;
+  --color-ink:          #010101;
+  --color-seal:         #C34A28;
+  --color-navy:         #1A3A5C;
+  --color-sage:         #626C58;
+  --color-mist:         #D6D0B4;
+  --color-pink:         #C4A0A0;
+  --color-gold:         #8B6A1A;
+  --color-shell:        #050403;
+
+  /* Map to Tailwind semantic tokens */
+  --color-background:   var(--background);
+  --color-foreground:   var(--foreground);
+  --color-primary:      var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary:    var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-accent:       var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-muted:        var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-card:         var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-border:       var(--border);
+  --color-input:        var(--input);
+  --color-ring:         var(--ring);
+  --color-destructive:  var(--destructive);
+  --color-popover:      var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-sidebar:      var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring:  var(--sidebar-ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+
+  /* Typography */
+  --font-sans:    "Noto Serif SC", serif;
+  --font-heading: "Ma Shan Zheng", "Noto Serif SC", serif;
+  --font-mono:    "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+
+  /* Radii */
+  --radius:     0.75rem;
+  --radius-sm:  6px;
+  --radius-md:  12px;
+  --radius-lg:  16px;
+  --radius-xl:  calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+  --radius-full: 9999px;
+
+  /* Motion */
+  --ease-paper: cubic-bezier(.2,.8,.2,1);
+  --duration-fast: 220ms;
+  --duration-base: 350ms;
+  --duration-slow: 600ms;
+
+  /* Spacing */
+  --spacing-unit: 4px;
+}
+
+/* ── Semantic tokens (light mode = paper ground) ─────────── */
+:root {
+  --background: #EFE6C9;
+  --foreground: #010101;
+  --card: #EFE6C9;
+  --card-foreground: #010101;
+  --popover: #F7EFD4;
+  --popover-foreground: #010101;
+  --primary: #010101;
+  --primary-foreground: #EFE6C9;
+  --secondary: #D6D0B4;
+  --secondary-foreground: #010101;
+  --muted: #D6D0B4;
+  --muted-foreground: rgba(1,1,1,.62);
+  --accent: #C34A28;
+  --accent-foreground: #EFE6C9;
+  --destructive: #C34A28;
+  --border: rgba(1,1,1,.22);
+  --input: rgba(1,1,1,.12);
+  --ring: #C34A28;
+  --radius: 0.75rem;
+  --chart-1: #C34A28;
+  --chart-2: #626C58;
+  --chart-3: #010101;
+  --chart-4: #D6D0B4;
+  --chart-5: #EFE6C9;
+  --sidebar: #EFE6C9;
+  --sidebar-foreground: #010101;
+  --sidebar-primary: #010101;
+  --sidebar-primary-foreground: #EFE6C9;
+  --sidebar-accent: #D6D0B4;
+  --sidebar-accent-foreground: #010101;
+  --sidebar-border: rgba(1,1,1,.22);
+  --sidebar-ring: #C34A28;
+
+  /* Safe areas */
+  --safe-top: max(56px, env(safe-area-inset-top, 0px));
+  --safe-bottom: max(34px, env(safe-area-inset-bottom, 0px));
+}
+
+/* ── Global reset ─────────────────────────────────────────── */
+* { box-sizing: border-box; }
+
+body {
+  font-family: "Noto Serif SC", serif;
+  background: #050403;
+  color: #010101;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  overscroll-behavior: none;
+}
+
+html { font-size: 16px; }
+
+@media (max-width: 640px) {
+  input, textarea, select { font-size: 16px !important; }
+}
+
+/* ── Paper texture surface ────────────────────────────────── */
+.paper-surface {
+  background: #EFE6C9;
+  position: relative;
+}
+.paper-surface::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(1,1,1,.07) 1px, transparent 1px),
+    linear-gradient(rgba(1,1,1,.05) 1px, transparent 1px);
+  background-size: 34px 34px;
+  opacity: .5;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+  z-index: 0;
+}
+.paper-surface::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22140%22 height=%22140%22%3E%3Cfilter id=%22n%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%22.75%22 numOctaves=%222%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22140%22 height=%22140%22 filter=%22url(%23n)%22 opacity=%22.22%22/%3E%3C/svg%3E');
+  opacity: .18;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── Chat bubble styles ───────────────────────────────────── */
+.chat-bubble {
+  background: rgba(239,230,201,.85);
+  border: 1px solid rgba(1,1,1,.18);
+  border-radius: 16px 16px 16px 4px;
+  padding: 12px 16px;
+  font-size: 15px;
+  line-height: 1.65;
+  box-shadow: 0 2px 8px rgba(0,0,0,.1);
+  backdrop-filter: blur(4px);
+  position: relative;
+  z-index: 1;
+}
+.chat-bubble.narrator {
+  background: rgba(214,208,180,.6);
+  border-color: rgba(1,1,1,.12);
+  font-size: 13px;
+  color: rgba(1,1,1,.7);
+  border-radius: 8px;
+  font-style: italic;
+}
+.chat-bubble.inner-voice {
+  background: rgba(195,74,40,.08);
+  border-color: rgba(195,74,40,.3);
+  border-left: 3px solid #C34A28;
+  border-radius: 4px 12px 12px 4px;
+  font-size: 13px;
+  font-style: italic;
+  color: rgba(1,1,1,.75);
+}
+
+/* ── Choice card ─────────────────────────────────────────── */
+.choice-card {
+  background: rgba(239,230,201,.8);
+  border: 1px solid rgba(1,1,1,.28);
+  border-radius: 12px;
+  padding: 14px 16px;
+  font-size: 14px;
+  line-height: 1.55;
+  cursor: pointer;
+  transition: all 220ms cubic-bezier(.2,.8,.2,1);
+  position: relative;
+  box-shadow: 0 2px 8px rgba(0,0,0,.08);
+  text-align: left;
+  width: 100%;
+}
+.choice-card:hover, .choice-card:focus-visible {
+  background: #F7EFD4;
+  border-color: #C34A28;
+  transform: translateX(3px);
+  box-shadow: 0 4px 16px rgba(195,74,40,.15);
+  outline: none;
+}
+.choice-card:active {
+  transform: translateX(3px) scale(.985);
+}
+.choice-card .choice-label {
+  color: #C34A28;
+  font-weight: 900;
+  font-family: "Ma Shan Zheng", serif;
+  font-size: 18px;
+  margin-right: 6px;
+  line-height: 1;
+}
+
+/* ── Animations ──────────────────────────────────────────── */
+@keyframes inkIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes puppet {
+  from { transform: translateX(-50%) rotate(-1.5deg); }
+  to   { transform: translateX(-50%) rotate(1.5deg); }
+}
+@keyframes flashWhite {
+  0%,100% { opacity: 0; }
+  30%,70%  { opacity: 1; }
+}
+@keyframes godRayDown {
+  from { transform: translateY(-100%) scaleX(.6); opacity: 0; }
+  30%  { opacity: .9; }
+  to   { transform: translateY(120%) scaleX(.6); opacity: 0; }
+}
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes pulse-seal {
+  0%,100% { box-shadow: 0 0 0 0 rgba(195,74,40,.4); }
+  50%     { box-shadow: 0 0 0 8px rgba(195,74,40,0); }
+}
+@keyframes sway {
+  from { transform: rotate(-3deg); }
+  to   { transform: rotate(3deg); }
+}
+
+.animate-ink-in   { animation: inkIn 0.5s cubic-bezier(.2,.8,.2,1) forwards; }
+.animate-fade-up  { animation: fadeSlideUp 0.5s cubic-bezier(.2,.8,.2,1) forwards; }
+.animate-flash    { animation: flashWhite 0.8s ease forwards; }
+.animate-god-ray  { animation: godRayDown 1.2s ease forwards; }
+.animate-puppet   { animation: puppet 6s cubic-bezier(.2,.8,.2,1) infinite alternate; }
+
+/* ── Radar chart ─────────────────────────────────────────── */
+.radar-axis line, .radar-polygon { vector-effect: non-scaling-stroke; }
+@keyframes radarDraw  { from { stroke-dashoffset: 1000; } to { stroke-dashoffset: 0; } }
+@keyframes spineSweep { from { transform: translateX(-4px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+.anim-ink   { animation: inkIn       0.45s cubic-bezier(.2,.8,.2,1) forwards; }
+.anim-up    { animation: fadeSlideUp 0.5s  cubic-bezier(.2,.8,.2,1) forwards; }
+.anim-flash { animation: flashWhite  0.8s  ease forwards; }
+.anim-ray   { animation: godRayDown  1.2s  ease forwards; }
+.anim-spine { animation: spineSweep  0.4s  cubic-bezier(.2,.8,.2,1) forwards; }
+.radar-draw { animation: radarDraw   1.2s  cubic-bezier(.2,.8,.2,1) forwards; stroke-dasharray: 1000; }
+/* legacy aliases */
+.animate-ink-in   { animation: inkIn       0.5s cubic-bezier(.2,.8,.2,1) forwards; }
+.animate-fade-up  { animation: fadeSlideUp 0.5s cubic-bezier(.2,.8,.2,1) forwards; }
+.animate-flash    { animation: flashWhite  0.8s ease forwards; }
+.animate-god-ray  { animation: godRayDown  1.2s ease forwards; }
+.animate-puppet   { animation: puppet 6s cubic-bezier(.2,.8,.2,1) infinite alternate; }
+
+@layer base {
+  * { @apply border-border outline-ring/50; }
+  body { @apply bg-background text-foreground; }
+  html { @apply font-sans; }
+  /* 所有 button 默认 cursor:pointer */
+  button { cursor: pointer; }
+  button:disabled { cursor: not-allowed; }
+}
+
+/* ── 通用按钮系统 ─────────────────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.02em;
+  transition: all 180ms cubic-bezier(.2,.8,.2,1);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.btn:active { transform: scale(.96); }
+.btn:disabled { opacity: .45; cursor: not-allowed; pointer-events: none; }
+
+/* 实心深色主按钮 */
+.btn-primary {
+  background: #010101;
+  color: #EFE6C9;
+  border: none;
+  padding: 11px 20px;
+  box-shadow: 0 2px 8px rgba(1,1,1,.25);
+}
+.btn-primary:hover { background: #1a1a1a; box-shadow: 0 4px 16px rgba(1,1,1,.35); transform: translateY(-1px); }
+
+/* 朱砂红强调按钮 */
+.btn-seal {
+  background: #C34A28;
+  color: #EFE6C9;
+  border: none;
+  padding: 11px 20px;
+  box-shadow: 0 2px 10px rgba(195,74,40,.3);
+}
+.btn-seal:hover { background: #a83d20; box-shadow: 0 4px 18px rgba(195,74,40,.4); transform: translateY(-1px); }
+
+/* 描边幽灵按钮 */
+.btn-ghost {
+  background: transparent;
+  color: #010101;
+  border: 1.5px solid rgba(1,1,1,.3);
+  padding: 10px 18px;
+}
+.btn-ghost:hover { background: rgba(1,1,1,.05); border-color: rgba(1,1,1,.5); }
+
+/* 纸质浅色按钮 */
+.btn-paper {
+  background: rgba(239,230,201,.85);
+  color: #010101;
+  border: 1px solid rgba(1,1,1,.22);
+  padding: 10px 16px;
+  box-shadow: 0 1px 4px rgba(0,0,0,.08);
+}
+.btn-paper:hover { background: #F5EDCC; border-color: rgba(1,1,1,.35); box-shadow: 0 3px 10px rgba(0,0,0,.12); transform: translateY(-1px); }
+
+/* 顶栏图标按钮 */
+.btn-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: rgba(239,230,201,.88);
+  border: 1px solid rgba(1,1,1,.18);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 4px rgba(0,0,0,.1);
+  font-size: 15px;
+  color: #010101;
+  transition: all 160ms ease;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.btn-icon:hover { background: #F0E8C8; box-shadow: 0 2px 8px rgba(0,0,0,.15); transform: scale(1.05); }
+.btn-icon:active { transform: scale(.93); }

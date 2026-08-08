@@ -1,0 +1,787 @@
+// src/lib/reader/types.ts
+// Core types for the Classic Reader Engine
+
+export type BookKey = "水浒传" | "西游记" | "红楼梦" | "三国演义" | "custom" | string;
+
+export interface CharCandidate {
+  name: string;
+  hook: string;
+  /** 这个角色最容易触发的困境场域（命运偏爱/禁忌诱惑/背叛信任/感情关系等） */
+  dominantDomains: string[];
+}
+
+export interface BookMeta {
+  key: BookKey;
+  title: string;
+  color: string;
+  textColor: string;
+  tagline: string;
+  recommendedChar: string;
+  charHook: string;
+  charDomains: string[];   // 选中角色的场域，传给 init API
+  candidates: CharCandidate[];
+}
+
+// ── 四大名著候选池 ───────────────────────────────────────────────
+const SHUIHU_CANDIDATES: CharCandidate[] = [
+  {
+    name: "林冲",
+    hook: "所有人都说忍一忍就过去了——他忍了，然后失去了全部",
+    dominantDomains: ["背叛信任", "生存底线"],
+  },
+  {
+    name: "宋江",
+    hook: "他用「义气」绑住所有人，却不知道这是爱还是控制",
+    dominantDomains: ["禁忌诱惑", "身份认同"],
+  },
+  {
+    name: "燕青",
+    hook: "被最厉害的人偏爱，却知道这段关系终究要结束",
+    dominantDomains: ["命运偏爱", "背叛信任"],
+  },
+  {
+    name: "武松",
+    hook: "他不是不懂规则，他只是决定不配合了",
+    dominantDomains: ["生存底线", "禁忌诱惑"],
+  },
+  {
+    name: "鲁智深",
+    hook: "每次出手都是代价，但他活得比任何人都干净",
+    dominantDomains: ["命运偏爱", "身份认同"],
+  },
+];
+
+const XIYOU_CANDIDATES: CharCandidate[] = [
+  {
+    name: "孙悟空",
+    hook: "被规则关了五百年，然后被驯服了——他真的甘心吗",
+    dominantDomains: ["禁忌诱惑", "身份认同"],
+  },
+  {
+    name: "唐僧",
+    hook: "用信念管理所有人，却不知道信念也是一种控制",
+    dominantDomains: ["禁忌诱惑", "背叛信任"],
+  },
+  {
+    name: "猪八戒",
+    hook: "他最懂人性——因为他从来不对自己的欲望撒谎",
+    dominantDomains: ["命运偏爱", "感情关系"],
+  },
+  {
+    name: "沙僧",
+    hook: "一直在等被人真正看见，但等的方式是沉默",
+    dominantDomains: ["身份认同", "背叛信任"],
+  },
+];
+
+const HONGLOU_CANDIDATES: CharCandidate[] = [
+  {
+    name: "王熙凤",
+    hook: "她是整个家族最不可缺少的人——但没有人问过她累不累",
+    dominantDomains: ["禁忌诱惑", "背叛信任"],
+  },
+  {
+    name: "林黛玉",
+    hook: "她爱得太真实，在一个需要表演的地方",
+    dominantDomains: ["感情关系", "身份认同"],
+  },
+  {
+    name: "薛宝钗",
+    hook: "完美到令人心疼——但她自己想要什么，从来没人问",
+    dominantDomains: ["禁忌诱惑", "身份认同"],
+  },
+  {
+    name: "贾宝玉",
+    hook: "他被所有人偏爱，却偏偏不想要那些偏爱",
+    dominantDomains: ["命运偏爱", "感情关系"],
+  },
+  {
+    name: "探春",
+    hook: "用双倍努力证明出身不是命运，但有些门，努力打不开",
+    dominantDomains: ["命运偏爱", "家庭代际"],
+  },
+];
+
+const SANGUO_CANDIDATES: CharCandidate[] = [
+  {
+    name: "诸葛亮",
+    hook: "明知赢不了，但停下来意味着承认当初的选择是错的",
+    dominantDomains: ["背叛信任", "身份认同"],
+  },
+  {
+    name: "曹操",
+    hook: "他做了很多「坏事」，但每一件都有自己的逻辑——你认同吗",
+    dominantDomains: ["禁忌诱惑", "命运偏爱"],
+  },
+  {
+    name: "荀彧",
+    hook: "帮老板做大，最后被踢走——原则到底值多少钱",
+    dominantDomains: ["背叛信任", "身份认同"],
+  },
+  {
+    name: "司马懿",
+    hook: "装了一辈子，等了一辈子——忍耐到底是美德还是失去自己",
+    dominantDomains: ["禁忌诱惑", "命运偏爱"],
+  },
+  {
+    name: "周瑜",
+    hook: "才华和地位都有，但总有人觉得你的位置应该是别人的",
+    dominantDomains: ["命运偏爱", "背叛信任"],
+  },
+];
+
+// ── 版权检查 ──────────────────────────────────────────────────────
+// 中国著作权法：作者去世满50年进入公版
+const CURRENT_YEAR = new Date().getFullYear();
+export function isCopyrightSafe(authorDeathYear: number): boolean {
+  return CURRENT_YEAR - authorDeathYear >= 50;
+}
+
+// ── 非四大名著：有时代共鸣的书库 ──────────────────────────────────
+interface LooseBookDef {
+  title: string;
+  color: string;
+  textColor: string;
+  tagline: string;
+  candidates: CharCandidate[];
+  authorDeathYear: number;  // 用于版权判断，作者去世年份
+}
+
+const EXTRA_BOOKS: LooseBookDef[] = [
+  {
+    title: "活着",
+    color: "#4A3728", textColor: "#EFE6C9",
+    tagline: "命运夺走一切之后，人凭什么还要活着",
+    authorDeathYear: 9999, // 余华在世，版权保护中
+    candidates: [
+      { name: "福贵", hook: "失去了所有，却偏偏活得最久——这究竟是恩赐还是惩罚", dominantDomains: ["生存底线", "家庭代际"] },
+      { name: "家珍", hook: "爱一个烂人，用一生宽容兑现了，值不值", dominantDomains: ["感情关系", "背叛信任"] },
+    ],
+  },
+  {
+    title: "白鹿原",
+    color: "#5C4A1A", textColor: "#EFE6C9",
+    tagline: "一块土地上，两家人把一个世纪活成了对照",
+    authorDeathYear: 2016, // 陈忠实，2066年公版
+    candidates: [
+      { name: "白嘉轩", hook: "用礼义廉耻撑起一个家族，但这套规则到底伤了多少人", dominantDomains: ["家庭代际", "禁忌诱惑"] },
+      { name: "黑娃", hook: "离经叛道，却始终没能逃出那块土地的引力", dominantDomains: ["命运偏爱", "背叛信任"] },
+      { name: "田小娥", hook: "被所有规则压着，用身体争取的那一点自由，也被毁掉了", dominantDomains: ["禁忌诱惑", "背叛信任"] },
+    ],
+  },
+  {
+    title: "平凡的世界",
+    color: "#3D5A3E", textColor: "#EFE6C9",
+    tagline: "出身不是起点，但它决定了你要多费多少力气",
+    authorDeathYear: 1992, // 路遥，2042年公版
+    candidates: [
+      { name: "孙少平", hook: "想从土地里走出去，走出去之后才发现代价是什么", dominantDomains: ["命运偏爱", "感情关系"] },
+      { name: "孙少安", hook: "留下来的那个人，用双手撑起了家族，也压垮了自己", dominantDomains: ["家庭代际", "背叛信任"] },
+      { name: "田晓霞", hook: "出身好、有理想、有爱——但命运不讲道理", dominantDomains: ["命运偏爱", "感情关系"] },
+    ],
+  },
+  {
+    title: "围城",
+    color: "#7A6E5A", textColor: "#EFE6C9",
+    tagline: "城外的人想进去，城里的人想出来——你现在在哪边",
+    authorDeathYear: 1998, // 钱钟书，2048年公版
+    candidates: [
+      { name: "方鸿渐", hook: "聪明又懦弱，想要很多又总是退缩——他是你吗", dominantDomains: ["禁忌诱惑", "身份认同"] },
+      { name: "苏文纨", hook: "主动争取、精于算计，但算错了一件事：感情不按逻辑走", dominantDomains: ["感情关系", "背叛信任"] },
+    ],
+  },
+  {
+    title: "骆驼祥子",
+    color: "#8B4513", textColor: "#EFE6C9",
+    tagline: "一个人拼尽全力，结果还是输给了命运——他错了吗",
+    authorDeathYear: 1966, // 老舍，2016年已公版 ✅
+    candidates: [
+      { name: "祥子", hook: "靠力气吃饭，有梦想有尊严，被生活一次次打回原形", dominantDomains: ["命运偏爱", "生存底线"] },
+      { name: "虎妞", hook: "爱错了人，用强硬掩盖软弱，最后什么都没留住", dominantDomains: ["禁忌诱惑", "感情关系"] },
+    ],
+  },
+  {
+    title: "呐喊",
+    color: "#2C3E50", textColor: "#EFE6C9",
+    tagline: "那些沉默的人，心里都藏着一声喊不出口的叫声",
+    authorDeathYear: 1936, // 鲁迅，1986年已公版 ✅
+    candidates: [
+      { name: "阿Q", hook: "用精神胜利法活下去——可笑，但他还有别的选择吗", dominantDomains: ["身份认同", "生存底线"] },
+      { name: "孔乙己", hook: "读过书，却落魄至此——知识分子的尊严值多少钱", dominantDomains: ["身份认同", "命运偏爱"] },
+      { name: "闰土", hook: "少年时是朋友，长大后只剩下阶层的距离", dominantDomains: ["背叛信任", "命运偏爱"] },
+    ],
+  },
+  {
+    title: "芙蓉镇",
+    color: "#6B4C6B", textColor: "#EFE6C9",
+    tagline: "一个小镇，把每个人的命运都刻进了时代的缝隙里",
+    authorDeathYear: 9999, // 古华在世，版权保护中
+    candidates: [
+      { name: "胡玉音", hook: "靠本分挣来的日子，被时代一次次推倒重来", dominantDomains: ["命运偏爱", "背叛信任"] },
+      { name: "秦书田", hook: "用笑和沉默活过了最黑暗的年代，这算不算一种勇气", dominantDomains: ["禁忌诱惑", "身份认同"] },
+    ],
+  },
+  {
+    title: "长恨歌",
+    color: "#B5707A", textColor: "#EFE6C9",
+    tagline: "一座城市的繁华背后，一个女人用一生换来了什么",
+    authorDeathYear: 9999, // 王安忆在世，版权保护中
+    candidates: [
+      { name: "王琦瑶", hook: "美丽是她的资本，也是她的囚笼——被偏爱的人最后都怎么了", dominantDomains: ["命运偏爱", "禁忌诱惑"] },
+    ],
+  },
+  {
+    title: "许三观卖血记",
+    color: "#A0522D", textColor: "#EFE6C9",
+    tagline: "每一次卖血，都是一个普通人在绝境里最后的尊严",
+    authorDeathYear: 9999, // 余华在世，版权保护中
+    candidates: [
+      { name: "许三观", hook: "用血换钱养了一家人，包括一个不是亲生的孩子——值吗", dominantDomains: ["家庭代际", "背叛信任"] },
+      { name: "许玉兰", hook: "被出轨，被原谅，被依赖——她最后的底气从哪来", dominantDomains: ["背叛信任", "感情关系"] },
+    ],
+  },
+  {
+    title: "边城",
+    color: "#4A7A6A", textColor: "#EFE6C9",
+    tagline: "最干净的爱情，也逃不过最无声的错过",
+    authorDeathYear: 1988, // 沈从文，2038年公版
+    candidates: [
+      { name: "翠翠", hook: "等了那么久，那个人会回来吗——她真的知道自己在等什么", dominantDomains: ["感情关系", "命运偏爱"] },
+      { name: "傩送", hook: "选择了走，后来后悔了吗——他再也没有回答这个问题", dominantDomains: ["感情关系", "背叛信任"] },
+    ],
+  },
+  {
+    title: "雪国",
+    color: "#5A7A8A", textColor: "#EFE6C9",
+    tagline: "明知没有结果，还是去了——这是浪漫还是自欺",
+    authorDeathYear: 1972, // 川端康成，中国标准2022年公版（边缘，保守处理）
+    candidates: [
+      { name: "岛村", hook: "来了又走，把驹子的感情当成消遣——他有没有那一刻是真心的", dominantDomains: ["禁忌诱惑", "感情关系"] },
+      { name: "驹子", hook: "爱了，拼命了，最后什么都没有——她后悔吗", dominantDomains: ["感情关系", "背叛信任"] },
+    ],
+  },
+  {
+    title: "麦田里的守望者",
+    color: "#6B7A3A", textColor: "#EFE6C9",
+    tagline: "讨厌这个世界的虚伪，但又不知道去哪——你有没有这样的时候",
+    authorDeathYear: 2010, // 塞林格，美国70年规则2080年公版
+    candidates: [
+      { name: "霍尔顿", hook: "逃学、说谎、消沉——但他在乎的那些事，真的有人在乎吗", dominantDomains: ["身份认同", "禁忌诱惑"] },
+    ],
+  },
+  {
+    title: "局外人",
+    color: "#3A3A4A", textColor: "#EFE6C9",
+    tagline: "他什么都没做错，却被判了死刑——这个世界在审判什么",
+    authorDeathYear: 1960, // 加缪，中国标准2010年已公版 ✅
+    candidates: [
+      { name: "默尔索", hook: "不哭、不解释、不配合——他是冷漠，还是唯一诚实的人", dominantDomains: ["身份认同", "禁忌诱惑"] },
+    ],
+  },
+  {
+    title: "挪威的森林",
+    color: "#2C5F4A", textColor: "#EFE6C9",
+    tagline: "青春期的爱，浓烈到自己都不知道会把人烧成什么样",
+    authorDeathYear: 9999, // 村上春树在世，版权保护中
+    candidates: [
+      { name: "渡边", hook: "爱着直子，却被绿子拉住——他究竟在选择什么", dominantDomains: ["感情关系", "禁忌诱惑"] },
+      { name: "直子", hook: "再努力也回不来了——消失是她唯一找到的出口吗", dominantDomains: ["感情关系", "背叛信任"] },
+    ],
+  },
+  {
+    title: "百年孤独",
+    color: "#8B5E3C", textColor: "#EFE6C9",
+    tagline: "一个家族七代人，每个人都在重复同一种孤独",
+    authorDeathYear: 2014, // 马尔克斯，2064年公版
+    candidates: [
+      { name: "奥雷里亚诺上校", hook: "打了那么多年仗，最后亲手画出了自己命运的边界", dominantDomains: ["命运偏爱", "背叛信任"] },
+      { name: "乌尔苏拉", hook: "撑起了整个家族一百年，但她真的快乐过吗", dominantDomains: ["家庭代际", "禁忌诱惑"] },
+    ],
+  },
+  {
+    title: "了不起的盖茨比",
+    color: "#1A4A6B", textColor: "#EFE6C9",
+    tagline: "为了一个幻觉，他把自己活成了一个传奇，然后死了",
+    authorDeathYear: 1940, // 菲茨杰拉德，1990年已公版 ✅
+    candidates: [
+      { name: "盖茨比", hook: "用五年时间和一座豪宅换取旧梦回来——值过，然后没了", dominantDomains: ["命运偏爱", "禁忌诱惑"] },
+      { name: "黛西", hook: "被爱着被仰望着，最后坐进车里逃走了——她爱他吗", dominantDomains: ["禁忌诱惑", "背叛信任"] },
+    ],
+  },
+
+  // ── 新增：大众认知高 + 版权安全 + 困境丰富 ──────────────────────────────
+
+  // 中国现代文学
+  {
+    title: "子夜",
+    color: "#2E3A28", textColor: "#EFE6C9",
+    tagline: "一个商人用尽手段想活下去，结果被时代的齿轮碾碎",
+    authorDeathYear: 1981, // 茅盾1981年去世，2031年公版（有版权风险）
+    candidates: [
+      { name: "吴荪甫", hook: "掌控欲极强、手段老辣，但那个时代根本不给他赢的机会", dominantDomains: ["生存底线", "命运偏爱"] },
+    ],
+  },
+  {
+    title: "家",
+    color: "#6B3A2A", textColor: "#EFE6C9",
+    tagline: "一个大家族的囚笼里，年轻人怎么活，怎么逃",
+    authorDeathYear: 2005, // 巴金2005年去世，2055年公版（有版权风险）
+    candidates: [
+      { name: "觉新", hook: "接受了所有规则，也亲手送走了所爱的人——他后悔吗", dominantDomains: ["家庭代际", "背叛信任"] },
+      { name: "觉慧", hook: "最先逃出去的那个，回头看时会不会也有一种罪感", dominantDomains: ["背叛信任", "身份认同"] },
+      { name: "鸣凤", hook: "爱了、盼了，最后跳进湖里——这是绝望还是唯一的自由", dominantDomains: ["禁忌诱惑", "命运偏爱"] },
+    ],
+  },
+  {
+    title: "日出",
+    color: "#C4852A", textColor: "#EFE6C9",
+    tagline: "纸醉金迷的背后，每个人都在用自己的方式熬过黑夜",
+    authorDeathYear: 1996, // 曹禺1996年去世，2046年公版（有版权风险）
+    candidates: [
+      { name: "陈白露", hook: "用美貌和聪明周旋于权贵之间，却救不了自己——她早就知道结局吗", dominantDomains: ["禁忌诱惑", "生存底线"] },
+      { name: "方达生", hook: "带着理想来，却什么都没改变——天真是他的错吗", dominantDomains: ["身份认同", "命运偏爱"] },
+    ],
+  },
+  {
+    title: "雷雨",
+    color: "#3A2A1A", textColor: "#EFE6C9",
+    tagline: "一个家族藏了三十年的秘密，最后在一个雷雨夜全部炸开",
+    authorDeathYear: 1996, // 曹禺，2046年公版（1996+50=2046，有版权风险）
+    candidates: [
+      { name: "周朴园", hook: "用权威和金钱维持了一个家，但这个家从来没有人是自由的", dominantDomains: ["家庭代际", "背叛信任"] },
+      { name: "繁漪", hook: "爱上了不该爱的人，然后把所有人都拖进了深渊", dominantDomains: ["禁忌诱惑", "背叛信任"] },
+      { name: "周萍", hook: "逃了，又回来了，最后什么都没逃掉", dominantDomains: ["禁忌诱惑", "命运偏爱"] },
+    ],
+  },
+  {
+    title: "祝福",
+    color: "#4A3520", textColor: "#EFE6C9",
+    tagline: "一个女人被规则碾碎，而每个人都觉得自己没有错",
+    authorDeathYear: 1936, // 鲁迅，1986年已公版 ✅
+    candidates: [
+      { name: "祥林嫂", hook: "遵守了所有规则，仍然被所有人抛弃——规则到底保护了谁", dominantDomains: ["命运偏爱", "身份认同"] },
+    ],
+  },
+  {
+    title: "伤逝",
+    color: "#5C4A38", textColor: "#EFE6C9",
+    tagline: "爱情烧得最旺的时候，生活的代价就开始显现了",
+    authorDeathYear: 1936, // 鲁迅，1986年已公版 ✅
+    candidates: [
+      { name: "涓生", hook: "爱过，但爱不够用——他最后的那句话，是懦弱还是诚实", dominantDomains: ["感情关系", "背叛信任"] },
+      { name: "子君", hook: "为爱放弃了一切，却发现爱本身也会耗尽", dominantDomains: ["感情关系", "命运偏爱"] },
+    ],
+  },
+
+  // 外国经典（作者去世满50年）
+  {
+    title: "安娜·卡列尼娜",
+    color: "#7A3A3A", textColor: "#EFE6C9",
+    tagline: "她只是想要真实地活着，却被整个社会判了死刑",
+    authorDeathYear: 1910, // 列夫·托尔斯泰，1960年已公版 ✅
+    candidates: [
+      { name: "安娜", hook: "选择了爱，放弃了一切——她后悔过吗，还是从不后悔", dominantDomains: ["禁忌诱惑", "命运偏爱"] },
+      { name: "卡列宁", hook: "被背叛了，选择了宽容，却没人感谢他——他到底输在哪里", dominantDomains: ["背叛信任", "感情关系"] },
+      { name: "渥伦斯基", hook: "爱了，但爱得不够彻底——他心里知道吗", dominantDomains: ["禁忌诱惑", "背叛信任"] },
+    ],
+  },
+  {
+    title: "复活",
+    color: "#3A5A3A", textColor: "#EFE6C9",
+    tagline: "一个贵族良心发现，想救赎自己——但代价是全部",
+    authorDeathYear: 1910, // 列夫·托尔斯泰，1960年已公版 ✅
+    candidates: [
+      { name: "聂赫留朵夫", hook: "亲手毁了一个人，良心来得太晚——救赎算不算一种自私", dominantDomains: ["背叛信任", "身份认同"] },
+      { name: "玛丝洛娃", hook: "被辜负了，又被拯救了——她真的原谅了吗", dominantDomains: ["背叛信任", "命运偏爱"] },
+    ],
+  },
+  {
+    title: "罪与罚",
+    color: "#2A2A3A", textColor: "#EFE6C9",
+    tagline: "他以为自己是超人，杀了人之后才发现良心比法律更重",
+    authorDeathYear: 1881, // 陀思妥耶夫斯基，1931年已公版 ✅
+    candidates: [
+      { name: "拉斯柯尔尼科夫", hook: "用理论说服了自己，却压不住那个声音——他的底线在哪", dominantDomains: ["生存底线", "身份认同"] },
+      { name: "索尼娅", hook: "活在最深的污泥里，却是全书最干净的人——她靠什么撑着", dominantDomains: ["生存底线", "命运偏爱"] },
+    ],
+  },
+  {
+    title: "卡拉马佐夫兄弟",
+    color: "#4A3A28", textColor: "#EFE6C9",
+    tagline: "一家人各自信奉不同的道路，最后用父亲的死作了裁判",
+    authorDeathYear: 1881, // 陀思妥耶夫斯基，1931年已公版 ✅
+    candidates: [
+      { name: "阿廖沙", hook: "善良到近乎圣人——在这个世界里，这是力量还是软弱", dominantDomains: ["身份认同", "生存底线"] },
+      { name: "伊万", hook: "用理性否定了上帝，却发现理性本身也会崩溃", dominantDomains: ["身份认同", "禁忌诱惑"] },
+      { name: "德米特里", hook: "激情、冲动、爱，然后坐进牢里——他是凶手吗", dominantDomains: ["禁忌诱惑", "命运偏爱"] },
+    ],
+  },
+  {
+    title: "悲惨世界",
+    color: "#2A3A4A", textColor: "#EFE6C9",
+    tagline: "一个人用一生证明：人可以变好，但社会不一定接受",
+    authorDeathYear: 1885, // 雨果，1935年已公版 ✅
+    candidates: [
+      { name: "冉阿让", hook: "改变了，努力了，仍然被追着跑——他什么时候才能停下来", dominantDomains: ["身份认同", "命运偏爱"] },
+      { name: "沙威", hook: "一辈子执行规则，却发现规则本身是错的——他该怎么办", dominantDomains: ["身份认同", "生存底线"] },
+      { name: "芳汀", hook: "为了孩子卖掉一切，最后连命都没留住", dominantDomains: ["家庭代际", "生存底线"] },
+    ],
+  },
+  {
+    title: "老人与海",
+    color: "#3A6A7A", textColor: "#EFE6C9",
+    tagline: "他一无所获地回来了，但那条船上装着什么，只有他自己知道",
+    authorDeathYear: 1961, // 海明威，2011年已公版 ✅
+    candidates: [
+      { name: "桑地亚哥", hook: "打了三天，什么都没带回来——这算失败吗，还是他赢了什么别的东西", dominantDomains: ["命运偏爱", "生存底线"] },
+    ],
+  },
+  {
+    title: "双城记",
+    color: "#4A3A5A", textColor: "#EFE6C9",
+    tagline: "在最好的时代和最坏的时代，爱和牺牲能走多远",
+    authorDeathYear: 1870, // 狄更斯，1920年已公版 ✅
+    candidates: [
+      { name: "卡顿", hook: "爱着一个不爱他的人，最后用死亡完成了他一生最高光的时刻", dominantDomains: ["感情关系", "背叛信任"] },
+      { name: "达内", hook: "放弃了贵族身份，却发现历史不在乎你的良心", dominantDomains: ["身份认同", "命运偏爱"] },
+    ],
+  },
+  {
+    title: "简·爱",
+    color: "#7A5A6A", textColor: "#EFE6C9",
+    tagline: "一个一无所有的女人，坚持说：我和你地位平等",
+    authorDeathYear: 1855, // 夏洛蒂·勃朗特，1905年已公版 ✅
+    candidates: [
+      { name: "简·爱", hook: "没钱、没背景，却拒绝了屈辱的爱——她的底气从哪里来", dominantDomains: ["身份认同", "感情关系"] },
+      { name: "罗切斯特", hook: "藏了一个秘密，爱上了不该爱的人，最后双眼失明", dominantDomains: ["禁忌诱惑", "背叛信任"] },
+    ],
+  },
+  {
+    title: "呼啸山庄",
+    color: "#3A3028", textColor: "#EFE6C9",
+    tagline: "他用一生去报复，却不知道自己究竟是在恨还是在爱",
+    authorDeathYear: 1848, // 艾米莉·勃朗特，1898年已公版 ✅
+    candidates: [
+      { name: "希斯克利夫", hook: "被抛弃过，然后用恨撑了一辈子——那恨里有多少还是爱", dominantDomains: ["背叛信任", "禁忌诱惑"] },
+      { name: "凯瑟琳", hook: "爱着一个人，嫁给了另一个——她一直知道自己选了什么吗", dominantDomains: ["感情关系", "禁忌诱惑"] },
+    ],
+  },
+  {
+    title: "战争与和平",
+    color: "#4A5A3A", textColor: "#EFE6C9",
+    tagline: "战争打完了，那些活下来的人，怎么跟自己和解",
+    authorDeathYear: 1910, // 列夫·托尔斯泰，1960年已公版 ✅
+    candidates: [
+      { name: "安德烈公爵", hook: "荣耀、幻灭、重生——他每次以为找到了意义，下一刻又失去了", dominantDomains: ["命运偏爱", "身份认同"] },
+      { name: "娜塔莎", hook: "热烈、冲动、犯了大错——她最后变成的那个人，是成长还是妥协", dominantDomains: ["禁忌诱惑", "感情关系"] },
+      { name: "彼埃尔", hook: "有钱有地位，一直找不到活着的意义——最后找到了吗", dominantDomains: ["身份认同", "命运偏爱"] },
+    ],
+  },
+  {
+    title: "变形记",
+    color: "#3A4A2A", textColor: "#EFE6C9",
+    tagline: "一天早上他变成了甲虫，家人的反应比变形更让人心寒",
+    authorDeathYear: 1924, // 卡夫卡，1974年已公版 ✅
+    candidates: [
+      { name: "格里高尔", hook: "一直在养活全家，变成虫子之后才看清楚他在这个家里是什么", dominantDomains: ["家庭代际", "身份认同"] },
+      { name: "格蕾特", hook: "最爱他的人，最后也说：必须让他离开——她错了吗", dominantDomains: ["家庭代际", "背叛信任"] },
+    ],
+  },
+  {
+    title: "审判",
+    color: "#2A2A2A", textColor: "#EFE6C9",
+    tagline: "他被逮捕了，没人告诉他罪名，他花了一年试图搞清楚",
+    authorDeathYear: 1924, // 卡夫卡，1974年已公版 ✅
+    candidates: [
+      { name: "约瑟夫·K", hook: "在一个没有解释的系统里拼命寻找出路——你有没有这种感觉", dominantDomains: ["身份认同", "生存底线"] },
+    ],
+  },
+  {
+    title: "约翰·克利斯朵夫",
+    color: "#5A4A2A", textColor: "#EFE6C9",
+    tagline: "一个天才用一生和世界较劲，输了很多次，但从没彻底认输",
+    authorDeathYear: 1944, // 罗曼·罗兰，1994年已公版 ✅
+    candidates: [
+      { name: "克利斯朵夫", hook: "才华是他的铠甲，也是他的孤独——有多少人真正懂他", dominantDomains: ["命运偏爱", "身份认同"] },
+    ],
+  },
+  {
+    title: "包法利夫人",
+    color: "#8A5A6A", textColor: "#EFE6C9",
+    tagline: "她以为浪漫可以填满生活，直到债主上门",
+    authorDeathYear: 1880, // 福楼拜，1930年已公版 ✅
+    candidates: [
+      { name: "爱玛", hook: "向往诗意的生活，选择了现实的婚姻——她不幸福是谁的错", dominantDomains: ["禁忌诱惑", "感情关系"] },
+      { name: "夏尔", hook: "爱她爱到最后，却从来不是她想要的那种爱", dominantDomains: ["感情关系", "背叛信任"] },
+    ],
+  },
+  {
+    title: "红与黑",
+    color: "#8A2A2A", textColor: "#EFE6C9",
+    tagline: "他想用才华和野心爬出底层，却不知道规则是为谁定的",
+    authorDeathYear: 1842, // 司汤达，1892年已公版 ✅
+    candidates: [
+      { name: "于连", hook: "聪明、敏感、充满野心——他最大的敌人是社会还是他自己", dominantDomains: ["身份认同", "禁忌诱惑"] },
+      { name: "德·瑞那夫人", hook: "爱上了不该爱的人，最后用一封信毁了他——她是输了还是赢了", dominantDomains: ["禁忌诱惑", "背叛信任"] },
+    ],
+  },
+  {
+    title: "高老头",
+    color: "#6A5A3A", textColor: "#EFE6C9",
+    tagline: "他把一切给了女儿，女儿给了他一个孤独的死亡",
+    authorDeathYear: 1850, // 巴尔扎克，1900年已公版 ✅
+    candidates: [
+      { name: "高老头", hook: "父爱是他的全部，也是他被榨干的原因——他活该吗", dominantDomains: ["家庭代际", "背叛信任"] },
+      { name: "拉斯蒂涅", hook: "刚入社会，看清了游戏规则——他决定加入，你怎么看他", dominantDomains: ["身份认同", "命运偏爱"] },
+    ],
+  },
+  {
+    title: "堂吉诃德",
+    color: "#B5823A", textColor: "#EFE6C9",
+    tagline: "他以为自己是骑士，所有人都说他疯了——谁才是对的",
+    authorDeathYear: 1616, // 塞万提斯，1666年已公版 ✅
+    candidates: [
+      { name: "堂吉诃德", hook: "活在自己的意义里，哪怕风车是风车——这是愚蠢还是一种尊严", dominantDomains: ["身份认同", "命运偏爱"] },
+      { name: "桑丘", hook: "陪着一个疯子跑遍全国，最后收获了什么——他后悔吗", dominantDomains: ["背叛信任", "命运偏爱"] },
+    ],
+  },
+];
+
+function pickRandom<T>(arr: T[]): T {
+  return arr[Math.floor(Math.random() * arr.length)];
+}
+
+function shuffled<T>(arr: T[]): T[] {
+  return [...arr].sort(() => Math.random() - 0.5);
+}
+
+function buildBookMeta(
+  key: BookKey,
+  title: string,
+  color: string,
+  textColor: string,
+  tagline: string,
+  candidates: CharCandidate[]
+): BookMeta {
+  const picked = pickRandom(candidates);
+  return {
+    key, title, color, textColor, tagline, candidates,
+    recommendedChar: picked.name,
+    charHook: picked.hook,
+    charDomains: picked.dominantDomains,
+  };
+}
+
+function buildFromLoose(def: LooseBookDef): BookMeta {
+  return buildBookMeta(def.title, def.title, def.color, def.textColor, def.tagline, def.candidates);
+}
+
+// 四大名著配置
+const CLASSICS = [
+  { key: "水浒传" as BookKey, title: "水浒传", color: "#1A3A5C", textColor: "#EFE6C9", tagline: "一个大型组织如何把好人逼成反贼", candidates: SHUIHU_CANDIDATES },
+  { key: "西游记" as BookKey, title: "西游记", color: "#C34A28", textColor: "#EFE6C9", tagline: "体制、使命与自我之间的永恒拉锯", candidates: XIYOU_CANDIDATES },
+  { key: "红楼梦" as BookKey, title: "红楼梦", color: "#C4A0A0", textColor: "#3B2327", tagline: "一个家族崩溃前夜，每个人的自保算计", candidates: HONGLOU_CANDIDATES },
+  { key: "三国演义" as BookKey, title: "三国演义", color: "#8B6A1A", textColor: "#EFE6C9", tagline: "理想与权力碰撞的终极战场", candidates: SANGUO_CANDIDATES },
+];
+
+export function buildPresetBooks(): BookMeta[] {
+  // 第一本：四大名著随机一本（全部公版，无版权风险）
+  const classicDef = pickRandom(CLASSICS);
+  const classic = buildBookMeta(classicDef.key, classicDef.title, classicDef.color, classicDef.textColor, classicDef.tagline, classicDef.candidates);
+  // 其余三本：只从版权安全的书里随机取（作者去世满50年）
+  const safeBooksPool = EXTRA_BOOKS.filter(b => isCopyrightSafe(b.authorDeathYear));
+  const extras = shuffled(safeBooksPool).slice(0, 3).map(buildFromLoose);
+  return [classic, ...shuffled(extras)];
+}
+
+// SSR 静态兜底（hydration 后立刻被客户端覆盖，只用版权安全的书）
+const _safeExtras = EXTRA_BOOKS.filter(b => isCopyrightSafe(b.authorDeathYear));
+export const PRESET_BOOKS: BookMeta[] = [
+  buildBookMeta("水浒传", "水浒传", "#1A3A5C", "#EFE6C9", "一个大型组织如何把好人逼成反贼", SHUIHU_CANDIDATES),
+  buildFromLoose(_safeExtras[0] ?? EXTRA_BOOKS[4]),
+  buildFromLoose(_safeExtras[1] ?? EXTRA_BOOKS[5]),
+  buildFromLoose(_safeExtras[2] ?? EXTRA_BOOKS[6]),
+];
+
+// ── 完整书库（用于校验与推荐）──────────────────────────────────────
+export const ALL_BOOKS: BookMeta[] = [
+  buildBookMeta("水浒传", "水浒传", "#1A3A5C", "#EFE6C9", "一个大型组织如何把好人逼成反贼", SHUIHU_CANDIDATES),
+  buildBookMeta("西游记", "西游记", "#C34A28", "#EFE6C9", "体制、使命与自我之间的永恒拉锯", XIYOU_CANDIDATES),
+  buildBookMeta("红楼梦", "红楼梦", "#C4A0A0", "#3B2327", "一个家族崩溃前夜，每个人的自保算计", HONGLOU_CANDIDATES),
+  buildBookMeta("三国演义", "三国演义", "#8B6A1A", "#EFE6C9", "理想与权力碰撞的终极战场", SANGUO_CANDIDATES),
+  ...EXTRA_BOOKS.map(buildFromLoose),
+];
+
+/**
+ * 精确匹配书名（忽略空格、书名号、全半角差异）。
+ * 返回 BookMeta 或 null。
+ */
+export function lookupBook(raw: string): BookMeta | null {
+  const normalize = (s: string) =>
+    s.replace(/[《》\s]/g, "").replace(/\uFF08/g, "(").replace(/\uFF09/g, ")").toLowerCase();
+  const key = normalize(raw);
+  return ALL_BOOKS.find(b => normalize(b.title) === key) ?? null;
+}
+
+/**
+ * 按关键字相似度推荐最多 `n` 本书（字符重叠度排序）。
+ */
+export function findSimilarBooks(raw: string, n = 3): BookMeta[] {
+  const normalize = (s: string) => s.replace(/[《》\s]/g, "").toLowerCase();
+  const key = normalize(raw);
+  const scored = ALL_BOOKS.map(b => {
+    const title = normalize(b.title);
+    // 计算共同字符数 / 最长长度
+    let overlap = 0;
+    for (const ch of key) if (title.includes(ch)) overlap++;
+    const score = overlap / Math.max(key.length, title.length, 1);
+    return { book: b, score };
+  });
+  return scored
+    .sort((a, b) => b.score - a.score)
+    .slice(0, n)
+    .map(x => x.book);
+}
+
+/**
+ * 按书名找到该书所有候选角色，按 dominantDomains 多样性排序。
+ * excludeNames：已经展示过的角色名，不会再出现。
+ * 排序规则：每个角色的 dominantDomains 和已展示角色的 domains 重叠越少越靠前
+ *（保证每次换角色都带来新的故事维度）。
+ */
+export function getCandidatesForBook(
+  bookTitle: string,
+  excludeNames: string[] = []
+): CharCandidate[] {
+  const normalize = (s: string) => s.replace(/[《》\s]/g, "").toLowerCase();
+  const key = normalize(bookTitle);
+
+  // 先从四大名著候选池找
+  const CLASSICS_MAP: Record<string, CharCandidate[]> = {};
+  // 动态从 ALL_BOOKS 里取
+  const book = ALL_BOOKS.find(b => normalize(b.title) === key);
+  if (!book) return [];
+
+  const remaining = book.candidates.filter(c => !excludeNames.includes(c.name));
+  if (remaining.length === 0) return [];
+
+  // 计算多样性分：和 excludeNames 对应角色的 domains 重叠越少，得分越高
+  const usedDomains = new Set(
+    book.candidates
+      .filter(c => excludeNames.includes(c.name))
+      .flatMap(c => c.dominantDomains)
+  );
+
+  return remaining
+    .map(c => {
+      const overlap = c.dominantDomains.filter(d => usedDomains.has(d)).length;
+      const diversity = c.dominantDomains.length - overlap; // 新维度数量
+      return { candidate: c, score: diversity };
+    })
+    .sort((a, b) => b.score - a.score)
+    .map(x => x.candidate);
+}
+
+// ── AI Analysis Output ──────────────────────────────────────
+export interface ValueAxis {
+  key: string;       // e.g. "尊严优先度"
+  low: string;       // low pole label e.g. "隐忍"
+  high: string;      // high pole label e.g. "爆发"
+  description: string;
+}
+
+export interface ChoiceOption {
+  id: string;        // "A" | "B" | "C"
+  label: string;     // 甲 乙 丙
+  text: string;      // short option text
+  innerVoice: string;// expandable monologue
+  revealText: string;// post-choice "点破语" — plain language insight
+  socialTag: string; // modern anxiety tag shown after choice
+  scores: Record<string, number>; // axis key → delta (-30 to +30)
+  isTrap?: boolean;  // triggers special ending if selected
+}
+
+export interface StoryScene {
+  id: string;
+  title: string;       // scene title e.g. "初遇血案"
+  messages: StoryMessage[];
+  choices: ChoiceOption[];
+  trapEndingText?: string;    // shown on trap selection
+  trapRevivalText?: string;   // spoken by fate/deity on revival
+  consequenceMap: Record<string, StoryMessage[]>; // choiceId → aftermath
+  forcedContinue: StoryMessage[];
+}
+
+export interface StoryMessage {
+  id: string;
+  type: "narrator" | "dialog" | "inner" | "system";
+  text: string;
+  delay?: number;
+}
+
+export interface AnalysisResult {
+  bookTitle: string;
+  character: string;
+  characterTagline: string;  // modern one-liner e.g. "顶级技术骨干，情商为零"
+  driveAnalysis: string[];   // 3 lines: anger source, protecting what, fears losing
+  axes: ValueAxis[];         // 4 value axes
+  scenes: StoryScene[];      // 3-5 scenes
+  endingTypes: EndingType[];
+}
+
+export interface EndingType {
+  id: string;
+  condition: (scores: Record<string, number>) => boolean;
+  title: string;
+  narration: string;
+}
+
+// ── Game State ───────────────────────────────────────────────
+export interface GameState {
+  phase: "select" | "loading" | "character" | "game" | "result";
+  bookMeta: BookMeta | null;
+  customBookTitle: string;
+  analysis: AnalysisResult | null;
+  currentScene: number;
+  scores: Record<string, number>;
+  choiceHistory: string[];
+  isDead: boolean;
+  isRevived: boolean;
+}
+
+export const INITIAL_STATE: GameState = {
+  phase: "select",
+  bookMeta: null,
+  customBookTitle: "",
+  analysis: null,
+  currentScene: 0,
+  scores: {},
+  choiceHistory: [],
+  isDead: false,
+  isRevived: false,
+};
+
+// ── Scoring helpers ──────────────────────────────────────────
+export function applyScores(
+  current: Record<string, number>,
+  axes: ValueAxis[],
+  delta: Record<string, number>
+): Record<string, number> {
+  const next = { ...current };
+  for (const axis of axes) {
+    const d = delta[axis.key] ?? 0;
+    next[axis.key] = Math.min(100, Math.max(0, (next[axis.key] ?? 50) + d));
+  }
+  return next;
+}
+
+export function initScores(axes: ValueAxis[]): Record<string, number> {
+  return Object.fromEntries(axes.map((a) => [a.key, 50]));
+}
+
+export function pickEnding(
+  endings: EndingType[],
+  scores: Record<string, number>
+): EndingType {
+  return endings.find((e) => e.condition(scores)) ?? endings[endings.length - 1];
+}
