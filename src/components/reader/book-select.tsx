@@ -22,6 +22,7 @@ function fuzzySearch(query: string, n = 6): BookMeta[] {
 
 export function BookSelect({ onSelect }: BookSelectProps) {
   const [books, setBooks] = useState<BookMeta[]>([]);
+  const [theme, setTheme] = useState<ThemeKey>("any");
   const [query, setQuery] = useState("");
   const [showDropdown, setShowDropdown] = useState(false);
   const [notFound, setNotFound] = useState(false);
@@ -30,11 +31,17 @@ export function BookSelect({ onSelect }: BookSelectProps) {
 
   useEffect(() => { setBooks(buildPresetBooks()); }, []);
 
+  // 切换主题偏好：重建书架（优先推荐命中主题的书与角色）
+  const handleThemeChange = (next: ThemeKey) => {
+    setTheme(next);
+    setBooks(next === "any" ? buildPresetBooks() : buildPresetBooksByTheme(next));
+  };
+
   // 实时模糊候选
   const suggestions = useMemo(() => fuzzySearch(query), [query]);
 
   const handlePresetClick = (book: BookMeta) => {
-    onSelect(book.title, book);
+    onSelect(book.title, book, theme);
   };
 
   const handleQueryChange = (v: string) => {
@@ -47,7 +54,7 @@ export function BookSelect({ onSelect }: BookSelectProps) {
     setQuery("");
     setShowDropdown(false);
     setNotFound(false);
-    onSelect(book.title, book);
+    onSelect(book.title, book, theme);
   };
 
   const handleSubmit = () => {
@@ -60,7 +67,7 @@ export function BookSelect({ onSelect }: BookSelectProps) {
     setQuery("");
     setShowDropdown(false);
     setNotFound(false);
-    onSelect(t, null);
+    onSelect(t, null, theme);
   };
 
   // 点击外部关闭下拉
