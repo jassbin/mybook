@@ -397,6 +397,32 @@ html { font-size: 16px; }
 }
 .btn-paper:hover { background: #F5EDCC; border-color: rgba(1,1,1,.35); box-shadow: 0 3px 10px rgba(0,0,0,.12); transform: translateY(-1px); }
 
+/* 清新玻璃页内按钮覆盖（仅结果页/首页等 .glass-panel 内，故事页不受影响） */
+.glass-panel .btn-primary {
+  background: linear-gradient(135deg,#14b8a6,#0ea5b7);
+  color: #fff;
+  box-shadow: 0 4px 16px rgba(20,184,166,.32);
+}
+.glass-panel .btn-primary:hover { background: linear-gradient(135deg,#12a596,#0b93a3); box-shadow: 0 6px 22px rgba(20,184,166,.42); }
+.glass-panel .btn-seal {
+  background: linear-gradient(135deg,#f97316,#fb923c);
+  color: #fff;
+  box-shadow: 0 4px 16px rgba(249,115,22,.34);
+}
+.glass-panel .btn-seal:hover { background: linear-gradient(135deg,#ea6a10,#f2851f); box-shadow: 0 6px 22px rgba(249,115,22,.44); }
+.glass-panel .btn-ghost {
+  color: #0c5a52;
+  border: 1.5px solid rgba(56,189,168,.4);
+}
+.glass-panel .btn-ghost:hover { background: rgba(20,184,166,.08); border-color: rgba(20,184,166,.7); }
+.glass-panel .btn-paper {
+  background: rgba(255,255,255,.6);
+  color: #0c3c3a;
+  border: 1px solid rgba(56,189,168,.28);
+  box-shadow: 0 2px 8px rgba(30,90,90,.1);
+}
+.glass-panel .btn-paper:hover { background: rgba(255,255,255,.85); border-color: rgba(20,184,166,.5); box-shadow: 0 4px 14px rgba(30,90,90,.16); transform: translateY(-1px); }
+
 /* 顶栏图标按钮 */
 .btn-icon {
   width: 34px;
