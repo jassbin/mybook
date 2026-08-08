@@ -164,13 +164,12 @@ export function BookSelect({ onSelect }: BookSelectProps) {
               onClick={() => handlePresetClick(book)}
               onMouseEnter={() => setHovered(book.key)}
               onMouseLeave={() => setHovered(null)}
-              className="relative overflow-hidden text-left border transition-all duration-[220ms] active:scale-[.985] anim-spine flex flex-col"
+              className="relative overflow-hidden text-left border transition-all duration-[220ms] active:scale-[.985] hover:-translate-y-0.5 anim-spine flex flex-col rounded-xl"
               style={{
-                background: "rgba(239,230,201,.72)",
-                borderColor: "rgba(1,1,1,.22)",
-                borderRadius: "0px",
+                background: "rgba(255,255,255,.55)",
+                borderColor: "rgba(56,189,168,.22)",
                 animationDelay: `${i * 70}ms`,
-                boxShadow: "0 2px 8px rgba(0,0,0,.06)",
+                boxShadow: "0 4px 16px rgba(30,90,90,.10)",
               }}
             >
               <div
@@ -202,20 +201,20 @@ export function BookSelect({ onSelect }: BookSelectProps) {
               </div>
               <div
                 className="flex flex-col flex-1 gap-1.5 px-3 py-3"
-                style={{ background: "linear-gradient(180deg, rgba(255,255,255,.16), rgba(239,230,201,.28))" }}
+                style={{ background: "linear-gradient(180deg, rgba(255,255,255,.5), rgba(238,250,247,.55))" }}
               >
                 <div className="flex items-center gap-1.5 flex-wrap">
                   <span className="text-xs font-black tracking-wide" style={{ color: book.color }}>
                     {book.recommendedChar}
                   </span>
-                  <span className="text-[9px] text-[rgba(1,1,1,.35)] border border-[rgba(1,1,1,.18)] px-1 py-0.5 rounded-sm">
+                  <span className="text-[9px] text-[rgba(16,94,86,.6)] border border-[rgba(56,189,168,.3)] px-1 py-0.5 rounded-full">
                     今日角色
                   </span>
                 </div>
-                <div className="text-[13px] font-bold leading-snug text-[rgba(1,1,1,.88)]">
+                <div className="text-[13px] font-bold leading-snug text-[rgba(12,40,40,.9)]">
                   {book.charHook}
                 </div>
-                <div className="text-[11px] leading-snug text-[rgba(1,1,1,.5)] mt-auto pt-1">
+                <div className="text-[11px] leading-snug text-[rgba(12,40,40,.55)] mt-auto pt-1">
                   {book.tagline}
                 </div>
               </div>
