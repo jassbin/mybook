@@ -541,7 +541,7 @@ export function AgentComparePage({
         <div className="fixed bottom-8 left-1/2 z-[100] pointer-events-none"
           style={{ transform: "translateX(-50%)" }}>
           <div className="px-5 py-3 text-sm font-bold rounded-full"
-            style={{ background: "#010101", color: "#EFE6C9", boxShadow: "0 4px 20px rgba(0,0,0,.4)" }}>
+            style={{ background: "linear-gradient(135deg,#0c5a52,#0ea5b7)", color: "#ffffff", boxShadow: "0 6px 24px rgba(20,184,166,.4)" }}>
             {toast}
           </div>
         </div>
