@@ -159,6 +159,7 @@ export default function Home() {
     }
 
     try {
+      const { getThemeDomains } = await import("@/lib/reader/types");
       const res = await fetch("/api/narrative/init", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -166,6 +167,7 @@ export default function Home() {
           bookTitle: title,
           character: next.name,
           characterDomains: next.dominantDomains,
+          themeDomains: getThemeDomains(themeRef.current),
         }),
       });
       if (!res.ok) throw new Error((await res.json().catch(() => ({}))).error ?? "初始化失败");
