@@ -469,6 +469,7 @@ export function AgentResultPage({
             <button onClick={onRestart} className="btn btn-primary flex-1 rounded-xl py-2.5 text-[12px]">再来一局</button>
           </div>
         </div>
+        </div>
 
         <div ref={bottomRef} className="pb-2" />
       </div>
