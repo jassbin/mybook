@@ -165,22 +165,24 @@ export function BookSelect({ onSelect }: BookSelectProps) {
               onClick={() => handlePresetClick(book)}
               onMouseEnter={() => setHovered(book.key)}
               onMouseLeave={() => setHovered(null)}
-              className="relative overflow-hidden text-left border transition-all duration-[220ms] active:scale-[.985] hover:-translate-y-0.5 anim-spine flex flex-col rounded-xl"
+              className="relative overflow-hidden text-left border transition-all duration-[220ms] active:scale-[.985] hover:-translate-y-1 anim-spine flex flex-col rounded-xl"
               style={{
-                background: "rgba(255,255,255,.55)",
-                borderColor: "rgba(56,189,168,.22)",
+                background: `linear-gradient(180deg, ${book.color}14, rgba(255,255,255,.7) 42%)`,
+                borderColor: `${book.color}55`,
                 animationDelay: `${i * 70}ms`,
-                boxShadow: "0 4px 16px rgba(30,90,90,.10)",
+                boxShadow: hovered === book.key
+                  ? `0 10px 26px ${book.color}44, 0 0 0 1px ${book.color}66`
+                  : `0 4px 16px rgba(30,90,90,.12)`,
               }}
             >
               <div
                 className="relative flex items-center justify-center overflow-hidden shrink-0"
-                style={{ background: book.color, minHeight: 56, height: "auto", paddingTop: 8, paddingBottom: 8 }}
+                style={{ background: `linear-gradient(135deg, ${book.color}, ${book.color}cc)`, minHeight: 62, height: "auto", paddingTop: 10, paddingBottom: 10 }}
               >
                 <div
                   className="absolute inset-0"
                   style={{
-                    background: "linear-gradient(180deg, rgba(255,255,255,.14), transparent 40%, rgba(0,0,0,.18))",
+                    background: "linear-gradient(180deg, rgba(255,255,255,.28), transparent 45%, rgba(0,0,0,.16))",
                     mixBlendMode: "soft-light",
                   }}
                 />
@@ -202,20 +204,23 @@ export function BookSelect({ onSelect }: BookSelectProps) {
               </div>
               <div
                 className="flex flex-col flex-1 gap-1.5 px-3 py-3"
-                style={{ background: "linear-gradient(180deg, rgba(255,255,255,.5), rgba(238,250,247,.55))" }}
+                style={{ background: "linear-gradient(180deg, rgba(255,255,255,.66), rgba(255,255,255,.5))" }}
               >
                 <div className="flex items-center gap-1.5 flex-wrap">
                   <span className="text-xs font-black tracking-wide" style={{ color: book.color }}>
                     {book.recommendedChar}
                   </span>
-                  <span className="text-[9px] text-[rgba(16,94,86,.6)] border border-[rgba(56,189,168,.3)] px-1 py-0.5 rounded-full">
+                  <span
+                    className="text-[9px] px-1.5 py-0.5 rounded-full font-bold"
+                    style={{ color: "#fff", background: `${book.color}dd` }}
+                  >
                     今日角色
                   </span>
                 </div>
                 <div className="text-[13px] font-bold leading-snug text-[rgba(12,40,40,.9)]">
                   {book.charHook}
                 </div>
-                <div className="text-[11px] leading-snug text-[rgba(12,40,40,.55)] mt-auto pt-1">
+                <div className="text-[11px] leading-snug text-[rgba(12,40,40,.58)] mt-auto pt-1">
                   {book.tagline}
                 </div>
               </div>
