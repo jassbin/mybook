@@ -245,7 +245,7 @@ export function AgentComparePage({
         <div className="relative z-10 px-5 pt-4 pb-4 border-b border-[rgba(1,1,1,.1)]">
           <p className="text-[11px] font-bold tracking-widest text-[rgba(1,1,1,.38)] mb-3 uppercase">选择模式对比</p>
           <ChoiceBar stats={normalStats}    color={spineColor}    textColor={spineText}   label="普通版" />
-          <ChoiceBar stats={intensifyStats} color={intensifyColor} textColor="#EFE6C9" label="极压版 🔥" />
+          <ChoiceBar stats={intensifyStats} color={intensifyColor} textColor="#EFE6C9" label="极压版" />
           <div className="flex justify-between text-[10px] text-[rgba(1,1,1,.38)] mt-1">
             <span>甲 = 保全优先</span>
             <span>乙 = 中间路线</span>
@@ -259,8 +259,8 @@ export function AgentComparePage({
           <div className="grid grid-cols-2 gap-2 mb-3">
             <div className="text-[10px] font-bold text-center py-1 px-2 rounded-sm"
               style={{ background: spineColor, color: "#EFE6C9" }}>普通版</div>
-            <div className="text-[10px] font-bold text-center py-1 px-2 rounded-sm"
-              style={{ background: intensifyColor, color: "#EFE6C9" }}>极压版 🔥</div>
+            <div className="text-[10px] font-bold text-center py-1 px-2 rounded-sm flex items-center justify-center gap-1"
+              style={{ background: intensifyColor, color: "#EFE6C9" }}><Flame size={11} strokeWidth={2.4} /> 极压版</div>
           </div>
           {Array.from({ length: Math.max(normalState.choiceHistory.length, intensifyState.choiceHistory.length) }).map((_, i) => {
             const n = normalState.choiceHistory[i];
