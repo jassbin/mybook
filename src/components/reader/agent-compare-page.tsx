@@ -518,20 +518,20 @@ export function AgentComparePage({
         <div className="relative z-10 px-5 pb-4 pt-4 flex flex-col gap-2">
           <div className="flex gap-2">
             <button onClick={handleShareNormalResult}
-              className="btn btn-paper flex-1 flex-col gap-0.5 py-2.5 rounded-none text-[10px]">
-              <span className="font-bold">📊 分享普通结果</span>
+              className="btn btn-paper flex-1 flex-col gap-0.5 py-2.5 rounded-xl text-[10px]">
+              <span className="font-bold flex items-center gap-1"><Share2 size={12} strokeWidth={2} /> 分享普通结果</span>
               <span className="text-[9px] font-normal opacity-55">别人看普通版轨迹</span>
             </button>
             <button onClick={handleShareIntensifyResult}
-              className="btn btn-paper flex-1 flex-col gap-0.5 py-2.5 rounded-none text-[10px]"
+              className="btn btn-paper flex-1 flex-col gap-0.5 py-2.5 rounded-xl text-[10px]"
               style={{ borderColor: "rgba(195,74,40,.3)" }}>
-              <span className="font-bold" style={{ color: intensifyColor }}>🔥 分享极压结果</span>
+              <span className="font-bold flex items-center gap-1" style={{ color: intensifyColor }}><Flame size={12} strokeWidth={2.2} /> 分享极压结果</span>
               <span className="text-[9px] font-normal opacity-55">别人看极压版轨迹</span>
             </button>
           </div>
           <div className="flex gap-2">
-            <button onClick={onNewBook} className="btn btn-ghost flex-1 rounded-none py-2.5 text-[12px]">换一本书</button>
-            <button onClick={onPlayAgain} className="btn btn-seal flex-1 rounded-none py-2.5 text-[12px]">🔥 再来极压</button>
+            <button onClick={onNewBook} className="btn btn-ghost flex-1 rounded-xl py-2.5 text-[12px]">换一本书</button>
+            <button onClick={onPlayAgain} className="btn btn-seal flex-1 rounded-xl py-2.5 text-[12px] flex items-center justify-center gap-1.5"><Flame size={14} strokeWidth={2.2} /> 再来极压</button>
           </div>
         </div>
 
