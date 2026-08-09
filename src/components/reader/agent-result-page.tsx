@@ -194,6 +194,8 @@ export function AgentResultPage({
           shareLabel="分享故事"
         />
 
+        {/* 内容区：分层错落入场 */}
+        <div className="stagger-in flex flex-col">
         {/* 标题色块 */}
         <div className="relative z-10 px-5 pt-4 pb-4" style={{ background: spineColor }}>
           <div className="text-2xl font-black leading-none"
