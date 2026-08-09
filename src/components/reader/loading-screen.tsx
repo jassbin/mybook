@@ -41,7 +41,7 @@ export function LoadingScreen({ bookTitle, intensifyMode }: LoadingScreenProps) 
 
   return (
     <div
-      className="fresh-backdrop flex flex-col items-center justify-center min-h-screen px-8"
+      className="fresh-backdrop stagger-in flex flex-col items-center justify-center min-h-screen px-8"
       style={{
         paddingTop: "var(--safe-top)",
         paddingBottom: "var(--safe-bottom)",
