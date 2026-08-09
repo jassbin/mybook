@@ -405,7 +405,7 @@ export function AgentResultPage({
                   className="px-4 py-3 flex items-center gap-2"
                   style={{ background: `${spineColor}18`, borderTop: `1px solid ${spineColor}30` }}
                 >
-                  <span style={{ color: spineColor, fontSize: 14 }}>⟷</span>
+                  <MoveHorizontal size={15} style={{ color: spineColor }} strokeWidth={2.2} />
                   <p className="text-sm font-bold leading-snug" style={{ color: spineColor }}>
                     {fold.bridge}
                   </p>
@@ -453,18 +453,18 @@ export function AgentResultPage({
         {/* ── 分享 + 操作 ──────────────────────────────────────── */}
         <div className="relative z-10 px-5 pb-4 pt-3 flex flex-col gap-2">
           <div className="flex gap-2">
-            <button onClick={handleShareResult} className="btn btn-paper flex-1 flex-col gap-0.5 py-3 rounded-none text-[11px]">
-              <span className="font-bold">📊 分享结果</span>
+            <button onClick={handleShareResult} className="btn btn-paper flex-1 flex-col gap-0.5 py-3 rounded-xl text-[11px]">
+              <span className="font-bold flex items-center gap-1"><Share2 size={13} strokeWidth={2} /> 分享结果</span>
               <span className="text-[9px] font-normal opacity-60">别人看你的选择轨迹</span>
             </button>
-            <button onClick={handleShareStory} className="btn btn-paper flex-1 flex-col gap-0.5 py-3 rounded-none text-[11px]">
-              <span className="font-bold">🎭 分享故事</span>
+            <button onClick={handleShareStory} className="btn btn-paper flex-1 flex-col gap-0.5 py-3 rounded-xl text-[11px]">
+              <span className="font-bold flex items-center gap-1"><Drama size={13} strokeWidth={2} /> 分享故事</span>
               <span className="text-[9px] font-normal opacity-60">别人进来自己玩</span>
             </button>
           </div>
           <div className="flex gap-2">
-            <button onClick={onNewBook} className="btn btn-ghost flex-1 rounded-none py-2.5 text-[12px]">换一本书</button>
-            <button onClick={onRestart} className="btn btn-primary flex-1 rounded-none py-2.5 text-[12px]">再来一局</button>
+            <button onClick={onNewBook} className="btn btn-ghost flex-1 rounded-xl py-2.5 text-[12px]">换一本书</button>
+            <button onClick={onRestart} className="btn btn-primary flex-1 rounded-xl py-2.5 text-[12px]">再来一局</button>
           </div>
         </div>
 
