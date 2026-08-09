@@ -51,50 +51,53 @@ export function AgentCharacterIntro({
 
   return (
     <div
-      className="flex flex-col items-center justify-center min-h-screen"
-      style={{ background: "#0a4f45", paddingTop: "var(--safe-top)", paddingBottom: "var(--safe-bottom)" }}
+      className="fresh-backdrop flex flex-col items-center justify-center min-h-screen"
+      style={{ paddingTop: "var(--safe-top)", paddingBottom: "var(--safe-bottom)" }}
     >
-      {/* Ambient glow：深翡翠底 + 书脊色晕，作为清新入口→深色故事的过渡桥梁 */}
       <div
-        className="fixed inset-0 pointer-events-none"
+        className="glass-panel relative w-full max-w-sm flex flex-col overflow-hidden rounded-2xl anim-up"
         style={{
-          background: `radial-gradient(circle at 50% 26%, ${spineColor}40, transparent 52%), radial-gradient(circle at 15% 90%, rgba(52,211,153,.22), transparent 55%), linear-gradient(160deg,#0d5c4e,#0a4f45 60%,#073b34)`,
-          transition: "background 0.5s",
-        }}
-      />
-
-      <div
-        className="paper-surface relative w-full max-w-sm flex flex-col overflow-hidden border border-[rgba(239,230,201,.6)] anim-up"
-        style={{
-          boxShadow: "0 0 0 1px rgba(45,212,191,.2), 0 26px 80px rgba(6,40,42,.5)",
           margin: "9px auto",
           minHeight: "calc(100dvh - var(--safe-top) - var(--safe-bottom) - 18px)",
         }}
       >
-        {/* ── 顶部色块：书名 + 角色名 + tagline ── */}
-        <div className="relative z-10 px-5 pt-6 pb-5" style={{ background: spineColor }}>
-          {/* 返回 */}
-          <button
-            onClick={onBack}
-            className="absolute top-4 left-4 flex items-center gap-1 text-[11px] font-bold opacity-60 hover:opacity-90 transition-opacity active:scale-95"
-            style={{ color: spineText }}
-          >
-            <svg width="14" height="14" viewBox="0 0 18 18" fill="none">
-              <path d="M11 4L6 9l5 5" stroke={spineText} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-            返回
-          </button>
+        {/* 返回：圆形箭头图标按钮，浮在左上角，不遮挡内容 */}
+        <button
+          onClick={onBack}
+          aria-label="返回"
+          className="absolute top-3 left-3 z-30 w-9 h-9 flex items-center justify-center rounded-full transition-all active:scale-90"
+          style={{
+            background: "rgba(255,255,255,.75)",
+            border: "1px solid rgba(16,185,129,.35)",
+            boxShadow: "0 2px 10px rgba(6,60,50,.15)",
+            backdropFilter: "blur(8px)",
+          }}
+        >
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+            <path d="M11 4L6 9l5 5" stroke="#0b4a3f" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+        </button>
 
-          <div className="text-xs tracking-widest mb-2 mt-2" style={{ color: spineText, opacity: 0.65 }}>
+        {/* ── 顶部：书名 + 角色名 + tagline（薄荷绿玻璃头，书脊色点缀）── */}
+        <div
+          className="relative z-10 px-5 pt-6 pb-5"
+          style={{ background: "linear-gradient(135deg, rgba(16,185,129,.16), rgba(45,212,191,.07))", paddingLeft: 56 }}
+        >
+          <div className="text-xs tracking-widest mb-2" style={{ color: "rgba(11,74,63,.65)" }}>
             《{initData.state.book}》· 今日角色
           </div>
           <div
             className="text-4xl font-black leading-none mb-2"
-            style={{ fontFamily: "'Ma Shan Zheng', serif", color: spineText, letterSpacing: "3px" }}
+            style={{
+              fontFamily: "'Ma Shan Zheng', serif",
+              color: spineColor,
+              letterSpacing: "3px",
+              textShadow: "0 1px 0 rgba(255,255,255,.9), 0 0 2px rgba(255,255,255,.7)",
+            }}
           >
             {initData.character}
           </div>
-          <div className="text-sm leading-snug mb-3" style={{ color: spineText, opacity: 0.88, fontStyle: "italic" }}>
+          <div className="text-sm leading-snug mb-3" style={{ color: "rgba(10,58,48,.8)", fontStyle: "italic" }}>
             {initData.characterTagline}
           </div>
 
@@ -104,8 +107,8 @@ export function AgentCharacterIntro({
               {domainTags.map(tag => (
                 <span
                   key={tag}
-                  className="text-[10px] font-bold px-2 py-0.5 rounded-sm"
-                  style={{ background: "rgba(0,0,0,.22)", color: spineText, opacity: 0.9 }}
+                  className="text-[10px] font-bold px-2 py-0.5 rounded-full text-white"
+                  style={{ background: "linear-gradient(135deg,#10b981,#2dd4bf)" }}
                 >
                   {tag}
                 </span>
@@ -116,7 +119,7 @@ export function AgentCharacterIntro({
 
         {/* ── 角色 DNA 三问 ── */}
         <div className="relative z-10 flex-1 px-5 pt-5 pb-2">
-          <div className="text-xs font-bold tracking-widest text-[rgba(1,1,1,.38)] mb-4 uppercase">
+          <div className="text-xs font-bold tracking-widest text-[rgba(10,58,48,.42)] mb-4 uppercase">
             他是怎样一个人
           </div>
 
@@ -129,35 +132,36 @@ export function AgentCharacterIntro({
               <div className="shrink-0 w-16 text-xs font-black pt-0.5 tracking-wide" style={{ color: spineColor }}>
                 {labels[i]}
               </div>
-              <div className="text-sm leading-relaxed text-[rgba(1,1,1,.82)] font-medium">
+              <div className="text-sm leading-relaxed text-[#0a3a30] font-medium">
                 {line}
               </div>
             </div>
           ))}
 
-          <div className="border-t border-[rgba(1,1,1,.12)] my-4" />
+          <div className="border-t border-[rgba(16,185,129,.2)] my-4" />
 
           {/* 四轴预览 */}
-          <div className="text-xs font-bold tracking-widest text-[rgba(1,1,1,.38)] mb-3 uppercase">
+          <div className="text-xs font-bold tracking-widest text-[rgba(10,58,48,.42)] mb-3 uppercase">
             你将在这四个维度上被照见
           </div>
           <div className="grid grid-cols-2 gap-2">
             {initData.state.axes.slice(0, 4).map(axis => (
               <div
                 key={axis.key}
-                className="flex flex-col gap-0.5 p-3 border border-[rgba(1,1,1,.12)] rounded-sm bg-[rgba(239,230,201,.5)]"
+                className="flex flex-col gap-0.5 p-3 rounded-xl"
+                style={{ background: "rgba(255,255,255,.6)", border: "1px solid rgba(16,185,129,.22)" }}
               >
                 <div className="text-xs font-black" style={{ color: spineColor }}>
                   {axis.key}
                 </div>
-                <div className="text-[10px] text-[rgba(1,1,1,.48)]">
+                <div className="text-[10px] text-[rgba(10,58,48,.55)]">
                   {axis.low} ↔ {axis.high}
                 </div>
               </div>
             ))}
           </div>
 
-          <p className="text-[11px] text-center text-[rgba(1,1,1,.32)] mt-4 italic tracking-wide">
+          <p className="text-[11px] text-center text-[rgba(10,58,48,.4)] mt-4 italic tracking-wide">
             进入之后，你的每一次选择都会移动这四根指针
           </p>
         </div>
@@ -167,12 +171,11 @@ export function AgentCharacterIntro({
           {/* 主按钮：进入角色 */}
           <button
             onClick={onEnter}
-            className="w-full py-3.5 font-bold tracking-widest text-sm transition-all active:scale-95"
+            className="w-full py-3.5 font-bold tracking-widest text-sm text-white transition-all active:scale-95 rounded-full"
             style={{
-              background: spineColor,
-              color: spineText,
+              background: "linear-gradient(135deg,#10b981,#2dd4bf)",
               fontFamily: "'Noto Serif SC', serif",
-              boxShadow: "0 4px 16px rgba(0,0,0,.28)",
+              boxShadow: "0 6px 20px rgba(16,185,129,.4)",
             }}
           >
             进入{initData.character}的身体
@@ -182,8 +185,8 @@ export function AgentCharacterIntro({
           <button
             onClick={handleSwitch}
             disabled={switching || !canSwitch}
-            className="w-full py-3 text-sm font-bold border border-[rgba(1,1,1,.22)] transition-all active:scale-95 disabled:opacity-35"
-            style={{ background: "transparent", color: "rgba(1,1,1,.62)" }}
+            className="w-full py-3 text-sm font-bold rounded-full transition-all active:scale-95 disabled:opacity-35"
+            style={{ background: "transparent", color: "#0b4a3f", border: "1.5px solid rgba(16,185,129,.4)" }}
           >
             {switching ? "正在换角色……" : "换一个角色"}
           </button>
