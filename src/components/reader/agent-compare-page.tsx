@@ -536,6 +536,7 @@ export function AgentComparePage({
             <button onClick={onPlayAgain} className="btn btn-seal flex-1 rounded-xl py-2.5 text-[12px] flex items-center justify-center gap-1.5"><Flame size={14} strokeWidth={2.2} /> 再来极压</button>
           </div>
         </div>
+        </div>
 
         <div ref={bottomRef} className="pb-2" />
       </div>
