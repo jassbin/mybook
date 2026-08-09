@@ -28,9 +28,9 @@ export function LoadingScreen({ bookTitle, intensifyMode }: LoadingScreenProps) 
   const [step, setStep] = useState(0);
 
   // 主题色：普通=青绿系，极压=暖橙保留区分
-  const accent = intensifyMode ? "#f97316" : "#14b8a6";
-  const accent2 = intensifyMode ? "#fb923c" : "#0ea5b7";
-  const inkColor = "#0c5a52";
+  const accent = intensifyMode ? "#f97316" : "#2dd4bf";
+  const accent2 = intensifyMode ? "#fb923c" : "#5ed6c5";
+  const inkColor = "#eafdf9";
 
   useEffect(() => {
     const interval = setInterval(() => {
