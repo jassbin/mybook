@@ -8,6 +8,7 @@ import {
   buildAgentStoryShareUrl,
 } from "@/lib/reader/share-codec";
 import { PageTopbar } from "./page-topbar";
+import { Flame, Share2, Drama, MoveHorizontal } from "lucide-react";
 
 interface AgentResultPageProps {
   worldState: WorldState;
