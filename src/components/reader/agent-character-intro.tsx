@@ -52,13 +52,13 @@ export function AgentCharacterIntro({
   return (
     <div
       className="flex flex-col items-center justify-center min-h-screen"
-      style={{ background: "#0b2b2e", paddingTop: "var(--safe-top)", paddingBottom: "var(--safe-bottom)" }}
+      style={{ background: "#0a4f45", paddingTop: "var(--safe-top)", paddingBottom: "var(--safe-bottom)" }}
     >
-      {/* Ambient glow：深青底 + 书脊色晕，作为清新入口→深色故事的过渡桥梁 */}
+      {/* Ambient glow：深翡翠底 + 书脊色晕，作为清新入口→深色故事的过渡桥梁 */}
       <div
         className="fixed inset-0 pointer-events-none"
         style={{
-          background: `radial-gradient(circle at 50% 26%, ${spineColor}40, transparent 52%), radial-gradient(circle at 15% 90%, rgba(45,212,191,.18), transparent 55%), linear-gradient(165deg,#0f3f42,#0b2b2e 60%,#082023)`,
+          background: `radial-gradient(circle at 50% 26%, ${spineColor}40, transparent 52%), radial-gradient(circle at 15% 90%, rgba(52,211,153,.22), transparent 55%), linear-gradient(160deg,#0d5c4e,#0a4f45 60%,#073b34)`,
           transition: "background 0.5s",
         }}
       />
