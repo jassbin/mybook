@@ -307,13 +307,14 @@ export function AgentGameEngine({
       <div className="paper-surface relative w-full max-w-sm mx-auto flex flex-col flex-1 border border-[rgba(239,230,201,.5)] overflow-hidden"
         style={{ boxShadow: "0 0 0 6px #050403, 0 28px 80px rgba(0,0,0,.55)", margin: "8px auto" }}>
 
-        {/* 顶栏：返回 + 标题 + 分享 */}
+        {/* 顶栏：返回 + 标题 + 分享（故事页用深色古香态，与内容页统一） */}
         <PageTopbar
           title={currentAct.title}
           subtitle={`第${worldState.actNumber}幕 · ${worldState.storyPhase}${nextActLoading ? " · 生成中…" : ""}${intensifyMode ? " 🔥" : ""}`}
           onBack={onBack}
           onShare={handleShareStory}
           shareLabel="分享故事"
+          darkMode
         />
 
         {/* 进度条：书脊色细线，幕次/总幕数 */}
