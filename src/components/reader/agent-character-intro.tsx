@@ -91,7 +91,7 @@ export function AgentCharacterIntro({
               fontFamily: "'Ma Shan Zheng', serif",
               color: accentGreen,
               letterSpacing: "3px",
-              textShadow: "0 1px 0 rgba(255,255,255,.9), 0 0 2px rgba(255,255,255,.7)",
+              textShadow: "0 1px 0 rgba(255,255,255,.95), 0 0 2px rgba(255,255,255,.8), 0 2px 4px rgba(4,55,50,.26)",
             }}
           >
             {initData.character}
