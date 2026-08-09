@@ -222,7 +222,6 @@ export function AgentComparePage({
         <PageTopbar
           title={`${normalState.character} · 极压对比`}
           subtitle={`《${normalState.book}》· 两次选择`}
-          darkMode
           onBack={onBack}
           onShare={handleShareStory}
           shareLabel="分享故事"
