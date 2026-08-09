@@ -52,13 +52,13 @@ export function AgentCharacterIntro({
   return (
     <div
       className="flex flex-col items-center justify-center min-h-screen"
-      style={{ background: "#050403", paddingTop: "var(--safe-top)", paddingBottom: "var(--safe-bottom)" }}
+      style={{ background: "#0b2b2e", paddingTop: "var(--safe-top)", paddingBottom: "var(--safe-bottom)" }}
     >
-      {/* Ambient glow */}
+      {/* Ambient glow：深青底 + 书脊色晕，作为清新入口→深色故事的过渡桥梁 */}
       <div
         className="fixed inset-0 pointer-events-none"
         style={{
-          background: `radial-gradient(circle at 50% 30%, ${spineColor}33, transparent 55%), #050403`,
+          background: `radial-gradient(circle at 50% 26%, ${spineColor}40, transparent 52%), radial-gradient(circle at 15% 90%, rgba(45,212,191,.18), transparent 55%), linear-gradient(165deg,#0f3f42,#0b2b2e 60%,#082023)`,
           transition: "background 0.5s",
         }}
       />
@@ -66,7 +66,7 @@ export function AgentCharacterIntro({
       <div
         className="paper-surface relative w-full max-w-sm flex flex-col overflow-hidden border border-[rgba(239,230,201,.6)] anim-up"
         style={{
-          boxShadow: "0 0 0 8px #050403, 0 28px 80px rgba(0,0,0,.55)",
+          boxShadow: "0 0 0 1px rgba(45,212,191,.2), 0 26px 80px rgba(6,40,42,.5)",
           margin: "9px auto",
           minHeight: "calc(100dvh - var(--safe-top) - var(--safe-bottom) - 18px)",
         }}
