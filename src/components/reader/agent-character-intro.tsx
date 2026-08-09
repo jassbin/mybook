@@ -33,7 +33,7 @@ export function AgentCharacterIntro({
   onBack,
 }: AgentCharacterIntroProps) {
   const [switching, setSwitching] = useState(false);
-  const spineColor = bookMeta?.color ?? "#1A3A5C";
+  const accentGreen = "#0b6b57";
 
   const labels = ["愤怒来自", "守护什么", "最怕失去"];
 
@@ -89,7 +89,7 @@ export function AgentCharacterIntro({
             className="text-4xl font-black leading-none mb-2"
             style={{
               fontFamily: "'Ma Shan Zheng', serif",
-              color: spineColor,
+              color: accentGreen,
               letterSpacing: "3px",
               textShadow: "0 1px 0 rgba(255,255,255,.9), 0 0 2px rgba(255,255,255,.7)",
             }}
@@ -128,7 +128,7 @@ export function AgentCharacterIntro({
               className="flex gap-3 items-start mb-4 anim-ink"
               style={{ animationDelay: `${i * 120}ms` }}
             >
-              <div className="shrink-0 w-16 text-xs font-black pt-0.5 tracking-wide" style={{ color: spineColor }}>
+              <div className="shrink-0 w-16 text-xs font-black pt-0.5 tracking-wide" style={{ color: accentGreen }}>
                 {labels[i]}
               </div>
               <div className="text-sm leading-relaxed text-[#0a3a30] font-medium">
@@ -150,7 +150,7 @@ export function AgentCharacterIntro({
                 className="flex flex-col gap-0.5 p-3 rounded-xl"
                 style={{ background: "rgba(255,255,255,.6)", border: "1px solid rgba(16,185,129,.22)" }}
               >
-                <div className="text-xs font-black" style={{ color: spineColor }}>
+                <div className="text-xs font-black" style={{ color: accentGreen }}>
                   {axis.key}
                 </div>
                 <div className="text-[10px] text-[rgba(10,58,48,.55)]">
