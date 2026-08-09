@@ -303,9 +303,9 @@ export function AgentGameEngine({
   }
 
   return (
-    <div className="flex flex-col min-h-screen" style={{ background: "#050403", paddingTop: "var(--safe-top)", paddingBottom: "var(--safe-bottom)" }}>
+    <div className="flex flex-col min-h-screen" style={{ background: "linear-gradient(165deg,#0f3f42,#0b2b2e 60%,#082023)", paddingTop: "var(--safe-top)", paddingBottom: "var(--safe-bottom)" }}>
       <div className="paper-surface relative w-full max-w-sm mx-auto flex flex-col flex-1 border border-[rgba(239,230,201,.5)] overflow-hidden"
-        style={{ boxShadow: "0 0 0 6px #050403, 0 28px 80px rgba(0,0,0,.55)", margin: "8px auto" }}>
+        style={{ boxShadow: "0 0 0 1px rgba(45,212,191,.2), 0 26px 80px rgba(6,40,42,.5)", margin: "8px auto" }}>
 
         {/* 顶栏：返回 + 标题 + 分享（故事页用深色古香态，与内容页统一） */}
         <PageTopbar
