@@ -482,7 +482,7 @@ export function AgentComparePage({
                   className="px-4 py-3 flex items-center gap-2"
                   style={{ background: `${spineColor}18`, borderTop: `1px solid ${spineColor}28` }}
                 >
-                  <span style={{ color: intensifyColor, fontSize: 14 }}>⟷</span>
+                  <MoveHorizontal size={15} style={{ color: intensifyColor }} strokeWidth={2.2} />
                   <p className="text-sm font-bold leading-snug" style={{ color: intensifyColor }}>
                     {fold.bridge}
                   </p>
