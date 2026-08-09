@@ -90,7 +90,7 @@ export function LoadingScreen({ bookTitle, intensifyMode }: LoadingScreenProps) 
       </div>
 
       {/* Step text */}
-      <div className="relative z-10 text-sm tracking-wide anim-ink" key={step} style={{ color: "rgba(12,90,82,.7)" }}>
+      <div className="relative z-10 text-sm tracking-wide anim-ink" key={step} style={{ color: "rgba(234,253,249,.82)" }}>
         {ACTIVE_STEPS[step]}
       </div>
 
@@ -104,7 +104,7 @@ export function LoadingScreen({ bookTitle, intensifyMode }: LoadingScreenProps) 
               width: i === step ? 22 : 6,
               background: i <= step
                 ? `linear-gradient(90deg, ${accent}, ${accent2})`
-                : "rgba(20,184,166,.2)",
+                : "rgba(234,253,249,.28)",
               boxShadow: i === step ? `0 0 10px ${accent}88` : "none",
             }}
           />
