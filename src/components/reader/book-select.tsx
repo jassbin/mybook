@@ -167,37 +167,28 @@ export function BookSelect({ onSelect }: BookSelectProps) {
               onMouseLeave={() => setHovered(null)}
               className="relative overflow-hidden text-left transition-all duration-[220ms] active:scale-[.985] hover:-translate-y-1 anim-spine flex flex-col rounded-2xl"
               style={{
-                background: "linear-gradient(180deg, rgba(255,255,255,.9), rgba(233,252,245,.82))",
-                border: "1px solid rgba(16,185,129,.28)",
+                background: "linear-gradient(180deg, rgba(255,255,255,.92), rgba(233,252,245,.84))",
+                border: "1px solid rgba(16,185,129,.3)",
                 animationDelay: `${i * 70}ms`,
                 boxShadow: hovered === book.key
                   ? "0 12px 28px rgba(16,185,129,.28), 0 0 0 1px rgba(16,185,129,.5)"
                   : "0 4px 16px rgba(6,60,50,.12)",
               }}
             >
-              {/* 左侧书脊色细条：保留每本书身份色，不大面积撞绿 */}
-              <span
-                aria-hidden
-                className="absolute left-0 top-0 bottom-0 w-[5px] rounded-l-2xl"
-                style={{ background: `linear-gradient(180deg, ${book.color}, ${book.color}aa)` }}
-              />
-              {/* 书名区：薄荷绿玻璃底 + 深墨绿书名 */}
+              {/* 书名区：薄荷绿玻璃底 + 书脊色大字书名（白描边保证清晰） */}
               <div
-                className="relative flex items-center gap-2 shrink-0 pl-4 pr-3"
-                style={{ minHeight: 58, paddingTop: 10, paddingBottom: 10, background: "linear-gradient(135deg, rgba(16,185,129,.12), rgba(45,212,191,.06))" }}
+                className="relative flex items-center justify-center shrink-0 px-3"
+                style={{ minHeight: 60, paddingTop: 10, paddingBottom: 10, background: "linear-gradient(135deg, rgba(16,185,129,.14), rgba(45,212,191,.07))" }}
               >
                 <span
-                  className="inline-block w-1.5 h-1.5 rounded-full shrink-0"
-                  style={{ background: book.color, boxShadow: `0 0 6px ${book.color}88` }}
-                />
-                <span
-                  className="relative z-10"
+                  className="relative z-10 text-center w-full"
                   style={{
                     fontFamily: "'Ma Shan Zheng', serif",
                     fontSize: book.title.length > 4 ? 17 : 24,
                     lineHeight: 1.2,
-                    letterSpacing: book.title.length > 4 ? 1 : 3,
-                    color: "#0b4a3f",
+                    letterSpacing: book.title.length > 4 ? 2 : 4,
+                    color: book.color,
+                    textShadow: "0 1px 0 rgba(255,255,255,.9), 0 0 2px rgba(255,255,255,.7)",
                     wordBreak: "break-all",
                     whiteSpace: "normal",
                   }}
@@ -209,7 +200,10 @@ export function BookSelect({ onSelect }: BookSelectProps) {
                 className="flex flex-col flex-1 gap-1.5 px-4 py-3"
               >
                 <div className="flex items-center gap-1.5 flex-wrap">
-                  <span className="text-xs font-black tracking-wide" style={{ color: book.color }}>
+                  <span
+                    className="text-xs font-black tracking-wide"
+                    style={{ color: book.color, textShadow: "0 1px 0 rgba(255,255,255,.85)" }}
+                  >
                     {book.recommendedChar}
                   </span>
                   <span
@@ -219,10 +213,10 @@ export function BookSelect({ onSelect }: BookSelectProps) {
                     今日角色
                   </span>
                 </div>
-                <div className="text-[13px] font-bold leading-snug text-[rgba(9,50,42,.92)]">
+                <div className="text-[13px] font-bold leading-snug text-[#0a3a30]">
                   {book.charHook}
                 </div>
-                <div className="text-[11px] leading-snug text-[rgba(9,50,42,.55)] mt-auto pt-1">
+                <div className="text-[11px] leading-snug text-[rgba(10,58,48,.7)] mt-auto pt-1">
                   {book.tagline}
                 </div>
               </div>
