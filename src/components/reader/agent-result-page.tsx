@@ -441,8 +441,8 @@ export function AgentResultPage({
         {onIntensify && (
           <div className="relative z-10 px-5 pt-2 pb-2">
             <button onClick={onIntensify}
-              className="btn btn-seal w-full py-3.5 rounded-none font-black tracking-wider text-sm">
-              🔥 极压重测 — 把所有困境升级到生死与不可逆
+              className="btn btn-seal w-full py-3.5 rounded-xl font-black tracking-wider text-sm flex items-center justify-center gap-2">
+              <Flame size={16} strokeWidth={2.2} /> 极压重测 — 把所有困境升级到生死与不可逆
             </button>
             <p className="text-[9px] text-[rgba(1,1,1,.32)] text-center mt-1.5">
               同一角色，每一幕都逼到极限——看你在绝境下的价值排序
