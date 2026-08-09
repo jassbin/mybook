@@ -34,7 +34,6 @@ export function AgentCharacterIntro({
 }: AgentCharacterIntroProps) {
   const [switching, setSwitching] = useState(false);
   const spineColor = bookMeta?.color ?? "#1A3A5C";
-  const spineText  = bookMeta?.textColor ?? "#EFE6C9";
 
   const labels = ["愤怒来自", "守护什么", "最怕失去"];
 
