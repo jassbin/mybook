@@ -116,8 +116,13 @@ export function BookSelect({ onSelect }: BookSelectProps) {
         {/* Header：标题 + 副标题同一行，紧凑 */}
         <header className="relative z-10 flex items-baseline justify-between gap-3 px-5 pt-4 pb-2.5">
           <div
-            className="text-[36px] font-black leading-none tracking-tight shrink-0"
-            style={{ fontFamily: "'Ma Shan Zheng', serif", color: "#0c5a52", letterSpacing: "-2px" }}
+            className="text-[38px] font-black leading-none tracking-tight shrink-0"
+            style={{
+              fontFamily: "'Ma Shan Zheng', serif",
+              color: "#06463c",
+              letterSpacing: "-2px",
+              textShadow: "0 1px 0 rgba(255,255,255,.95), 0 2px 1px rgba(255,255,255,.6), 0 3px 4px rgba(4,55,50,.28)",
+            }}
           >
             你想成为谁
           </div>
@@ -188,7 +193,7 @@ export function BookSelect({ onSelect }: BookSelectProps) {
                     lineHeight: 1.2,
                     letterSpacing: book.title.length > 4 ? 2 : 4,
                     color: book.color,
-                    textShadow: "0 1px 0 rgba(255,255,255,.9), 0 0 2px rgba(255,255,255,.7)",
+                    textShadow: "0 1px 0 rgba(255,255,255,.95), 0 0 2px rgba(255,255,255,.8), 0 2px 3px rgba(4,55,50,.22)",
                     wordBreak: "break-all",
                     whiteSpace: "normal",
                   }}
