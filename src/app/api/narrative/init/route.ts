@@ -128,54 +128,11 @@ export async function POST(request: NextRequest) {
       1, 0, 0, []
     );
 
-    // 5.5 极压因果挂钩：分析普通版选择倾向，生成针对性施压指令
+    // 5.5 极压·分型施压：从普通局识别三类价值（主流/隐性/矛盾），三幕分别对准施压
     let intensifyTargetBlock = "";
     if (intensify && normalChoiceHistory && normalChoiceHistory.length > 0) {
-      // 统计价值倾向
-      const selfPreserveCount = normalChoiceHistory.filter(c => c.choiceId === "A").length;
-      const sacrificeCount = normalChoiceHistory.filter(c => c.choiceId === "C").length;
-      const total = normalChoiceHistory.length;
-
-      // 找出最频繁出现的 socialTag（暴露核心执念）
-      const tagCounts: Record<string, number> = {};
-      normalChoiceHistory.forEach(c => { tagCounts[c.socialTag] = (tagCounts[c.socialTag] ?? 0) + 1; });
-      const topTag = Object.entries(tagCounts).sort((a, b) => b[1] - a[1])[0]?.[0] ?? "";
-
-      // 提取选择证据链（最近3条，直接说给 AI 听）
-      const recentChoices = normalChoiceHistory.slice(-3)
-        .map(c => `第${c.act}幕选「${c.choiceText}」——${c.revealText}`)
-        .join("；");
-
-      // ── 证据驱动：挑出「最暴露你的那一次选择」，让极压明确回指这件具体的事 ──
-      // 优先级：触发过陷阱的极端选择 > 属于高频执念标签的选择 > 极端选项(A/C) > 最后一条
-      const scoreChoice = (c: import("@/lib/agent/world-state").ChoiceRecord) => {
-        let s = 0;
-        if (c.socialTag === topTag) s += 3;                 // 命中核心执念
-        if (c.choiceId === "A" || c.choiceId === "C") s += 2; // 极端选项
-        s += c.act * 0.1;                                     // 越靠后越接近真实底色
-        return s;
-      };
-      const signatureChoice = [...normalChoiceHistory].sort((a, b) => scoreChoice(b) - scoreChoice(a))[0];
-      const signatureBlock = signatureChoice
-        ? `\n他最暴露自己的那一次：第${signatureChoice.act}幕，面对「${signatureChoice.socialTag}」的处境，他选了「${signatureChoice.choiceText}」——${signatureChoice.revealText}${signatureChoice.consequenceText ? `（后果：${signatureChoice.consequenceText}）` : ""}。`
-        : "";
-
-      // 根据倾向组装施压方向
-      let pressureDirection = "";
-      if (selfPreserveCount / total >= 0.6) {
-        pressureDirection = `普通版里他习惯性自保（${selfPreserveCount}/${total}次）。极压版必须让「自保」直接导致他最在乎的东西消失——他越保全自己，代价越快到来。`;
-      } else if (sacrificeCount / total >= 0.6) {
-        pressureDirection = `普通版里他倾向于牺牲自己（${sacrificeCount}/${total}次）。极压版必须让「牺牲」被人彻底利用——有人专门在等他的善良，然后踩上去。`;
-      } else {
-        pressureDirection = `普通版里他走的是中间路线，不愿走极端。极压版必须逼他做出真正的选择——中间路已经被关死，只剩两个都有永久代价的方向。`;
-      }
-
-      intensifyTargetBlock = `\n【极压因果追踪——必须执行】
-这个人在普通版里暴露了自己的核心执念：${topTag || "尚未明确"}。
-他的选择轨迹：${recentChoices}${signatureBlock}
-针对性施压方向：${pressureDirection}
-
-【证据驱动·硬要求】极压版第一幕不许泛泛施压。必须让新困境明确地"回指"上面「他最暴露自己的那一次」——用一个新的、更狠的情境，把他当初那个选择的代价直接砸回他脸上，让他清楚地意识到"这正是我上次做过的事，只是这次躲不掉了"。可以在叙述里点出与上次选择呼应的细节（同样的处境类型、同样被他牺牲/保全的那种东西），但不得直接复述原文，要升级成不可逆的版本。`;
+      const profile = buildValueProfile(normalChoiceHistory);
+      intensifyTargetBlock = buildIntensifyDirective(profile);
     }
 
     // 6. 生成第一幕
