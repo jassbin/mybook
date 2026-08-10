@@ -31,4 +31,4 @@ let ct = c1.update(aesKey); ct = Buffer.concat([ct, c1.final()]);
 const encryptedKey = Buffer.concat([ephPubCompressed, cipherIv, ct]).toString("base64");
 
 const session = { encryptedData: encData.toString("base64"), encryptedKey, iv: iv.toString("base64"), authTag: authTag.toString("base64") };
-process.stdout.write(JSON.stringify(session));
+require("fs").writeFileSync("tmp_session.json", JSON.stringify(session));
