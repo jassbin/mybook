@@ -5,3 +5,4 @@ export * from "./world-state";
 export * from "./narrative-principles";
 export * from "./dilemma-library";
 export * from "./character-dna";
+export * from "./value-profile";

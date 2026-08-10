@@ -7,6 +7,7 @@ import {
   getCharacterDNA, selectDilemmas,
   buildPrinciplesPrompt,
   validateAxes, pickArchetype,
+  buildValueProfile, buildIntensifyDirective,
 } from "@/lib/agent";
 
 export async function POST(request: NextRequest) {
