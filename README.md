@@ -207,7 +207,7 @@ bun start
   - 决策核心库在 `src/lib/agent/`：`world-state.ts`（状态机）、`narrative-principles.ts`（原则/反转触发）、`value-profile.ts`（价值画像 + 分型施压）、`dilemma-library.ts`、`character-dna.ts`
 - **运行依赖**：所有 AI 调用经 **Eazo 官方模型代理**，需在 `.env` 配置 `EAZO_*` 变量（`EAZO_APP_AI_API_BASE`、`EAZO_APP_ID`、`EAZO_PRIVATE_KEY` 等，文本模型 `deepseek.v3.1`）。缺少这些变量时，叙事接口无法生成内容。
 - **线上可运行实例**（已配置好密钥、开箱即体验）：**https://mybook-3eb25c73.eazo.dev**
-- 说明：仓库内 `src/app/api/mcp/` 为 MCP 脚手架、暂未注册工具；本项目动态能力由上述 **Agent 后端（API Routes）** 提供，不依赖 MCP。
+- **自建 MCP 服务**（选填加分项、已实现）：仓库内 `src/app/api/mcp/` + `src/lib/mcp/` 提供一个标准 **MCP（Model Context Protocol）服务**，把叙事 Agent 能力暴露为 3 个工具：`list_characters`（列角色）、`profile_values`（三类价值画像 + 分型施压）、`start_session`（发起一局、返回第一幕）。端点 `POST /api/mcp`（MCP Streamable HTTP），已用官方 `@modelcontextprotocol/sdk` 客户端验证通过。详见 **[docs/MCP.md](docs/MCP.md)**。
 
 ---
 
