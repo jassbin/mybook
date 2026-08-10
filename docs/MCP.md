@@ -6,18 +6,47 @@
 > This project ships a **self-built MCP server** that exposes 难得读书's narrative-Agent
 > capabilities as standard MCP tools, callable by any MCP client (Cursor / Claude Desktop / custom agents).
 
+## MCP 与 App 前端的关系（重要）· MCP vs the App frontend
+
+**请勿把 MCP 理解成「App 自己会去调的接口」——它不是。** 本项目有两条相互独立的动态路径：
+
+```
+┌─────────────────────────── 难得读书 (同一个 Next.js 应用) ───────────────────────────┐
+│                                                                                      │
+│  路径①  App 前端（用户在网页里玩游戏）                                                 │
+│     浏览器 UI  ──POST──►  /api/narrative/init → /next-act → /ending-narration        │
+│                          （普通 API Routes = Agent 后端；不经过 MCP）                  │
+│                                                                                      │
+│  路径②  MCP 服务（面向"外部 AI 客户端"，不是给自己前端用的）                            │
+│     Cursor / Claude Desktop / 评测平台  ──POST──►  /api/mcp                            │
+│                          initialize 握手 → tools/list 发现工具 → tools/call 调用       │
+│                          └─► src/lib/mcp/tools/*  复用  src/lib/agent/*  返回 JSON     │
+│                                                                                      │
+└──────────────────────────────────────────────────────────────────────────────────┘
+        两条路径复用同一套 src/lib/agent 核心逻辑，但入口不同、面向对象不同。
+```
+
+- **App 自己玩游戏时，走的是路径①的普通 API Routes，完全不调用 `/api/mcp`。** 这是正常的、也是设计如此——MCP 的价值在于把能力开放给「App 之外的 AI」。
+- **`/api/mcp` 的调用者是外部 AI / 评测平台**：什么时候调、怎么调，见下方「连接 AI 客户端」与「工具」两节。
+  - 想知道有哪些角色 → 调 `list_characters`
+  - 想替用户发起一局 → 调 `start_session`
+  - 想分析一串选择的价值观 → 调 `profile_values`
+
+> **The App's own gameplay uses the plain API Routes (path ①) and never calls `/api/mcp`.** MCP (path ②) exists so that *external* AI clients / evaluators can drive the app's capabilities as tools. Both paths reuse the same `src/lib/agent` core.
+
 ## 端点 · Endpoint
 
 ```
 POST /api/mcp
-Header: x-eazo-session: <加密会话 token>
 Transport: MCP Streamable HTTP (Web Standard, 无状态 / stateless)
+Header: x-eazo-session: <加密会话 token>   （可选 / optional）
 ```
 
 - 线上 / Live: `https://mybook-3eb25c73.eazo.dev/api/mcp`
 - 本地 / Local: `http://localhost:3000/api/mcp`
-- 鉴权：沿用与所有 API 一致的 `requireAuth`（`x-eazo-session`，用 `EAZO_PRIVATE_KEY` 解密）。
-  三个工具均只读全局/静态数据或做纯计算，不涉及任何用户私有数据，但仍需通过 MCP 鉴权门。
+- **鉴权（可选）**：带 `x-eazo-session` 时正常鉴权并使用真实用户身份；**不带 session 时以匿名身份放行**，以便评测平台/外部 AI 直接连上公网地址、自动发现工具并评分。
+  - 之所以能安全地允许匿名：**这三个工具只读全局静态数据（角色目录）、做纯计算（价值分型）或纯生成（发起一局），不读写任何用户私有数据**，无跨用户越权风险（见文末「隐私」）。
+  - 实现见 `src/app/api/mcp/route.ts`：`const userId = auth.ok ? auth.user.id : "anonymous-mcp"`。
 
 ## 已实现的工具 · Tools (3)
 
