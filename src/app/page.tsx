@@ -330,6 +330,7 @@ export default function Home() {
       onComplete={handleAgentIntensifyComplete}
       onBack={() => setPhase("agent-result")}
       intensifyMode
+      normalChoiceHistory={agentNormalState?.choiceHistory ?? agentFinalState?.choiceHistory}
     />
   );
 
