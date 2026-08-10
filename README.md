@@ -196,6 +196,21 @@ bun start
 
 ---
 
+## 五点五、Agent 后端说明（评测/动态运行）
+
+本项目的「AI Agent 后端」不是独立进程，而是以 **Next.js API Routes** 形式内建在同一个应用里（服务端运行）。它是一套有状态、会决策、多步循环的叙事智能体：读取当前 `WorldState` → 判断该触发哪些原则/反转 → 识别玩家价值画像 → 调用 AI 生成本幕 → 更新状态 → 进入下一幕。
+
+- **后端接口位置**（均在 `src/app/api/` 下）：
+  - `narrative/init` — 建立世界状态、识别角色 DNA、生成第一幕（极压模式在此做「多元价值画像 + 逐幕分型施压」）
+  - `narrative/next-act` — 逐幕生成：接收玩家选择、更新状态、按幕号下发分型施压、生成下一幕
+  - `narrative/ending-narration`、`narrative/compare-narration` — 结局旁白 / 普通-极压对比旁白
+  - 决策核心库在 `src/lib/agent/`：`world-state.ts`（状态机）、`narrative-principles.ts`（原则/反转触发）、`value-profile.ts`（价值画像 + 分型施压）、`dilemma-library.ts`、`character-dna.ts`
+- **运行依赖**：所有 AI 调用经 **Eazo 官方模型代理**，需在 `.env` 配置 `EAZO_*` 变量（`EAZO_APP_AI_API_BASE`、`EAZO_APP_ID`、`EAZO_PRIVATE_KEY` 等，文本模型 `deepseek.v3.1`）。缺少这些变量时，叙事接口无法生成内容。
+- **线上可运行实例**（已配置好密钥、开箱即体验）：**https://mybook-3eb25c73.eazo.dev**
+- 说明：仓库内 `src/app/api/mcp/` 为 MCP 脚手架、暂未注册工具；本项目动态能力由上述 **Agent 后端（API Routes）** 提供，不依赖 MCP。
+
+---
+
 ## 六、目录结构
 
 ```
