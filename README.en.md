@@ -189,6 +189,21 @@ bun start
 
 ---
 
+## 5.5 Agent Backend (for evaluation / dynamic runs)
+
+This project's **AI Agent backend** is not a separate process — it is built into the same app as **Next.js API Routes** (server-side). It is a stateful, decision-making, multi-step narrative agent: read the current `WorldState` → decide which principles/reversals to trigger → profile the player's values → call the AI to generate this act → update state → move to the next act.
+
+- **Backend endpoints** (all under `src/app/api/`):
+  - `narrative/init` — build world state, identify Character DNA, generate act 1 (Extreme mode does "multi-value profiling + per-act typed pressure" here)
+  - `narrative/next-act` — per-act generation: receive the player's choice, update state, dispatch the per-act typed pressure, generate the next act
+  - `narrative/ending-narration`, `narrative/compare-narration` — ending narration / normal-vs-extreme comparison narration
+  - Decision core lives in `src/lib/agent/`: `world-state.ts` (state machine), `narrative-principles.ts` (principle/reversal triggers), `value-profile.ts` (value profiling + typed pressure), `dilemma-library.ts`, `character-dna.ts`
+- **Runtime dependency**: all AI calls go through the **Eazo official model proxy**; set the `EAZO_*` variables in `.env` (`EAZO_APP_AI_API_BASE`, `EAZO_APP_ID`, `EAZO_PRIVATE_KEY`, text model `deepseek.v3.1`). Without them the narrative endpoints cannot generate content.
+- **Live runnable instance** (keys configured, ready to play): **https://mybook-3eb25c73.eazo.dev**
+- Note: `src/app/api/mcp/` is an MCP scaffold with no tools registered yet; this project's dynamic capability is provided by the **Agent backend (API Routes)** above and does not depend on MCP.
+
+---
+
 ## 6. Directory Structure
 
 ```
