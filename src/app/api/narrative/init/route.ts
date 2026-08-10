@@ -7,7 +7,7 @@ import {
   getCharacterDNA, selectDilemmas,
   buildPrinciplesPrompt,
   validateAxes, pickArchetype,
-  buildValueProfile, buildIntensifyDirective,
+  buildValueProfile, buildIntensifyDirectiveForAct,
 } from "@/lib/agent";
 
 export async function POST(request: NextRequest) {
@@ -132,7 +132,8 @@ export async function POST(request: NextRequest) {
     let intensifyTargetBlock = "";
     if (intensify && normalChoiceHistory && normalChoiceHistory.length > 0) {
       const profile = buildValueProfile(normalChoiceHistory);
-      intensifyTargetBlock = buildIntensifyDirective(profile);
+      // 逐幕分型：第一幕只下发【砸·主流值】那一层，与 next-act 逐幕对准保持一致
+      intensifyTargetBlock = buildIntensifyDirectiveForAct(profile, 1);
     }
 
     // 6. 生成第一幕
