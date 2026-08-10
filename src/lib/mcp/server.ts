@@ -1,14 +1,14 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import { registerListCharacters } from "./tools/list-characters";
 
-export function buildMcpServer(_userId: string): McpServer {
+export function buildMcpServer(userId: string): McpServer {
   const server = new McpServer({
-    name: "eazo-mcp",
+    name: "mybook",
     version: "1.0.0",
   });
 
-  // Register your tools here. See AGENTS.md § 8 for the pattern:
-  //   import { registerMyTool } from "./tools/my-tool";
-  //   registerMyTool(server, _userId);
+  // 「难得读书」把它的叙事 Agent 能力暴露成 MCP 工具，供任意 MCP 客户端调用。
+  registerListCharacters(server, userId);
 
   return server;
 }
