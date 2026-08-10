@@ -9,6 +9,7 @@ import {
 } from "@/lib/reader/share-codec";
 import { PageTopbar } from "./page-topbar";
 import { Flame, Share2, Drama, MoveHorizontal } from "lucide-react";
+import { MetaAxisProfile } from "./meta-axis-profile";
 
 interface AgentResultPageProps {
   worldState: WorldState;
@@ -333,6 +334,9 @@ export function AgentResultPage({
             ))}
           </div>
         </div>
+
+        {/* ── 元价值底色：6 维跨角色画像（数据每局都在算，此前从未展示） ── */}
+        <MetaAxisProfile worldState={worldState} accent={"#0c5a52"} />
 
         {/* ── AI 旁白：选择证据链 ──────────────────────────────── */}
         <div className="relative z-10 px-5 pt-5 pb-4 border-b border-[rgba(1,1,1,.12)]">
