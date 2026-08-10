@@ -22,6 +22,7 @@ export async function POST(request: NextRequest) {
       newTone,
       newAnchors,
       modernTension,
+      normalChoiceHistory,
     } = await request.json() as {
       state: WorldState;
       choiceId: string;
@@ -36,6 +37,7 @@ export async function POST(request: NextRequest) {
       newTone: WorldState["emotionalTone"];
       newAnchors?: string[];
       modernTension?: string;
+      normalChoiceHistory?: ChoiceRecord[];
     };
 
     // 1. 记录本次选择（含结构性张力）
@@ -84,6 +86,13 @@ export async function POST(request: NextRequest) {
 
     const dilemmas = selectDilemmas(domains, intensity, [], 3);
 
+    // 4.5 极压·逐幕分型施压：按本幕幕号只下发对应那一层（第1幕砸主流 / 第2幕逃隐性 / 第3幕撞矛盾）
+    let intensifyTargetBlock = "";
+    if (isIntensify && normalChoiceHistory && normalChoiceHistory.length > 0) {
+      const profile = buildValueProfile(normalChoiceHistory);
+      intensifyTargetBlock = buildIntensifyDirectiveForAct(profile, nextState.actNumber);
+    }
+
     // 5. 生成下一幕
     const act = await callActGenerator({
       state: nextState,
@@ -91,6 +100,7 @@ export async function POST(request: NextRequest) {
       instructions,
       isFirstAct: false,
       intensifyMode: isIntensify,
+      intensifyTargetBlock,
     });
 
     return NextResponse.json({ state: nextState, act });
