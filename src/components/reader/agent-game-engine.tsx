@@ -4,6 +4,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { BookMeta } from "@/lib/reader/types";
 import type { WorldState } from "@/lib/agent/world-state";
+import type { ChoiceRecord } from "@/lib/agent/world-state";
 import { DILEMMA_LIBRARY } from "@/lib/agent/dilemma-library";
 import { SceneMessage } from "./scene-message";
 import { ChoicePanel } from "./choice-panel";
@@ -137,6 +138,7 @@ export function AgentGameEngine({
           newAnchors: act.newAnchors ?? [],
           newTone: act.newEmotionalTone ?? "平静",
           modernTension: DILEMMA_LIBRARY.find(d => d.modernTag === choice.socialTag)?.modernTension,
+          normalChoiceHistory,
         }),
       });
       if (res.ok) prefetchedRef.current = await res.json() as { state: WorldState; act: ActData };
@@ -261,6 +263,7 @@ export function AgentGameEngine({
           newAnchors: act.newAnchors ?? [],
           newTone: act.newEmotionalTone ?? "平静",
           modernTension: DILEMMA_LIBRARY.find(d => d.modernTag === choice.socialTag)?.modernTension,
+          normalChoiceHistory,
         }),
       });
       if (!res.ok) throw new Error("next-act failed");
