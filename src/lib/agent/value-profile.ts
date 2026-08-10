@@ -113,27 +113,51 @@ export function buildIntensifyDirective(p: ValueProfile): string {
   const lines: string[] = [];
   lines.push("【极压·分型施压——多元价值验证 · 必须执行】");
   lines.push("普通局暴露出这个人三层价值，极压三幕要分别把每一层推到极限，逐幕对准，不许泛泛出生死题：");
-
-  if (p.mainstream) {
-    lines.push(
-      `\n· 第1幕【砸·主流值】他最硬、反复坚持的价值是「${p.mainstream.tag}」（出现${p.mainstream.count}次）。代表选择：${fmt(p.mainstream.sample)}。` +
-      `\n  第1幕要用一个不可逆的新情境，让他这份最坚持的价值直接反噬——越坚持，越快失去他最在乎的东西，逼他看清坚持的真实代价。`
-    );
-  }
-  if (p.hidden) {
-    lines.push(
-      `\n· 第2幕【逃·隐性值】他有一面自己都未必察觉的价值：「${p.hidden.tag}」（${p.hidden.reason}）。露出这一面的时刻：${fmt(p.hidden.sample)}。` +
-      `\n  第2幕要专门戳这份「他以为自己不在乎、其实会痛」的隐性价值——制造一个只有触到这根隐线才会痛的处境，让他猝不及防地发现自己原来在乎。`
-    );
-  }
-  if (p.conflicted) {
-    lines.push(
-      `\n· 第3幕【撞·矛盾值】他在「${p.conflicted.tag}」上反复横跳、自相矛盾：一次是${fmt(p.conflicted.forA)}；另一次却是${fmt(p.conflicted.forC)}。` +
-      `\n  第3幕要把这对矛盾直接对撞——设计一个必须二选一、无法再骑墙的终局，逼他亲手裁决"到底哪个才是真正的我"，把困惑逼成答案。`
-    );
-  }
-  lines.push(
-    "\n【硬要求】每一幕都要明确「回指」上面对应的那一层，用与他原选择呼应的细节（同类处境、同样被他牺牲/保全的东西），但不得复述原文，一律升级成不可逆版本。三幕合起来，是对他多元价值的一次完整极限验证。"
-  );
+  if (p.mainstream) lines.push("\n" + mainstreamLine(p));
+  if (p.hidden) lines.push("\n" + hiddenLine(p));
+  if (p.conflicted) lines.push("\n" + conflictedLine(p));
+  lines.push("\n" + HARD_REQ);
   return "\n" + lines.join("\n");
+}
+
+const HARD_REQ =
+  "【硬要求】本幕要明确「回指」它对应的那一层，用与他原选择呼应的细节（同类处境、同样被他牺牲/保全的东西），但不得复述原文，一律升级成不可逆版本。";
+
+function mainstreamLine(p: ValueProfile): string {
+  if (!p.mainstream) return "";
+  return `· 第1幕【砸·主流值】他最硬、反复坚持的价值是「${p.mainstream.tag}」（出现${p.mainstream.count}次）。代表选择：${fmt(p.mainstream.sample)}。` +
+    `\n  本幕要用一个不可逆的新情境，让他这份最坚持的价值直接反噬——越坚持，越快失去他最在乎的东西，逼他看清坚持的真实代价。`;
+}
+function hiddenLine(p: ValueProfile): string {
+  if (!p.hidden) return "";
+  return `· 第2幕【逃·隐性值】他有一面自己都未必察觉的价值：「${p.hidden.tag}」（${p.hidden.reason}）。露出这一面的时刻：${fmt(p.hidden.sample)}。` +
+    `\n  本幕要专门戳这份「他以为自己不在乎、其实会痛」的隐性价值——制造一个只有触到这根隐线才会痛的处境，让他猝不及防地发现自己原来在乎。`;
+}
+function conflictedLine(p: ValueProfile): string {
+  if (!p.conflicted) return "";
+  return `· 第3幕【撞·矛盾值】他在「${p.conflicted.tag}」上反复横跳、自相矛盾：一次是${fmt(p.conflicted.forA)}；另一次却是${fmt(p.conflicted.forC)}。` +
+    `\n  本幕要把这对矛盾直接对撞——设计一个必须二选一、无法再骑墙的终局，逼他亲手裁决「到底哪个才是真正的我」，把困惑逼成答案。`;
+}
+
+/**
+ * 逐幕下发：按幕号只输出对应那一层的施压指令。
+ * 第1幕砸主流 → 第2幕逃隐性 → 第3幕撞矛盾（第3幕及以后都收束到「撞矛盾」的终局对撞）。
+ * 若某一层缺失（如没识别出矛盾），回退到最接近的已有层，保证每幕都有明确靶子。
+ */
+export function buildIntensifyDirectiveForAct(p: ValueProfile, actNumber: number): string {
+  const order: Array<[string, () => string]> = [
+    ["main", () => mainstreamLine(p)],
+    ["hidden", () => hiddenLine(p)],
+    ["conflict", () => conflictedLine(p)],
+  ];
+  const idx = actNumber <= 1 ? 0 : actNumber === 2 ? 1 : 2;
+  // 从目标层向两侧回退，找到第一条非空
+  let body = order[idx][1]();
+  if (!body) {
+    for (let d = 1; d < order.length && !body; d++) {
+      body = order[Math.max(0, idx - d)][1]() || order[Math.min(order.length - 1, idx + d)][1]();
+    }
+  }
+  if (!body) return "";
+  return `\n【极压·分型施压 · 第${actNumber}幕靶子 · 必须执行】\n${body}\n\n${HARD_REQ}`;
 }
