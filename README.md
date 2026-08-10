@@ -98,7 +98,9 @@
 
 以上是视觉与产品层面的亮点。而这款产品真正的内核——**如何在不预设价值观的前提下发现你的价值观、如何用极限施压逼出深层价值观、锚点与两次对比如何设计、主线与自由决策如何平衡、如何用现代视角重看原著**——我们拆成了 17 条原则（外加一个记录未落地构想的「🚧 构想区」），每条都对应代码里的真实实现，单独写在一份文档里：
 
-👉 **[《价值说明 · 难得读书的设计哲学》](docs/价值说明.md)**
+👉 **[《价值说明 · 难得读书的设计哲学》](docs/价值说明.md)**（中文完整版）
+
+🌐 English readers: **[Design Notes (condensed)](docs/DESIGN_NOTES.en.md)** — a 1–2 page summary of the 17 principles, the Reverse-Productization methodology, and the landing-status table.
 
 > 🧭 **贯穿全局的元原则「反向产品化」**：这份哲学不是"先写原则再照着做"，而是反过来——**先做 → 从产品里提炼原则 → 拿原则当尺子反推产品哪里没兑现 → 照着补强 → 再提炼**，如此闭环。原则在这里是照见"体验与理想之差距"的镜子。文末还附了**各原则落地现状自评**（🟢真落地 / 🟡骨架强血肉靠AI / 🔴高度依赖AI），诚实标出下一轮该盯哪。
 
@@ -212,5 +214,13 @@ src/
 ---
 
 - [Eazo 文档](https://docs.eazo.ai) · [Next.js 文档](https://nextjs.org/docs)
+
+---
+
+## 许可证 / License
+
+本项目采用 **[CC BY-NC 4.0](LICENSE)**（署名—非商业 4.0 国际）许可证：允许自由分享与改编，但**需署名 jassbin 且不得用于商业用途**。项目对《红楼梦》《三国演义》《西游记》等**公有领域古典名著**的重新诠释，属于本许可证覆盖的原创内容（困境设计、代码、叙事框架）。
+
+Licensed under **[CC BY-NC 4.0](LICENSE)** — free to share and adapt with **attribution to jassbin, non-commercial only**.
 
 _Built with Eazo._
