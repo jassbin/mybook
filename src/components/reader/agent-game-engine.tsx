@@ -41,12 +41,14 @@ interface AgentGameEngineProps {
   onComplete: (state: WorldState) => void;
   onBack?: () => void;
   intensifyMode?: boolean;
+  /** 极压模式下传入普通局选择轨迹，供服务端逐幕分型施压 */
+  normalChoiceHistory?: ChoiceRecord[];
 }
 
 type DisplayMsg = { id: string; type: string; text: string; key: string };
 
 export function AgentGameEngine({
-  initialState, initialAct, bookMeta, onComplete, onBack, intensifyMode = false,
+  initialState, initialAct, bookMeta, onComplete, onBack, intensifyMode = false, normalChoiceHistory,
 }: AgentGameEngineProps) {
   const [worldState, setWorldState] = useState<WorldState>(initialState);
   const [currentAct, setCurrentAct] = useState<ActData>(initialAct);
