@@ -6,9 +6,11 @@
 
 A mobile-first interactive "step-into-a-classic" app. Pick a book, choose a character, and the AI re-decomposes the most tension-filled dilemma from the original work into 3–5 decision points that you live through in the first person. When it ends, it generates your **"value tendencies / behavioral pattern"** profile — and you can switch on **Extreme-Pressure Mode** to push the stakes to the limit and compare the everyday you against the you under extreme circumstances.
 
-**Live preview (playable now):** https://3000-ivhgrqhc5osuwu5hzfix2.e2b.app
+**Live app (recommended · permanent):** https://mybook-3eb25c73.eazo.dev
 
-> Note: this is a temporary sandbox preview URL and may change when the environment restarts. The entrance animations are most visible on the **Loading / Result / Extreme-Compare** screens — play a full round to see them.
+**Sandbox preview (temporary · may change on restart):** https://3000-ivhgrqhc5osuwu5hzfix2.e2b.app
+
+> Note: use the `eazo.dev` link above for real use; the sandbox link is a dev-only temporary preview. The entrance animations are most visible on the **Loading / Result / Extreme-Compare** screens — play a full round to see them.
 
 ---
 
@@ -27,7 +29,7 @@ A mobile-first interactive "step-into-a-classic" app. Pick a book, choose a char
 
 ### For players
 
-1. **Open the app** — open the live preview on your phone browser: `https://3000-ivhgrqhc5osuwu5hzfix2.e2b.app` (best on mobile, portrait).
+1. **Open the app** — open the live app on your phone browser: `https://mybook-3eb25c73.eazo.dev` (permanent link, best on mobile, portrait).
 2. **Pick a theme (optional)** — a row of swipeable theme "chips" sits at the top of the home page:
    - 💗 **Love · Lovers**, 💼 **Career · Choices**, 🌱 **Growth · Self**, 👪 **Family · Kin**, 🗡 **Survival · Fate**.
    - Choosing a theme prioritizes characters whose dilemmas **genuinely fit the original story** (e.g. pick "Love" and Lin Daiyu follows an emotional arc; Zhuge Liang is *not* forced into romance — he falls back to his real canonical dilemmas such as the Wuzhang Plains).
@@ -112,8 +114,8 @@ The highlights above are visual and product-level. The product's *real* core —
 
 ## 3. UI Preview
 
-> No static screenshots are bundled yet. The most direct way is to **open the live preview**:
-> https://3000-ivhgrqhc5osuwu5hzfix2.e2b.app
+> No static screenshots are bundled yet. The most direct way is to **open the live app**:
+> https://mybook-3eb25c73.eazo.dev
 >
 > To add static shots, play a round on a device/browser, drop images into `docs/`, and replace the placeholders below.
 
