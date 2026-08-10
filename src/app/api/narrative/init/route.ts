@@ -145,6 +145,20 @@ export async function POST(request: NextRequest) {
         .map(c => `第${c.act}幕选「${c.choiceText}」——${c.revealText}`)
         .join("；");
 
+      // ── 证据驱动：挑出「最暴露你的那一次选择」，让极压明确回指这件具体的事 ──
+      // 优先级：触发过陷阱的极端选择 > 属于高频执念标签的选择 > 极端选项(A/C) > 最后一条
+      const scoreChoice = (c: import("@/lib/agent/world-state").ChoiceRecord) => {
+        let s = 0;
+        if (c.socialTag === topTag) s += 3;                 // 命中核心执念
+        if (c.choiceId === "A" || c.choiceId === "C") s += 2; // 极端选项
+        s += c.act * 0.1;                                     // 越靠后越接近真实底色
+        return s;
+      };
+      const signatureChoice = [...normalChoiceHistory].sort((a, b) => scoreChoice(b) - scoreChoice(a))[0];
+      const signatureBlock = signatureChoice
+        ? `\n他最暴露自己的那一次：第${signatureChoice.act}幕，面对「${signatureChoice.socialTag}」的处境，他选了「${signatureChoice.choiceText}」——${signatureChoice.revealText}${signatureChoice.consequenceText ? `（后果：${signatureChoice.consequenceText}）` : ""}。`
+        : "";
+
       // 根据倾向组装施压方向
       let pressureDirection = "";
       if (selfPreserveCount / total >= 0.6) {
@@ -157,9 +171,10 @@ export async function POST(request: NextRequest) {
 
       intensifyTargetBlock = `\n【极压因果追踪——必须执行】
 这个人在普通版里暴露了自己的核心执念：${topTag || "尚未明确"}。
-他的选择轨迹：${recentChoices}
+他的选择轨迹：${recentChoices}${signatureBlock}
 针对性施压方向：${pressureDirection}
-极压版第一幕必须直接戳中他在普通版里最保护的那个东西——不是泛泛的生死抉择，而是专门针对「他」的弱点。`;
+
+【证据驱动·硬要求】极压版第一幕不许泛泛施压。必须让新困境明确地"回指"上面「他最暴露自己的那一次」——用一个新的、更狠的情境，把他当初那个选择的代价直接砸回他脸上，让他清楚地意识到"这正是我上次做过的事，只是这次躲不掉了"。可以在叙述里点出与上次选择呼应的细节（同样的处境类型、同样被他牺牲/保全的那种东西），但不得直接复述原文，要升级成不可逆的版本。`;
     }
 
     // 6. 生成第一幕
