@@ -1,48 +1,202 @@
-A minimal Next.js starter for building apps inside the [Eazo](https://eazo.ai) platform. Includes a working example of the Eazo session token flow: the app requests the encrypted user token from the host via `postMessage`, sends it to a Next.js API route, decrypts it server-side with `@eazo/node-sdk`, and returns the user profile.
+# 难得读书 · mybook
 
-## Getting Started
+> 让你「变成」名著里的角色，替他做一次两难抉择——再照见现实中的自己。
 
-Install dependencies with Bun:
+一款移动端优先的互动式「名著代入」App。选一本书、挑一个角色，AI 会把原著里最具张力的困境重新拆解成 3–5 个决策节点，你以第一人称亲身选择；结束后生成你的「价值倾向 / 行为模式」画像，还能开启「极压模式」把压力拉到极限，对比普通的你与极端处境下的你。
+
+**在线预览（可直接体验）：** https://3000-ivhgrqhc5osuwu5hzfix2.e2b.app
+
+> 提示：这是运行在沙盒里的临时预览地址，可能随环境重启而变化。首页刷新看不到进场动效，动效在「加载页 / 结果页 / 极压对比页」最明显——建议完整走一局。
+
+---
+
+## 目录
+
+- [一、如何使用（使用说明）](#一如何使用使用说明)
+- [二、设计思路与亮点](#二设计思路与亮点)
+- [三、界面预览](#三界面预览)
+- [四、本地运行](#四本地运行)
+- [五、技术栈](#五技术栈)
+- [六、目录结构](#六目录结构)
+
+---
+
+## 一、如何使用（使用说明）
+
+### 面向体验者（玩家）
+
+1. **打开应用** — 手机浏览器打开在线预览地址：`https://3000-ivhgrqhc5osuwu5hzfix2.e2b.app`（移动端体验最佳，竖屏）。
+2. **选主题（可选）** — 首页顶部有一排可左右滑动的主题「胶囊」：
+   - 💗 **爱情 · 恋人**、💼 **事业 · 抉择**、🌱 **成长 · 自我**、👪 **亲情 · 家庭**、🗡 **生存 · 命运**。
+   - 选中某个主题后，书单会优先推荐与该主题相关、且**与原著故事真正契合**的角色（例如选「爱情」，林黛玉会走情感线；而诸葛亮不会被硬凑爱情，会回落到他真实的「五丈原」等原著困境）。
+3. **选一本书** — 在书单里点选一张书卡（如《红楼梦》《三国演义》等）。书卡配色取自该书「书脊色」，点一下即进入。
+4. **认识你的角色** — 进入角色介绍页，看这个角色「是怎样一个人」：书名、角色名、一句 tagline、场域标签，以及 AI 从原著提炼的「角色 DNA 三问」。
+5. **等待 AI 备稿** — 加载页会展示 AI 的思考步骤（正在阅读全书 → 寻找困境最密集的角色 → 拆解动机 → 提炼决策节点 → 即将进入他的身体）。
+6. **沉浸式做选择** — 进入深色的沉浸式剧情页，以第一人称阅读原著情境，在每个决策节点从选项中做出你的抉择。你的每一次选择都会被记录进「选择轨迹」。
+7. **查看你的结果画像** — 全部节点结束后进入结果页，包含：
+   - **选择轨迹** — 你在每个节点选了什么；
+   - **价值倾向** — 你更看重什么（如忠义 / 自保 / 情感 / 理性…）；
+   - **AI 旁白 & 你的模式** — AI 对你这局选择的解读；
+   - **照见自己** — 把角色的处境映射回现实的一段反思。
+8. **开启极压模式** — 结果页底部可进入「极压模式」：AI 把同一角色的困境**升级为不可逆的极端抉择**，再玩一局。
+9. **极压对比** — 玩完极压后进入「极压对比页」，逐幕对照「普通时的你 vs 极压时的你」，看见你的底线在哪里。
+10. **分享 / 再来一局** — 每个结果页都可以分享故事，或「换一本书 / 再来一局 / 再来极压」。
+
+### 面向开发者
+
+- 快速跑起来见 [四、本地运行](#四本地运行)。
+- App 的文案走 `react-i18next`（`en-US` / `zh-CN`），字符串集中在 `src/i18n/locales/*.json`，不要硬编码可见文案。
+- AI 能力通过 Eazo 官方模型代理调用（文本模型 `deepseek.v3.1`），密钥等敏感信息只放在**未被 git 追踪**的 `.env` 中。
+
+---
+
+## 二、设计思路与亮点
+
+### 核心产品思路
+
+把「读名著」从被动阅读，变成一次**第一人称的代入决策实验**。你不是旁观角色的命运，而是亲自站到他的位置上做选择，最后用一面「镜子」照回自己——这才是「难得读书」的立意：读的是书，照见的是自己。
+
+### 亮点一：忠于原著的主题匹配（不硬凑）
+
+主题筛选不是简单打标签，而是内置了一套**忠于原著的匹配算法**：
+
+- 把主题（爱情 / 事业 / 成长 / 亲情 / 生存）映射到内部的困境「场域」；
+- 只有当某个困境与角色在**原著里真实存在的场域**有交集时，才会被提升权重；
+- 没有交集时**绝不硬凑**，会回落到该角色原著中真正的核心困境。
+- 效果：选「爱情」，林黛玉走情感线合情合理；诸葛亮则回到「五丈原」这类真实困境，而不会被强行安排一段感情戏。
+
+### 亮点二：清水蓝绿系 · 通透玻璃拟态视觉
+
+整体视觉是一套**清爽、通透、带高级感**的「清水蓝绿系」：
+
+- **薄荷—翡翠—青蓝的极光背景**（`fresh-backdrop`），带缓慢漂移的渐变（`auroraDrift` 16s），干净又不呆板；
+- **磨砂玻璃面板**（`glass-panel`，`backdrop-filter: blur(22px)`），配顶边高光，轻盈有层次；
+- 按钮采用青绿渐变（`#14b8a6 → #0ea5b7`）与暖橙渐变（极压模式专用），圆润大圆角；
+- 刻意规避了「深绿底 + 浅字」的可读性坑：深色区文字统一用高对比的亮薄荷色（`#eafdf9`），标题用白描边 + 深绿投影做出「烫金压印」质感。
+
+### 亮点三：干净的图标语言（告别塞满 emoji）
+
+遵循「taste-skill」反廉价（anti-slop）设计原则，把杂乱的 emoji（🔥📊🎭⟷）统一替换为一致的 **Lucide 线性图标**（`Flame` / `Share2` / `Drama` / `MoveHorizontal`），视觉语言统一、克制、高级。
+
+### 亮点四：全流程统一的分层进场动效
+
+一套「浮起聚焦」的进场动效贯穿全程：
+
+- 关键帧 `riseIn`：区块从下方浮起 + 轻微放大 + 从模糊到清晰（blur 6px→0）；
+- 缓动用 `cubic-bezier(.16,1,.3,1)`（ease-out-expo 风格），起步快、收尾柔；
+- `.stagger-in` 容器让子区块按 ~0.07s 递增**错落入场**，层层展开；
+- 已统一应用到**加载页 / 结果页 / 极压对比页**；顶栏保持稳定不动画，干净不晕；
+- 尊重 `prefers-reduced-motion`：系统关闭动效时自动静止。
+
+### 亮点五：沉浸阅读与结果画像的「双色域」隔离
+
+沉浸式剧情页保留**深色**沉浸氛围（让人专注于故事与抉择），而首页 / 角色页 / 结果页 / 极压页统一走**浅色玻璃系**。两套色域通过作用域化的 CSS 规则干净隔离，互不串味，顶栏风格也已全流程统一。
+
+---
+
+## 三、界面预览
+
+> 项目仓库中暂未内置界面截图。最直观的方式是**直接打开在线预览体验**：
+> https://3000-ivhgrqhc5osuwu5hzfix2.e2b.app
+>
+> 如需在 README 中放置静态截图，可在真机/浏览器走一局，把截图放到 `docs/` 目录并按下方占位替换即可：
+
+| 首页 · 主题选择 | 角色介绍 | 沉浸式剧情 |
+| :---: | :---: | :---: |
+| `docs/home.png` | `docs/character.png` | `docs/story.png` |
+
+| 加载页 | 结果画像 | 极压对比 |
+| :---: | :---: | :---: |
+| `docs/loading.png` | `docs/result.png` | `docs/compare.png` |
+
+<!--
+放好图片后，把上面的占位替换为真实图片，例如：
+![首页](docs/home.png)
+-->
+
+**关键界面一览（文字版流程）：**
+
+```
+首页(主题胶囊+书单)
+   └─选书→ 角色介绍(角色DNA三问)
+        └─→ 加载页(AI思考步骤)
+             └─→ 沉浸式剧情(逐节点第一人称抉择)
+                  └─→ 结果画像(选择轨迹/价值倾向/照见自己)
+                       └─(可选)→ 极压模式 → 极压对比(普通的你 vs 极端的你)
+```
+
+---
+
+## 四、本地运行
+
+本项目基于 Eazo 的 Next.js 模板，包管理器使用 **Bun**。
 
 ```bash
+# 1. 安装依赖
 bun install
-```
+# 若在本机安装 sharp 卡住，可用：
+# SHARP_IGNORE_GLOBAL_LIBVIPS=1 bun install
 
-If dependency installation stalls on this machine during `sharp` setup, use:
-
-```bash
-SHARP_IGNORE_GLOBAL_LIBVIPS=1 bun install
-```
-
-Then start the development server:
-
-```bash
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-## Environment Variables
-
-Copy `.env.example` to `.env` and fill in your private key:
-
-```bash
+# 2. 配置环境变量（复制示例并填入你自己的密钥）
 cp .env.example .env
+#   然后编辑 .env，填入 Eazo App 相关的 EAZO_* 变量
+#   ⚠️ .env 已被 .gitignore 忽略，切勿提交任何密钥
+
+# 3. 启动开发服务器
+bun dev
+#   默认 http://localhost:3000
+
+# 4. 生产构建
+bun run build
+bun start
 ```
 
-| Variable | Description |
+### 环境变量
+
+| 变量 | 说明 |
 |---|---|
-| `EAZO_PRIVATE_KEY` | Your Eazo developer private key (hex, 64 chars). Used server-side to decrypt the user session token. |
+| `EAZO_PRIVATE_KEY` | Eazo 开发者私钥（64 位 hex），服务端用于解密用户会话 token，**切勿暴露到浏览器**。 |
+| `EAZO_*`（其余） | Eazo App AI 代理所需的 App 凭据与端点。缺失时 AI 相关接口会返回不可用。 |
 
-You can generate a keypair in the Eazo developer settings. Never expose the private key to the browser.
+> 说明：本 App 的 AI 能力依赖 Eazo 官方模型代理，需要有效的 Eazo App 凭据才能正常生成剧情与画像。
 
-## Learn More
+---
 
-- [Eazo Documentation](https://docs.eazo.ai)
-- [Next.js Documentation](https://nextjs.org/docs)
+## 五、技术栈
 
-## Deploy on Vercel
+- **框架**：Next.js 16（App Router）+ React 19
+- **语言**：TypeScript
+- **样式**：Tailwind CSS v4 + 自定义玻璃拟态 CSS 令牌
+- **动效**：Framer Motion + 自研 CSS 分层进场（`riseIn` / `stagger-in`）
+- **图标**：lucide-react
+- **国际化**：react-i18next（`en-US` / `zh-CN`）
+- **AI**：Eazo 官方模型代理（文本模型 `deepseek.v3.1`）
+- **数据/ORM**（如启用）：Drizzle ORM + Postgres
+- **运行时/包管理**：Bun
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 六、目录结构
+
+```
+src/
+├─ app/
+│  ├─ page.tsx                 # 首页：主题选择 + 书单 + 状态路由
+│  └─ api/narrative/init/      # 初始化剧情：解码主题筛选、忠于原著地提升困境权重
+├─ components/reader/
+│  ├─ book-select.tsx          # 可滑动主题胶囊 + 白玻璃书卡
+│  ├─ agent-character-intro.tsx# 角色介绍页（青绿玻璃、角色DNA三问）
+│  ├─ loading-screen.tsx       # 加载页（脉冲圆环 + 思考步骤 + 分层进场）
+│  ├─ agent-result-page.tsx    # 结果画像页（分层进场 + Lucide 图标）
+│  ├─ agent-compare-page.tsx   # 极压对比页（普通 vs 极端）
+│  └─ page-topbar.tsx          # 统一顶栏（浅色玻璃 / 深色沉浸两态）
+├─ lib/reader/types.ts         # 主题映射 + 主题化预置书单
+├─ i18n/locales/*.json         # zh-CN / en-US 文案
+└─ app/globals.css             # 色彩令牌 + 玻璃拟态 + 分层进场动效
+```
+
+---
+
+- [Eazo 文档](https://docs.eazo.ai) · [Next.js 文档](https://nextjs.org/docs)
+
+_Built with Eazo._
