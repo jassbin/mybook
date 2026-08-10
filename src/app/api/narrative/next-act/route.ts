@@ -3,7 +3,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import type { WorldState, ChoiceRecord } from "@/lib/agent/world-state";
 import { applyChoice, summarizeState } from "@/lib/agent/world-state";
-import { getCharacterDNA, selectDilemmas, buildPrinciplesPrompt } from "@/lib/agent";
+import { getCharacterDNA, selectDilemmas, buildPrinciplesPrompt, buildValueProfile, buildIntensifyDirectiveForAct } from "@/lib/agent";
 import { callActGenerator } from "../init/route";
 
 export async function POST(request: NextRequest) {
