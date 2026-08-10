@@ -200,7 +200,7 @@ This project's **AI Agent backend** is not a separate process — it is built in
   - Decision core lives in `src/lib/agent/`: `world-state.ts` (state machine), `narrative-principles.ts` (principle/reversal triggers), `value-profile.ts` (value profiling + typed pressure), `dilemma-library.ts`, `character-dna.ts`
 - **Runtime dependency**: all AI calls go through the **Eazo official model proxy**; set the `EAZO_*` variables in `.env` (`EAZO_APP_AI_API_BASE`, `EAZO_APP_ID`, `EAZO_PRIVATE_KEY`, text model `deepseek.v3.1`). Without them the narrative endpoints cannot generate content.
 - **Live runnable instance** (keys configured, ready to play): **https://mybook-3eb25c73.eazo.dev**
-- Note: `src/app/api/mcp/` is an MCP scaffold with no tools registered yet; this project's dynamic capability is provided by the **Agent backend (API Routes)** above and does not depend on MCP.
+- **Self-built MCP server** (optional bonus item, implemented): `src/app/api/mcp/` + `src/lib/mcp/` expose a standard **MCP (Model Context Protocol)** server with 3 tools — `list_characters` (roster), `profile_values` (three-layer value profile + typed pressure), `start_session` (start a run, return act 1). Endpoint `POST /api/mcp` (MCP Streamable HTTP), verified with the official `@modelcontextprotocol/sdk` client. See **[docs/MCP.md](docs/MCP.md)**.
 
 ---
 
