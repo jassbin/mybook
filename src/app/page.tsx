@@ -257,6 +257,15 @@ export default function Home() {
   // ── 路由 ────────────────────────────────────────────────────────────────
   if (phase === "select") return <BookSelect onSelect={handleBookSelect} />;
 
+  if (phase === "agent-charselect") return (
+    <AgentCharacterSelect
+      bookTitle={bookTitle}
+      bookMeta={bookMeta}
+      onPick={(name, domains) => handleSwitchCharacter(name, domains)}
+      onBack={() => { setBookMeta(null); setPhase("select"); }}
+    />
+  );
+
   if (phase === "agent-loading") return <LoadingScreen bookTitle={bookTitle} />;
 
   // ── 角色介绍页（新增）────────────────────────────────────────────────────
