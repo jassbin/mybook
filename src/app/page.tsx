@@ -3,6 +3,7 @@ import { useCallback, useEffect, useState, useRef } from "react";
 import type { AnalysisResult, BookMeta } from "@/lib/reader/types";
 import { getCandidatesForBook } from "@/lib/reader/types";
 import { AgentCharacterIntro, type AgentCharInitData } from "@/components/reader/agent-character-intro";
+import { AgentCharacterSelect } from "@/components/reader/agent-character-select";
 import type { WorldState } from "@/lib/agent/world-state";
 import { BookSelect, CharacterIntro, GameEngine, LoadingScreen, ResultPage } from "@/components/reader";
 import { AgentGameEngine } from "@/components/reader/agent-game-engine";
