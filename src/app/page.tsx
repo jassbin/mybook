@@ -173,8 +173,8 @@ export default function Home() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           bookTitle: title,
-          character: next.name,
-          characterDomains: next.dominantDomains,
+          character: chosenName,
+          characterDomains: chosenDomains ?? [],
           themeDomains: getThemeDomains(themeRef.current),
         }),
       });
