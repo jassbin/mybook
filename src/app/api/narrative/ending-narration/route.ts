@@ -155,6 +155,11 @@ ${uniqueTensions.map(t => `• ${t}`).join("\n")}
 ③ question 不评判——选择模式、价值取向、或处境的结构性问题都可以作为自省入口
 ④ type 用维度标签（如「${finalGroups[0]?.label}」）`;
 
+    const lifeQ: string[] = (state as any).lifeQuestions ?? [];
+    const lifeLine = lifeQ.length >= 3
+      ? `\n他一生的命题：核心伤口「${lifeQ[0]}」，守护「${lifeQ[1]}」，最怕失去「${lifeQ[2]}」。`
+      : "";
+
     const prompt = `你是洞察人心的叙事旁白者。
 
 「${state.character}」《${state.book}》走完${totalChoices}幕。
@@ -164,7 +169,7 @@ ${choiceLines}
 ${twists}
 行为统计：${patternHints}
 底层倾向：
-${metaAxesSummary}
+${metaAxesSummary}${lifeLine}
 
 严格按以下四段输出，段与段之间只用 ===SEP=== 分隔，不加任何标题、序号或额外解释：
 
