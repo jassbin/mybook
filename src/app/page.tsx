@@ -126,6 +126,12 @@ export default function Home() {
       });
       if (!res.ok) throw new Error((await res.json().catch(() => ({}))).error ?? "初始化失败");
       const data = await res.json();
+      // 诚实回退：AI 不认识这本书/角色 → 友好提示，回选书页
+      if (data.error) {
+        setError(data.message ?? "我们暂时找不到这本书的可靠原著资料，换一本更知名的经典试试？");
+        setPhase("select");
+        return;
+      }
       setAgentInitData(data);
       // 记录已展示的角色
       shownCharactersRef.current = [data.character];
@@ -172,6 +178,11 @@ export default function Home() {
       });
       if (!res.ok) throw new Error((await res.json().catch(() => ({}))).error ?? "初始化失败");
       const data = await res.json();
+      if (data.error) {
+        setError(data.message ?? "这个角色暂时无法可靠还原，换一个试试？");
+        setPhase("agent-character");
+        return;
+      }
       setAgentInitData(data);
       // 追加已展示角色
       shownCharactersRef.current = [...shownCharactersRef.current, data.character];
@@ -208,6 +219,11 @@ export default function Home() {
       });
       if (!res.ok) throw new Error((await res.json().catch(() => ({}))).error ?? "极压初始化失败");
       const data = await res.json();
+      if (data.error) {
+        setError(data.message ?? "极压模式初始化失败，请重试。");
+        setPhase("agent-result");
+        return;
+      }
       setAgentIntensifyInitData(data);
       setPhase("agent-intensify-game");
     } catch (e) {
