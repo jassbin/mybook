@@ -202,7 +202,7 @@ export function BookSelect({ onSelect }: BookSelectProps) {
                 </span>
               </div>
               <div
-                className="flex flex-col flex-1 gap-1.5 px-4 py-3"
+                className="flex flex-col flex-1 gap-1.5 px-4 pt-3 pb-4"
               >
                 <div className="flex items-center gap-1.5 flex-wrap">
                   <span
