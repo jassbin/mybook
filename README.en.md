@@ -106,6 +106,8 @@ The highlights above are visual and product-level. The product's *real* core —
 
 🀄 中文完整版：**[《价值说明 · 难得读书的设计哲学》](docs/价值说明.md)**
 
+✨ The essence, in one page: **[设计精华 · The Essence — how we built a "real-time storyteller who is also a god"](docs/设计精华.md)** (mainly Chinese, bilingual headings) — per-act generation, three notebooks for coherence, the narrative constitution (twists/escalation/prohibitions), Character DNA, weighted-random dilemma engine, extreme typed-pressure, and a code-computes-then-AI-speaks result page.
+
 > 🧭 **The meta-principle "Reverse Productization"**: this philosophy was not "write principles first, then build." It ran the other way — **build → extract principles from the product → use them as a ruler to find where the product falls short → reinforce → extract again**, in a loop. The doc also appends a **per-principle landing self-assessment** (🟢 truly landed / 🟡 strong skeleton, AI-fleshed / 🔴 heavily AI-dependent), honestly marking what to fix next.
 >
 > **Why principle design *is* the product:** UI and the model decide what this product *looks like*; the principle design decides *whether it is actually that thing*. The skin can be copied — the bone structure cannot.
