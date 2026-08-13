@@ -49,10 +49,11 @@ export function AgentCharacterIntro({
     ? dnaForDisplay.dominantDomains
     : currentCandidate?.dominantDomains) ?? [];
 
-  const handleSwitch = () => {
-    if (switching) return;
+  const handlePick = (name: string, domains?: string[]) => {
+    if (switching || !name.trim()) return;
+    setShowPicker(false);
     setSwitching(true);
-    onSwitchCharacter();
+    onSwitchCharacter(name.trim(), domains);
     // 切换完成后组件会被重新 key 渲染，无需手动 reset
   };
 
