@@ -4,6 +4,7 @@
 import { useState } from "react";
 import type { BookMeta } from "@/lib/reader/types";
 import type { WorldState } from "@/lib/agent/world-state";
+import { getCharacterDNA } from "@/lib/agent/character-dna";
 
 export interface AgentCharInitData {
   state: WorldState;
@@ -37,9 +38,14 @@ export function AgentCharacterIntro({
 
   const labels = ["愤怒来自", "守护什么", "最怕失去"];
 
-  // 场域标签
+  // 场域标签：优先取「角色 DNA」里实际驱动困境的 dominantDomains，
+  // 保证「页面展示 = 引擎实际使用」，避免两套数据不一致导致的所见非所得；
+  // DNA 未收录（自定义/冷门书）时才回退到书库候选。
+  const dnaForDisplay = getCharacterDNA(initData.character, initData.state.book);
   const currentCandidate = bookMeta?.candidates.find(c => c.name === initData.character);
-  const domainTags = currentCandidate?.dominantDomains ?? [];
+  const domainTags = (dnaForDisplay?.dominantDomains?.length
+    ? dnaForDisplay.dominantDomains
+    : currentCandidate?.dominantDomains) ?? [];
 
   const handleSwitch = () => {
     if (switching) return;
