@@ -588,9 +588,27 @@ export function buildPresetBooks(): BookMeta[] {
   // 第一本：四大名著随机一本（全部公版，无版权风险）
   const classicDef = pickRandom(CLASSICS);
   const classic = buildBookMeta(classicDef.key, classicDef.title, classicDef.color, classicDef.textColor, classicDef.tagline, classicDef.candidates);
-  // 其余三本：只从版权安全的书里随机取（作者去世满50年）
+
+  // 版权安全池（作者去世满50年）
   const safeBooksPool = EXTRA_BOOKS.filter(b => isCopyrightSafe(b.authorDeathYear));
-  const extras = shuffled(safeBooksPool).slice(0, 3).map(buildFromLoose);
+  // 情感/言情向：任一角色场域含「感情关系」或「禁忌诱惑」——大众更爱看，多露出
+  const isRomance = (b: typeof safeBooksPool[number]) =>
+    b.candidates.some(c => c.dominantDomains.some(d => d === "感情关系" || d === "禁忌诱惑"));
+  const romancePool = shuffled(safeBooksPool.filter(isRomance));
+  const otherPool = shuffled(safeBooksPool.filter(b => !isRomance(b)));
+
+  // 其余三本：优先塞 2 本情感向（大众偏好），再补 1 本其它；不足则用其它补齐
+  const picks: typeof safeBooksPool = [];
+  picks.push(...romancePool.slice(0, 2));
+  picks.push(...otherPool.slice(0, 1));
+  // 补齐到 3 本（若情感向不足）
+  const usedTitles = new Set(picks.map(b => b.title));
+  for (const b of [...romancePool, ...otherPool]) {
+    if (picks.length >= 3) break;
+    if (!usedTitles.has(b.title)) { picks.push(b); usedTitles.add(b.title); }
+  }
+
+  const extras = picks.map(buildFromLoose);
   return [classic, ...shuffled(extras)];
 }
 
