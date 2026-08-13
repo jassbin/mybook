@@ -57,12 +57,13 @@ export function AgentCharacterSelect({
               onClick={() => handleEnter(c.name, c.dominantDomains)}
               className="text-left px-4 py-3.5 rounded-2xl border transition-all active:scale-[.98]"
               style={{
-                background: "rgba(255,255,255,.6)",
-                borderColor: "rgba(56,189,168,.28)",
+                background: "rgba(255,255,255,.92)",
+                borderColor: "rgba(56,189,168,.45)",
+                boxShadow: "0 4px 14px rgba(6,60,50,.1)",
               }}
             >
               <div className="flex items-center gap-2 flex-wrap">
-                <span className="text-base font-black" style={{ color: "#0a3a30" }}>{c.name}</span>
+                <span className="text-base font-black" style={{ color: "#062e26" }}>{c.name}</span>
                 {c.dominantDomains?.slice(0, 2).map((d) => (
                   <span
                     key={d}
@@ -71,7 +72,7 @@ export function AgentCharacterSelect({
                   >{d}</span>
                 ))}
               </div>
-              <div className="text-[12px] mt-1 leading-snug" style={{ color: "rgba(10,58,48,.72)" }}>
+              <div className="text-[12px] mt-1 leading-snug" style={{ color: "rgba(8,46,38,.85)" }}>
                 {c.hook}
               </div>
             </button>
