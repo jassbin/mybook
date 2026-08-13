@@ -218,12 +218,16 @@ export async function callActGenerator({
     : "本幕所有选项isTrap必须为false";
 
   // ── 原著情节锚点保护（核心新增）──────────────────────────────────────
-  // 从 DNA 取出预设角色的情节锚点，自定义角色则跳过
+  // 优先用 state 上挂载的锚点（自定义书临时生成），其次取预设角色 DNA
   const dna = getCharacterDNA(state.character, state.book);
-  const canonicalBlock = dna?.canonicalMoments?.length
-    ? `\n【原著情节锚点——必须保真，不得架空】
+  const moments: string[] = (state as any).canonicalMoments?.length
+    ? (state as any).canonicalMoments
+    : (dna?.canonicalMoments ?? []);
+  const isGeneratedMoments = !dna?.canonicalMoments?.length && moments.length > 0;
+  const canonicalBlock = moments.length
+    ? `\n【原著情节锚点——必须保真，不得架空】${isGeneratedMoments ? "（以下锚点由AI依据对原著的理解生成，仍须严格围绕，不得再另编原著没有的重大情节）" : ""}
 这些是「${state.character}」在《${state.book}》原著中的真实核心情节，按故事顺序排列：
-${dna.canonicalMoments.map((m, i) => `${i + 1}. ${m}`).join("\n")}
+${moments.map((m, i) => `${i + 1}. ${m}`).join("\n")}
 
 生成规则——必须全部执行：
 ① 每一幕的场景、人物、道具、地点必须有原著依据，不得凭空发明不存在的人物或事件
