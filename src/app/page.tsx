@@ -143,25 +143,27 @@ export default function Home() {
   }, []);
 
   // ── 换一个角色：自动选下一个候选，循环不重样 ──────────────────────────
-  const handleSwitchCharacter = useCallback(async () => {
+  const handleSwitchCharacter = useCallback(async (pickName?: string, pickDomains?: string[]) => {
     if (!bookTitle) return;
     const title = bookTitle;
-    const meta = bookMeta;
     setError(null);
     setPhase("agent-loading");
 
-    // 取下一个未展示过的候选，按多样性排序
-    let candidates = getCandidatesForBook(title, shownCharactersRef.current);
-    if (candidates.length === 0) {
-      // 全部展示过了 → 从头循环（保留当前角色排除，其余重置）
-      shownCharactersRef.current = agentInitData ? [agentInitData.character] : [];
-      candidates = getCandidatesForBook(title, shownCharactersRef.current);
-    }
-    const next = candidates[0];
-    if (!next) {
-      // 这本书只有一个角色，无法切换
-      setPhase("agent-character");
-      return;
+    let chosenName: string;
+    let chosenDomains: string[] | undefined;
+    if (pickName) {
+      chosenName = pickName;
+      chosenDomains = pickDomains;
+    } else {
+      let candidates = getCandidatesForBook(title, shownCharactersRef.current);
+      if (candidates.length === 0) {
+        shownCharactersRef.current = agentInitData ? [agentInitData.character] : [];
+        candidates = getCandidatesForBook(title, shownCharactersRef.current);
+      }
+      const next = candidates[0];
+      if (!next) { setPhase("agent-character"); return; }
+      chosenName = next.name;
+      chosenDomains = next.dominantDomains;
     }
 
     try {
