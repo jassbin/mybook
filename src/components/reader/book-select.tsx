@@ -230,7 +230,7 @@ export function BookSelect({ onSelect }: BookSelectProps) {
         </div>
 
         {/* ── 搜索输入区 ── */}
-        <div className="relative z-20 px-4 pb-5 pt-3 border-t border-[rgba(56,189,168,.2)]">
+        <div className="relative z-20 shrink-0 px-4 pb-5 pt-3 border-t border-[rgba(56,189,168,.2)]">
           <p className="text-xs text-[rgba(12,60,58,.5)] mb-2 tracking-wide">
             没有喜欢的？搜索书库里的书 ↓
           </p>
