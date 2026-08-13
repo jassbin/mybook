@@ -33,6 +33,8 @@ export async function POST(request: NextRequest) {
     let charTagline: string;
     let driveAnalysis: string[];
     let openingHook: string;
+    let generatedMoments: string[] = [];
+    let generatedLowConfidence = false;
 
     if (dna) {
       axes = dna.axes;
@@ -96,6 +98,10 @@ export async function POST(request: NextRequest) {
       if (!p) throw new Error("角色分析失败");
       // 低置信度：诚实提示这是推测，可能与原著有出入（不阻断，但透明告知）
       const lowConfidence = typeof p.confidence === "number" && p.confidence < 0.45;
+      generatedLowConfidence = lowConfidence;
+      if (Array.isArray(p.canonicalMoments)) {
+        generatedMoments = p.canonicalMoments.filter((x: unknown) => typeof x === "string" && (x as string).trim().length > 0);
+      }
       charName = p.character;
       charTagline = p.tagline;
       driveAnalysis = p.driveAnalysis;
