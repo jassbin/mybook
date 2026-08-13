@@ -166,16 +166,6 @@ export function AgentGameEngine({
   }, []);
 
   const handleChoice = useCallback((choice: ActData["choices"][0]) => {
-    if (choice.isTrap) {
-      setTrapData({
-        ending: currentAct.trapEndingText ?? "你的选择触发了极端结局……",
-        revival: currentAct.trapRevivalText ?? "命运给了你重选的机会。",
-        trapChoiceId: choice.id,
-      });
-      setShowTrap(true);
-      return;
-    }
-
     setChoiceDone(true);
     setTimeout(() => setRevealText(choice.revealText), 180);
 
@@ -185,7 +175,15 @@ export function AgentGameEngine({
     // 立即后台预加载
     setTimeout(() => prefetchNextAct(choice, currentAct, worldStateRef.current), 200);
 
+    // 方案A：陷阱选项不再「游戏结束」，而是「付出重大代价后继续」——
+    // 把代价描述作为一条沉重后果插入，随后照常走到下一幕，保证最终能抵达价值观报告。
+    const trapCostMsg = choice.isTrap && currentAct.trapEndingText
+      ? [{ id: "trap-cost", type: "narrator", text: currentAct.trapEndingText, delay: 0,
+           key: `trapcost-${worldStateRef.current.actNumber}` }]
+      : [];
+
     const conseqMsgs = [
+      ...trapCostMsg,
       ...(currentAct.consequenceMap[choice.id] ?? []).map((m, i) => ({
         ...m, key: `conseq-${worldStateRef.current.actNumber}-${i}`,
       })),
