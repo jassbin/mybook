@@ -204,12 +204,12 @@ export function AgentCharacterIntro({
       {/* 角色选择面板：列出本书候选 + 「其他」自填 */}
       {showPicker && (
         <div
-          className="fixed inset-0 z-50"
+          className="fixed inset-0 z-50 flex flex-col items-center justify-end"
           style={{ background: "rgba(6,40,34,.45)", backdropFilter: "blur(2px)" }}
           onClick={() => setShowPicker(false)}
         >
           <div
-            className="glass-panel w-full max-w-sm rounded-t-3xl p-5 pb-8 fixed bottom-0 left-1/2 -translate-x-1/2"
+            className="glass-panel w-full max-w-sm mx-auto rounded-t-3xl p-5 pb-8"
             style={{ maxHeight: "80dvh", overflowY: "auto" }}
             onClick={(e) => e.stopPropagation()}
           >
