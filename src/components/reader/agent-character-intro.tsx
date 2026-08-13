@@ -20,8 +20,8 @@ interface AgentCharacterIntroProps {
   /** 是否还有可换角色（page 层决定） */
   canSwitch: boolean;
   onEnter: () => void;
-  /** 无参数：让 page 层自动选下一个 */
-  onSwitchCharacter: () => void;
+  /** 传入指定角色名+场域则用该角色；不传则 page 层自动选下一个 */
+  onSwitchCharacter: (pickName?: string, pickDomains?: string[]) => void;
   onBack: () => void;
 }
 
@@ -34,6 +34,8 @@ export function AgentCharacterIntro({
   onBack,
 }: AgentCharacterIntroProps) {
   const [switching, setSwitching] = useState(false);
+  const [showPicker, setShowPicker] = useState(false);
+  const [customName, setCustomName] = useState("");
   const accentGreen = "#0b6b57";
 
   const labels = ["愤怒来自", "守护什么", "最怕失去"];
