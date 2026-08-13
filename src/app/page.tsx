@@ -180,7 +180,7 @@ export default function Home() {
       const data = await res.json();
       if (data.error) {
         setError(data.message ?? "这个角色暂时无法可靠还原，换一个试试？");
-        setPhase(agentInitData ? "agent-character" : "agent-charselect");
+        setPhase("agent-character");
         return;
       }
       setAgentInitData(data);
@@ -189,7 +189,7 @@ export default function Home() {
       setPhase("agent-character");
     } catch (e) {
       setError(e instanceof Error ? e.message : "未知错误");
-      setPhase(agentInitData ? "agent-character" : "agent-charselect");
+      setPhase("agent-character");
     }
   }, [bookTitle, bookMeta, agentInitData]);
 
@@ -309,7 +309,7 @@ export default function Home() {
         canSwitch={canSwitch}
         onEnter={() => setPhase("agent-game")}
         onSwitchCharacter={handleSwitchCharacter}
-        onBack={() => { setAgentInitData(null); setPhase("agent-charselect"); }}
+        onBack={() => { shownCharactersRef.current = []; setAgentInitData(null); setPhase("select"); }}
       />
     );
   }
