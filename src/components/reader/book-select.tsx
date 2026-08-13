@@ -163,7 +163,7 @@ export function BookSelect({ onSelect }: BookSelectProps) {
         </div>
 
         {/* Book shelf */}
-        <div className="relative z-10 flex-1 grid grid-cols-2 gap-2 px-4 pb-2">
+        <div className="relative z-10 flex-1 min-h-0 overflow-y-auto grid grid-cols-2 gap-2 px-4 pb-2 content-start">
           {books.map((book, i) => (
             <button
               key={book.key}
