@@ -130,7 +130,7 @@ export function BookSelect({ onSelect }: BookSelectProps) {
             className="text-[12px] font-semibold leading-snug text-right text-[rgba(12,60,58,.6)]"
             style={{ fontFamily: "'Noto Serif SC', serif" }}
           >
-            附身一个角色<br />照见你自己
+            选一本书，附身角色<br />感受风雪，照见自己
           </div>
         </header>
 
