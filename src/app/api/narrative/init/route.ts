@@ -81,12 +81,21 @@ export async function POST(request: NextRequest) {
         if (!m) continue;
         try {
           const parsed = JSON.parse(m[0]);
+          // 诚实底线：AI 明确表示不认识这本书/角色 → 立即停止，不硬编
+          if (parsed.known === false) {
+            return NextResponse.json({
+              error: "unknown_book",
+              message: `我们暂时找不到可靠的《${bookTitle}》${character ? `「${character}」` : ""}原著资料。为了不凭空编造，建议你换一本更知名的经典，或从推荐书目里挑一位角色开始。`,
+            }, { status: 200 });
+          }
           if (validateAxes(parsed.axes)) { p = parsed; break; }
         } catch { continue; }
       }
 
       // 四轴校验失败 → 用通用原型兜底
       if (!p) throw new Error("角色分析失败");
+      // 低置信度：诚实提示这是推测，可能与原著有出入（不阻断，但透明告知）
+      const lowConfidence = typeof p.confidence === "number" && p.confidence < 0.45;
       charName = p.character;
       charTagline = p.tagline;
       driveAnalysis = p.driveAnalysis;
