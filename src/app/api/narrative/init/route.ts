@@ -122,6 +122,10 @@ export async function POST(request: NextRequest) {
     if (generatedMoments.length > 0) {
       (state as any).canonicalMoments = generatedMoments;
     }
+    // 三问（核心伤口/守护什么/最怕失去）= 角色一生的命题，挂到 state 作全程隐性暗线
+    if (Array.isArray(driveAnalysis) && driveAnalysis.filter(Boolean).length > 0) {
+      (state as any).lifeQuestions = driveAnalysis.filter(Boolean);
+    }
     if (intensify) {
       // 极压模式：缩短总幕数（聚焦高强度），困境从第1幕就用最高强度
       state.maxActs = 6;
