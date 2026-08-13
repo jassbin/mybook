@@ -130,7 +130,7 @@ export function BookSelect({ onSelect }: BookSelectProps) {
             className="text-[12px] font-semibold leading-snug text-right text-[rgba(12,60,58,.6)]"
             style={{ fontFamily: "'Noto Serif SC', serif" }}
           >
-            这不是普通的游戏<br />是一面照见你的镜子
+            附身一个角色<br />照见你自己
           </div>
         </header>
 
@@ -140,7 +140,7 @@ export function BookSelect({ onSelect }: BookSelectProps) {
           style={{ fontFamily: "'Noto Serif SC', serif" }}
         >
           附身一个角色，替他做每一次艰难抉择——
-          <span className="font-bold text-[#0b6b57]">走到最后，你会得到一份关于你自己的画像。</span>
+          <span className="font-bold text-[#0b6b57]">走到最后，你会更看清自己。</span>
         </p>
 
         {/* 主题偏好：说明 + 芯片同一行，横向滑动，不换行 */}
