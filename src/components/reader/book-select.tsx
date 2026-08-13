@@ -109,7 +109,7 @@ export function BookSelect({ onSelect }: BookSelectProps) {
       <div
         className="glass-panel relative w-full max-w-sm flex flex-col overflow-hidden rounded-2xl"
         style={{
-          minHeight: "calc(100dvh - var(--safe-top) - var(--safe-bottom) - 18px)",
+          maxHeight: "calc(100dvh - var(--safe-top) - var(--safe-bottom) - 18px)",
           margin: "9px auto",
         }}
       >
@@ -162,8 +162,8 @@ export function BookSelect({ onSelect }: BookSelectProps) {
           </div>
         </div>
 
-        {/* Book shelf */}
-        <div className="relative z-10 flex-1 min-h-0 overflow-y-auto grid grid-cols-2 gap-2 px-4 pb-2 content-start">
+        {/* Book shelf：书少时按内容高度、不强行撑满（避免与搜索区之间出现大片空白）；书多时可滚动 */}
+        <div className="relative z-10 flex-none min-h-0 overflow-y-auto grid grid-cols-2 gap-2 px-4 pb-2 content-start" style={{ maxHeight: "calc(100dvh - 320px)" }>
           {books.map((book, i) => (
             <button
               key={book.key}
