@@ -184,6 +184,7 @@ export async function POST(request: NextRequest) {
       characterTagline: charTagline,
       driveAnalysis,
       act: firstActResult,
+      lowConfidence: generatedLowConfidence,
     });
   } catch (err) {
     console.error("[narrative/init]", err);
