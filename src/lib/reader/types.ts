@@ -690,7 +690,7 @@ export function buildPresetBooksByTheme(theme: ThemeKey): BookMeta[] {
   const safe = EXTRA_BOOKS.filter(b => isCopyrightSafe(b.authorDeathYear));
   const matched = shuffled(safe.filter(b => bookThemeScore(b.candidates, domains) > 0));
   const rest = shuffled(safe.filter(b => bookThemeScore(b.candidates, domains) === 0));
-  const extraDefs = [...matched, ...rest].slice(0, 5);
+  const extraDefs = [...matched, ...rest].slice(0, 3);
   const extras = extraDefs.map(def =>
     buildBookMetaForTheme(def.title, def.title, def.color, def.textColor, def.tagline, def.candidates, domains));
 
