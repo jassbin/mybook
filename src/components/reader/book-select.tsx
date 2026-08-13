@@ -211,11 +211,19 @@ export function BookSelect({ onSelect }: BookSelectProps) {
                   >
                     {book.recommendedChar}
                   </span>
+                  {book.charDomains?.[0] && (
+                    <span
+                      className="text-[9px] px-1.5 py-0.5 rounded-full font-bold text-white"
+                      style={{ background: "linear-gradient(135deg,#10b981,#2dd4bf)" }}
+                    >
+                      {book.charDomains[0]}
+                    </span>
+                  )}
                 </div>
                 <div className="text-[13px] font-bold leading-snug text-[#0a3a30]">
                   {book.charHook}
                 </div>
-                <div className="text-[11px] leading-snug text-[rgba(10,58,48,.7)] mt-auto pt-1 truncate">
+                <div className="text-[11px] leading-snug text-[rgba(10,58,48,.7)] mt-auto pt-1">
                   {book.tagline}
                 </div>
               </div>
