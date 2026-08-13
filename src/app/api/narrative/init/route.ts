@@ -118,6 +118,10 @@ export async function POST(request: NextRequest) {
 
     // 3. 建立 WorldState（极压模式标记到 book 字段，后续幕次识别）
     const state = createWorldState(bookTitle, charName, charTagline, axes);
+    // 自定义书：把临时生成的原著锚点挂到 state，供 callActGenerator 保真约束使用
+    if (generatedMoments.length > 0) {
+      (state as any).canonicalMoments = generatedMoments;
+    }
     if (intensify) {
       // 极压模式：缩短总幕数（聚焦高强度），困境从第1幕就用最高强度
       state.maxActs = 6;
