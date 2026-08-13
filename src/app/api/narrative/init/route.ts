@@ -51,13 +51,22 @@ export async function POST(request: NextRequest) {
             content: "你是经典文学分析专家。严格输出JSON，不要额外文字。",
           }, {
             role: "user",
-            content: `分析《${bookTitle}》${character ? `中的「${character}」` : "，选出困境最密集的角色"}，输出JSON：
+            content: `分析《${bookTitle}》${character ? `中的「${character}」` : "，选出困境最密集的角色"}，输出JSON。
+
+【诚实底线——最高优先，必须遵守】
+- 只有当你确实了解这本书及这个角色时才分析。若你并不熟悉、或无法确认它真实存在，绝不允许编造：把 "known" 设为 false 并留空其余字段。
+- canonicalMoments 必须是原著真实发生的关键情节，按故事顺序排列；宁可少写，也不要编造原著没有的情节。
+- confidence 如实反映你对本书原著细节的把握程度（0-1）。
+
 {
+  "known": true,
+  "confidence": 0.0,
   "character": "角色名",
   "tagline": "一句话现代定位（20字内，用现代职场/人际语言翻译这个人的处境）",
   "driveAnalysis": ["核心伤口（他被什么深深伤过）", "在拼命保护什么", "最怕失去什么"],
   "openingHook": "第一幕开场的一句氛围描述（场景感，20字内）",
   "dominantDomains": ["最多2个：职场权力/家庭代际/感情关系/身份认同/生存底线"],
+  "canonicalMoments": ["原著真实关键情节1（按故事顺序）","情节2","情节3","情节4","情节5"],
   "axes": [
     {"key":"轴名(4字以内，不能重复)","low":"低端标签(2-3字)","high":"高端标签(2-3字)","description":"衡量什么(15字内)"},
     {"key":"..."},{"key":"..."},{"key":"..."}
