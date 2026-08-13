@@ -130,9 +130,18 @@ export function BookSelect({ onSelect }: BookSelectProps) {
             className="text-[12px] font-semibold leading-snug text-right text-[rgba(12,60,58,.6)]"
             style={{ fontFamily: "'Noto Serif SC', serif" }}
           >
-            选一本书，附身角色<br />感受风雪，照见自己
+            这不是普通的游戏<br />是一面照见你的镜子
           </div>
         </header>
+
+        {/* 意义感引导：让用户一进来就知道「走到最后能照见自己」 */}
+        <p
+          className="relative z-10 px-5 pb-1 text-[12.5px] leading-relaxed text-[rgba(11,74,63,.72)]"
+          style={{ fontFamily: "'Noto Serif SC', serif" }}
+        >
+          附身一个角色，替他做每一次艰难抉择——
+          <span className="font-bold text-[#0b6b57]">走到最后，你会得到一份关于你自己的画像。</span>
+        </p>
 
         {/* 主题偏好：说明 + 芯片同一行，横向滑动，不换行 */}
         <div className="relative z-10 px-4 pt-1 pb-1.5">
