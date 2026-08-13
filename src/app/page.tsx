@@ -156,7 +156,7 @@ export default function Home() {
       const data = await res.json();
       if (data.error) {
         setError(data.message ?? "这个角色暂时无法可靠还原，换一个试试？");
-        setPhase("agent-character");
+        setPhase(agentInitData ? "agent-character" : "agent-charselect");
         return;
       }
       setAgentInitData(data);
@@ -165,7 +165,7 @@ export default function Home() {
       setPhase("agent-character");
     } catch (e) {
       setError(e instanceof Error ? e.message : "未知错误");
-      setPhase("agent-character");
+      setPhase(agentInitData ? "agent-character" : "agent-charselect");
     }
   }, [bookTitle, bookMeta, agentInitData]);
 
