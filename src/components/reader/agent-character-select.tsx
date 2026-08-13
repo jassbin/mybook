@@ -19,8 +19,6 @@ export function AgentCharacterSelect({
   onBack,
 }: AgentCharacterSelectProps) {
   const candidates = bookMeta?.candidates ?? [];
-  // 默认高亮第一个
-  const [activeName, setActiveName] = useState(candidates[0]?.name ?? "");
   const [customName, setCustomName] = useState("");
 
   const handleEnter = (name: string, domains?: string[]) => {
@@ -30,7 +28,7 @@ export function AgentCharacterSelect({
 
   return (
     <div
-      className="fresh-backdrop flex flex-col min-h-screen"
+      className="fresh-backdrop flex flex-col min-h-screen w-full max-w-md mx-auto"
       style={{ paddingTop: "var(--safe-top)", paddingBottom: "var(--safe-bottom)" }}
     >
       {/* 顶部 */}
@@ -50,49 +48,34 @@ export function AgentCharacterSelect({
         </p>
       </div>
 
-      {/* 角色列表（可滚动） */}
+      {/* 角色列表（可滚动）：点卡片直接进入 */}
       <div className="flex-1 min-h-0 overflow-y-auto px-5 pb-3">
         <div className="flex flex-col gap-2.5">
-          {candidates.map((c) => {
-            const active = c.name === activeName;
-            return (
-              <button
-                key={c.name}
-                onClick={() => {
-                  if (active) handleEnter(c.name, c.dominantDomains);
-                  else setActiveName(c.name);
-                }}
-                className="text-left px-4 py-3.5 rounded-2xl border transition-all active:scale-[.98]"
-                style={{
-                  background: active ? "rgba(16,185,129,.14)" : "rgba(255,255,255,.6)",
-                  borderColor: active ? "rgba(16,185,129,.6)" : "rgba(56,189,168,.28)",
-                  boxShadow: active ? "0 4px 18px rgba(16,185,129,.18)" : "none",
-                }}
-              >
-                <div className="flex items-center gap-2 flex-wrap">
-                  <span className="text-base font-black" style={{ color: "#0a3a30" }}>{c.name}</span>
-                  {c.dominantDomains?.slice(0, 2).map((d) => (
-                    <span
-                      key={d}
-                      className="text-[10px] px-2 py-0.5 rounded-full font-bold text-white"
-                      style={{ background: "linear-gradient(135deg,#10b981,#2dd4bf)" }}
-                    >{d}</span>
-                  ))}
-                </div>
-                <div className="text-[12px] mt-1 leading-snug" style={{ color: "rgba(10,58,48,.72)" }}>
-                  {c.hook}
-                </div>
-                {active && (
-                  <div
-                    className="mt-2.5 w-full py-2 text-center text-sm font-black text-white rounded-full"
-                    style={{ background: "linear-gradient(135deg,#14b8a6,#0ea5b7)" }}
-                  >
-                    进入{c.name}的身体 →
-                  </div>
-                )}
-              </button>
-            );
-          })}
+          {candidates.map((c) => (
+            <button
+              key={c.name}
+              onClick={() => handleEnter(c.name, c.dominantDomains)}
+              className="text-left px-4 py-3.5 rounded-2xl border transition-all active:scale-[.98]"
+              style={{
+                background: "rgba(255,255,255,.6)",
+                borderColor: "rgba(56,189,168,.28)",
+              }}
+            >
+              <div className="flex items-center gap-2 flex-wrap">
+                <span className="text-base font-black" style={{ color: "#0a3a30" }}>{c.name}</span>
+                {c.dominantDomains?.slice(0, 2).map((d) => (
+                  <span
+                    key={d}
+                    className="text-[10px] px-2 py-0.5 rounded-full font-bold text-white"
+                    style={{ background: "linear-gradient(135deg,#10b981,#2dd4bf)" }}
+                  >{d}</span>
+                ))}
+              </div>
+              <div className="text-[12px] mt-1 leading-snug" style={{ color: "rgba(10,58,48,.72)" }}>
+                {c.hook}
+              </div>
+            </button>
+          ))}
         </div>
       </div>
 
