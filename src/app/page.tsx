@@ -106,15 +106,38 @@ export default function Home() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // ── 选书：init 后先进角色介绍页 ────────────────────────────────────────
+  // ── 选书：直接 init 推荐角色后进角色介绍页（不经过列表页）────────────────
   const handleBookSelect = useCallback(async (title: string, meta: BookMeta | null, theme?: import("@/lib/reader/types").ThemeKey) => {
     setBookTitle(title); setBookMeta(meta); setError(null);
     themeRef.current = theme ?? "any";
-    // 重置已展示角色记录
     shownCharactersRef.current = [];
-    setAgentInitData(null);
-    // 点书后先进「角色列表页」，让用户自己挑角色，而不是盲盒直接进介绍页
-    setPhase("agent-charselect");
+    setPhase("agent-loading");
+    try {
+      const { getThemeDomains } = await import("@/lib/reader/types");
+      const res = await fetch("/api/narrative/init", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          bookTitle: title,
+          character: meta?.recommendedChar,
+          characterDomains: meta?.charDomains ?? [],
+          themeDomains: getThemeDomains(themeRef.current),
+        }),
+      });
+      if (!res.ok) throw new Error((await res.json().catch(() => ({}))).error ?? "初始化失败");
+      const data = await res.json();
+      if (data.error) {
+        setError(data.message ?? "我们暂时找不到这本书的可靠原著资料，换一本更知名的经典试试？");
+        setPhase("select");
+        return;
+      }
+      setAgentInitData(data);
+      shownCharactersRef.current = [data.character];
+      setPhase("agent-character");
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "未知错误");
+      setPhase("select");
+    }
   }, []);
 
   // ── 换一个角色：自动选下一个候选，循环不重样 ──────────────────────────
