@@ -3,7 +3,6 @@ import { useCallback, useEffect, useState, useRef } from "react";
 import type { AnalysisResult, BookMeta } from "@/lib/reader/types";
 import { getCandidatesForBook } from "@/lib/reader/types";
 import { AgentCharacterIntro, type AgentCharInitData } from "@/components/reader/agent-character-intro";
-import { AgentCharacterSelect } from "@/components/reader/agent-character-select";
 import type { WorldState } from "@/lib/agent/world-state";
 import { BookSelect, CharacterIntro, GameEngine, LoadingScreen, ResultPage } from "@/components/reader";
 import { AgentGameEngine } from "@/components/reader/agent-game-engine";
@@ -13,7 +12,7 @@ import { CompareResultPage } from "@/components/reader/compare-result-page";
 import { decodeShare } from "@/lib/reader/share-codec";
 
 type Phase = "select" | "loading" | "character" | "game" | "result"
-           | "agent-charselect" | "agent-loading" | "agent-character" | "agent-game" | "agent-result"
+           | "agent-loading" | "agent-character" | "agent-game" | "agent-result"
            | "agent-intensify-loading" | "agent-intensify-game" | "agent-compare"
            | "intensify-loading" | "intensify-character" | "intensify-game" | "compare";
 
@@ -280,15 +279,6 @@ export default function Home() {
 
   // ── 路由 ────────────────────────────────────────────────────────────────
   if (phase === "select") return <BookSelect onSelect={handleBookSelect} />;
-
-  if (phase === "agent-charselect") return (
-    <AgentCharacterSelect
-      bookTitle={bookTitle}
-      bookMeta={bookMeta}
-      onPick={(name, domains) => handleSwitchCharacter(name, domains)}
-      onBack={() => { setBookMeta(null); setPhase("select"); }}
-    />
-  );
 
   if (phase === "agent-loading") return <LoadingScreen bookTitle={bookTitle} />;
 
