@@ -308,6 +308,8 @@ export function BookSelect({ onSelect }: BookSelectProps) {
             这是一次「假如你是TA」的代入演绎：情节锚点忠于原著，
             但抉择与内心由你和角色共同长出——它不复述原著，也不替代阅读，
             反而可能让你想真正翻开这本书。
+            <br />
+            <span className="opacity-80">本作品仅依据原著小说，可能与你熟悉的影视 / 游戏版本不同。</span>
           </p>
 
         </div>
