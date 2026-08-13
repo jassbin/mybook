@@ -65,6 +65,8 @@ export function AgentGameEngine({
   const [trapData, setTrapData] = useState<{ ending: string; revival: string; trapChoiceId: string } | null>(null);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const choicesAnchorRef = useRef<HTMLDivElement>(null);
   const spineColor = bookMeta?.color ?? "#1A3A5C";
 
   // 用 ref 保存预加载结果 — 避免闭包读到旧 state
