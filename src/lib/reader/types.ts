@@ -597,14 +597,14 @@ export function buildPresetBooks(): BookMeta[] {
   const romancePool = shuffled(safeBooksPool.filter(isRomance));
   const otherPool = shuffled(safeBooksPool.filter(b => !isRomance(b)));
 
-  // 其余五本：优先塞 3 本情感向（大众偏好），再补 2 本其它；不足则互相补齐
+  // 其余三本：优先塞 2 本情感向（大众偏好），再补 1 本其它；不足则互相补齐
   const picks: typeof safeBooksPool = [];
-  picks.push(...romancePool.slice(0, 3));
-  picks.push(...otherPool.slice(0, 2));
-  // 补齐到 5 本（若某类不足）
+  picks.push(...romancePool.slice(0, 2));
+  picks.push(...otherPool.slice(0, 1));
+  // 补齐到 3 本（若某类不足）
   const usedTitles = new Set(picks.map(b => b.title));
   for (const b of [...romancePool, ...otherPool]) {
-    if (picks.length >= 5) break;
+    if (picks.length >= 3) break;
     if (!usedTitles.has(b.title)) { picks.push(b); usedTitles.add(b.title); }
   }
 
