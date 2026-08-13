@@ -223,7 +223,7 @@ export function BookSelect({ onSelect }: BookSelectProps) {
                 <div className="text-[13px] font-bold leading-snug text-[#0a3a30]">
                   {book.charHook}
                 </div>
-                <div className="text-[11px] leading-snug text-[rgba(10,58,48,.7)] mt-auto pt-1">
+                <div className="text-[11px] leading-snug text-[rgba(10,58,48,.7)] pt-1">
                   {book.tagline}
                 </div>
               </div>
