@@ -12,7 +12,7 @@ import { CompareResultPage } from "@/components/reader/compare-result-page";
 import { decodeShare } from "@/lib/reader/share-codec";
 
 type Phase = "select" | "loading" | "character" | "game" | "result"
-           | "agent-loading" | "agent-character" | "agent-game" | "agent-result"
+           | "agent-charselect" | "agent-loading" | "agent-character" | "agent-game" | "agent-result"
            | "agent-intensify-loading" | "agent-intensify-game" | "agent-compare"
            | "intensify-loading" | "intensify-character" | "intensify-game" | "compare";
 
