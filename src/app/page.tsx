@@ -286,7 +286,7 @@ export default function Home() {
         canSwitch={canSwitch}
         onEnter={() => setPhase("agent-game")}
         onSwitchCharacter={handleSwitchCharacter}
-        onBack={() => { shownCharactersRef.current = []; setAgentInitData(null); setPhase("select"); }}
+        onBack={() => { setAgentInitData(null); setPhase("agent-charselect"); }}
       />
     );
   }
