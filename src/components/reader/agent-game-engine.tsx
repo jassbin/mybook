@@ -76,13 +76,26 @@ export function AgentGameEngine({
   const worldStateRef = useRef<WorldState>(initialState);
   useEffect(() => { worldStateRef.current = worldState; }, [worldState]);
 
-  // 自动滚动
+  // 新一幕开始时：滚回顶部，让用户从头读，而不是被拽到底
   useEffect(() => {
-    const t = setTimeout(() => bottomRef.current?.scrollIntoView({ behavior: "smooth" }), 80);
+    const t = setTimeout(() => {
+      scrollContainerRef.current?.scrollTo({ top: 0, behavior: "auto" });
+    }, 30);
     return () => clearTimeout(t);
-  }, [displayedMsgs.length, showChoices, revealText, waitingForContinue]);
+  }, [currentAct]);
 
-  // 播放消息
+  // 选项 / 继续按钮 / 点破语出现时：温和地滚入视野（nearest，不猛拽到底）
+  useEffect(() => {
+    if (!showChoices && !waitingForContinue && !revealText) return;
+    const t = setTimeout(() => {
+      (choicesAnchorRef.current ?? bottomRef.current)?.scrollIntoView({
+        behavior: "smooth", block: "nearest",
+      });
+    }, 120);
+    return () => clearTimeout(t);
+  }, [showChoices, waitingForContinue, revealText]);
+
+  // 播放消息（逐条出现时不自动滚动，避免顶部还没看完就往下跳）
   useEffect(() => {
     setDisplayedMsgs([]);
     setShowChoices(false);
@@ -337,7 +350,7 @@ export function AgentGameEngine({
         </div>
 
         {/* 消息流 */}
-        <div className="flex-1 overflow-y-auto px-4 py-4 flex flex-col gap-3">
+        <div ref={scrollContainerRef} className="flex-1 overflow-y-auto px-4 py-4 flex flex-col gap-3" style={{ scrollBehavior: "smooth" }}>
           {displayedMsgs.map(msg => (
             <SceneMessage key={msg.key} message={msg as any} />
           ))}
@@ -388,11 +401,13 @@ export function AgentGameEngine({
           )}
 
           {showChoices && !choiceDone && (
-            <ChoicePanel
-              choices={currentAct.choices as any}
-              lockedIds={lockedIds}
-              onChoice={handleChoice as any}
-            />
+            <div ref={choicesAnchorRef} className="anim-ink" style={{ scrollMarginTop: 12 }}>
+              <ChoicePanel
+                choices={currentAct.choices as any}
+                lockedIds={lockedIds}
+                onChoice={handleChoice as any}
+              />
+            </div>
           )}
 
           <div ref={bottomRef} />
