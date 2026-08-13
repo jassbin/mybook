@@ -254,10 +254,24 @@ ${moments.map((m, i) => `${i + 1}. ${m}`).join("\n")}
 ⑦ 若该角色在原著中本就没有某类关系或线索（如没有感情/恋爱线），则绝不为了戏剧性而凭空制造——宁可聚焦其原著真实的核心冲突。`
     : ""; // 自定义书目无法保证原著锚点，略过
 
+  // 三问 = 角色一生的命题：作为全程隐性暗线注入，渐显不说破
+  const lifeQuestions: string[] = (state as any).lifeQuestions ?? [];
+  const isEndPhase = state.storyPhase === "合" || state.storyPhase === "尾声";
+  const lifeBlock = lifeQuestions.length >= 3
+    ? `\n【角色一生的命题——全程隐性暗线，不是本幕台词】
+「${state.character}」一生的底色：核心伤口是「${lifeQuestions[0]}」；他在守护「${lifeQuestions[1]}」；最怕失去「${lifeQuestions[2]}」。
+使用规则：
+· 这是贯穿全程的暗线，不是某一幕要讲的内容——绝不让角色直接说出、也不要旁白点破。
+· ${isEndPhase
+        ? "已到后期：可以让这个命题较清晰地浮现，让玩家在此刻隐隐照见「他一生都在追问这个」。"
+        : "尚在前中期：只让角色的处境与选择『不知不觉地符合』这个底色即可，绝不点破，把显影留到后面。"}
+· 让它随剧情推进由隐到显，最终由玩家自己回味，而不是被告知。`
+    : "";
+
   const prompt = `你是《${state.book}》「${state.character}」故事的叙事导演。
 
 【角色定位】${state.characterTagline}
-${canonicalBlock}
+${canonicalBlock}${lifeBlock}
 【当前叙事状态】
 ${stateSummary}
 ${principleBlock}${intensifyBlock}${intensifyTargetBlock}
