@@ -229,7 +229,7 @@ export async function callActGenerator({
 
   const isTrapAllowed = intensifyMode ? state.actNumber >= 1 : state.actNumber >= 3;
   const trapHint = isTrapAllowed
-    ? "可以在丙选项设置isTrap:true（代价彻底不可逆的极端选择）"
+    ? "可以在丙选项设置isTrap:true（代价极其沉重、影响不可逆的极端选择——但不是游戏结束，故事仍会继续）"
     : "本幕所有选项isTrap必须为false";
 
   // ── 原著情节锚点保护（核心新增）──────────────────────────────────────
@@ -323,8 +323,8 @@ ${dilemmaHints}
     {"id":"B","label":"乙","text":"...","innerVoice":"...","revealText":"...","socialTag":"...","scores":{},"isTrap":false,"isSelfPreserve":false,"isSacrifice":false},
     {"id":"C","label":"丙","text":"...","innerVoice":"...","revealText":"...","socialTag":"...","scores":{},"isTrap":${isTrapAllowed},"isSelfPreserve":false,"isSacrifice":false}
   ],
-  "trapEndingText":"（仅isTrap=true时填写）极端结局描述",
-  "trapRevivalText":"（仅isTrap=true时填写）命运的声音",
+  "trapEndingText":"（仅isTrap=true时填写）选了这个极端选项后、你付出的沉重代价描述（2-3句）——写代价而非结局，故事会带着这个代价继续",
+  "trapRevivalText":"（可留空）不再使用",
   "consequenceMap":{
     "A":[{"id":"ca1","type":"narrator","text":"选A后的即时后果（1-2句）"}],
     "B":[{"id":"cb1","type":"narrator","text":"选B后的即时后果"}],
