@@ -155,11 +155,11 @@ export function AgentResultPage({
           margin: "8px auto",
           padding: "7px",
           minHeight: "calc(100dvh - var(--safe-top) - var(--safe-bottom) - 16px)",
-          boxShadow: "0 0 0 1.5px rgba(11,107,87,.45), 0 24px 70px rgba(2,30,28,.5)",
+          boxShadow: "0 0 0 1.5px rgba(0,0,0,.9), 0 24px 70px rgba(2,30,28,.5)",
         }}>
       {/* 内层：白色内容卡 */}
       <div className="relative flex flex-col flex-1 min-h-0 overflow-y-auto rounded-xl"
-        style={{ background: "#ffffff", border: "1px solid rgba(11,107,87,.18)" }}>
+        style={{ background: "#ffffff", border: "1px solid rgba(0,0,0,.9)" }}>
 
         {/* 顶栏 */}
         <PageTopbar
