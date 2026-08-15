@@ -24,7 +24,7 @@ export function ChoicePanel({ choices, lockedIds = [], onChoice }: ChoicePanelPr
       <div className="flex items-center gap-2 mb-3 px-4">
         <span
           className="text-[18px] font-black tracking-wider"
-          style={{ fontFamily: "'Ma Shan Zheng', serif", color: "#C34A28" }}
+          style={{ fontFamily: "'Ma Shan Zheng', serif", color: "#0d6b57" }}
         >
           抉择
         </span>
@@ -39,7 +39,7 @@ export function ChoicePanel({ choices, lockedIds = [], onChoice }: ChoicePanelPr
           return (
             <button
               key={choice.id}
-              className={`choice-card text-left w-full ${isSelected ? "border-[#C34A28] bg-[#F5EDD4]" : ""} ${isLocked ? "opacity-35 cursor-not-allowed" : ""}`}
+              className={`choice-card text-left w-full ${isSelected ? "border-[#0d6b57] bg-[#F5EDD4]" : ""} ${isLocked ? "opacity-35 cursor-not-allowed" : ""}`}
               onClick={() => handleSelect(choice)}
               disabled={!!selected || isLocked}
               style={{ transform: isSelected ? "translateX(4px)" : undefined }}
@@ -51,16 +51,16 @@ export function ChoicePanel({ choices, lockedIds = [], onChoice }: ChoicePanelPr
                   {choice.text}
                 </span>
                 {isLocked && <span className="text-[10px] text-[rgba(1,1,1,.35)] shrink-0 mt-0.5">已锁</span>}
-                {isSelected && <span className="text-[#C34A28] text-sm shrink-0 mt-0.5">✓</span>}
+                {isSelected && <span className="text-[#0d6b57] text-sm shrink-0 mt-0.5">✓</span>}
               </div>
 
               {/* Inner voice — always visible */}
               <div
                 className="text-[12px] leading-relaxed italic border-l-2 pl-3 py-1"
                 style={{
-                  borderColor: "rgba(195,74,40,.35)",
+                  borderColor: "rgba(13,107,87,.35)",
                   color: "rgba(1,1,1,.62)",
-                  background: "rgba(195,74,40,.04)",
+                  background: "rgba(13,107,87,.05)",
                 }}
               >
                 {choice.innerVoice}
