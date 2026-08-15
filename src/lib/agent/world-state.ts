@@ -5,6 +5,8 @@ export interface ChoiceRecord {
   act: number;
   choiceId: string;       // "A" | "B" | "C"
   choiceText: string;     // 玩家选的内容
+  /** 本幕对应的原著知名桥段名（如「空城计」），一眼认出经历了什么 */
+  sceneName?: string;
   revealText: string;     // 点破语
   socialTag: string;
   consequenceText: string; // 后果摘要
