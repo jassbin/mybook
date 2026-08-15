@@ -210,14 +210,9 @@ export function AgentGameEngine({
       return;
     }
 
-    conseqMsgs.forEach((msg, i) => {
-      setTimeout(() => {
-        setDisplayedMsgs(prev => [...prev, msg]);
-        if (i === conseqMsgs.length - 1) {
-          setTimeout(() => setWaitingForContinue(true), 500);
-        }
-      }, (i + 1) * 600);
-    });
+    // 一口气展示所有后果，不逐条、不闪
+    setDisplayedMsgs(prev => [...prev, ...conseqMsgs]);
+    setTimeout(() => setWaitingForContinue(true), 500);
   }, [currentAct, prefetchNextAct]);
 
   // 提速：选项一出现就预热「默认项」（第一个未锁选项）的下一幕，不等用户点击。
