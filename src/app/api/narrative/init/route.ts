@@ -5,7 +5,7 @@ import { appAi } from "@/lib/eazo-ai-billing";
 import {
   createWorldState, summarizeState,
   getCharacterDNA, selectDilemmas,
-  buildPrinciplesPrompt,
+  buildPrinciplesPrompt, buildProhibitionsBlock,
   validateAxes, pickArchetype,
   buildValueProfile, buildIntensifyDirectiveForAct,
 } from "@/lib/agent";
@@ -292,6 +292,8 @@ ${moments.map((m, i) => `${i + 1}. ${m}`).join("\n")}
     : "";
 
   const prompt = `你是《${state.book}》「${state.character}」故事的叙事导演。
+
+${buildProhibitionsBlock()}
 
 【角色定位】${state.characterTagline}
 ${canonicalBlock}${lifeBlock}
