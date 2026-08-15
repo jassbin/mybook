@@ -226,9 +226,9 @@ export function AgentGameEngine({
   // 正确策略见 handleChoice：玩家点定某选项后立刻预热该选项的下一幕。
 
   // 过渡等待时，随耗时升级安抚文案：≤3.5s「推演中…」→ ≤9s「正在为你推演下一幕…」→ 之后「马上就好，稍候…」
+  // 说明：waitPhase 的重置放在 handleContinue（事件处理器）里做，effect 只调度定时器，避免在 effect body 内同步 setState。
   useEffect(() => {
-    if (!isTransitioning) { setWaitPhase(0); return; }
-    setWaitPhase(0);
+    if (!isTransitioning) return;
     const t1 = setTimeout(() => setWaitPhase(1), 3500);
     const t2 = setTimeout(() => setWaitPhase(2), 9000);
     return () => { clearTimeout(t1); clearTimeout(t2); };
@@ -237,6 +237,7 @@ export function AgentGameEngine({
   // 「继续」按钮：读 ref 不读 state，彻底避免闭包问题
   const handleContinue = useCallback(async () => {
     setWaitingForContinue(false);
+    setWaitPhase(0);
     setIsTransitioning(true);
 
     // 直接用预加载结果（ref，永远是最新的）
