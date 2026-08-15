@@ -334,29 +334,23 @@ export function AgentComparePage({
           })}
         </ResultSection>
 
-        {/* ── 块4：对比洞察 ─────────────────────────────────────── */}
-        <ResultSection index="4" title="对比洞察">
-          {!hasEvidence && isStreaming ? (
-            <div className="flex items-center gap-2 text-sm text-[rgba(1,1,1,.45)] italic">
-              <span className="inline-block w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: intensifyColor }} />
-              正在比较两次选择路径……
-            </div>
-          ) : (
-            <div className="text-sm leading-[1.75] text-[rgba(1,1,1,.82)]">
-              {evidence}
-              {isStreaming && !hasMirror && (
-                <span className="inline-block w-0.5 h-4 ml-0.5 align-middle animate-pulse"
-                  style={{ background: intensifyColor }} />
-              )}
-            </div>
-          )}
-        </ResultSection>
+        {/* ── 块3：照见自己（对比洞察 + 点破 + 清爽序号列表，合为一块）── */}
+        {(hasEvidence || hasMirror || hasAnchors || isStreaming) && (
+          <ResultSection index="3" title="照见自己">
+            {/* 对比洞察：两次选择路径的差异 */}
+            {hasEvidence ? (
+              <div className="text-sm leading-[1.75] text-[rgba(1,1,1,.82)] mb-4">
+                {evidence}
+              </div>
+            ) : isStreaming && !hasMirror && !hasAnchors ? (
+              <div className="flex items-center gap-2 text-sm text-[rgba(1,1,1,.45)] italic mb-4">
+                <span className="inline-block w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: intensifyColor }} />
+                正在比较两个你……
+              </div>
+            ) : null}
 
-        {/* ── 块5：照见自己（点破 + 清爽序号列表；已并入你的模式，去时空折叠）── */}
-        {(hasMirror || hasAnchors || isStreaming) && (
-          <ResultSection index="5" title="照见自己">
-            {/* 开头一句点破两次选择的差异 */}
-            {hasMirror ? (
+            {/* 一句点破两次选择的差异 */}
+            {hasMirror && (
               <div
                 className="text-sm leading-relaxed font-bold px-4 py-3 rounded-sm mb-4"
                 style={{
@@ -367,12 +361,7 @@ export function AgentComparePage({
               >
                 {mirror}
               </div>
-            ) : isStreaming && !hasAnchors ? (
-              <div className="flex items-center gap-2 text-sm text-[rgba(1,1,1,.5)] italic mb-4">
-                <span className="inline-block w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: intensifyColor }} />
-                正在看穿两个你……
-              </div>
-            ) : null}
+            )}
 
             {/* 序号列表 */}
             {hasAnchors && (
