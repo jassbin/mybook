@@ -411,20 +411,19 @@ export function AgentGameEngine({
                 继续 →
               </button>
               {/* 过渡提示：三点依次跳动 + 文字，精致淡入 */}
+              {/* 过渡提示：无背景无边框，纯文字淡入 */}
               <div
                 style={{
                   position: "absolute", inset: 0,
-                  display: "flex", alignItems: "center", gap: 9, paddingLeft: 4,
+                  display: "flex", alignItems: "center", gap: 8, paddingLeft: 4,
                   opacity: isTransitioning ? 1 : 0,
                   pointerEvents: "none",
                   transition: "opacity 180ms ease",
                 }}>
-                <span style={{ display: "inline-flex", gap: 4 }}>
-                  <span className="think-dot inline-block rounded-full" style={{ width: 7, height: 7, background: spineColor, animationDelay: "0ms" }} />
-                  <span className="think-dot inline-block rounded-full" style={{ width: 7, height: 7, background: spineColor, animationDelay: "180ms" }} />
-                  <span className="think-dot inline-block rounded-full" style={{ width: 7, height: 7, background: spineColor, animationDelay: "360ms" }} />
-                </span>
-                <span style={{ fontSize: 13, fontWeight: 600, color: "rgba(1,1,1,.5)", letterSpacing: "0.04em" }}>正在推演下一幕</span>
+                <span
+                  className="animate-pulse inline-block rounded-full flex-shrink-0"
+                  style={{ width: 6, height: 6, background: spineColor }} />
+                <span style={{ fontSize: 12, color: "rgba(1,1,1,.4)" }}>推演中…</span>
               </div>
             </div>
           )}
