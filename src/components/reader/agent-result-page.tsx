@@ -181,11 +181,17 @@ export function AgentResultPage({
   return (
     <div className="fresh-backdrop flex flex-col min-h-screen"
       style={{ paddingTop: "var(--safe-top)", paddingBottom: "var(--safe-bottom)" }}>
-      <div className="glass-panel relative w-full max-w-sm mx-auto flex flex-col anim-up overflow-y-auto rounded-2xl"
+      {/* 中层：浅绿卡（边框内浅绿，与边框外深绿区分） */}
+      <div className="result-mid relative w-full max-w-sm mx-auto flex flex-col anim-up overflow-hidden rounded-2xl"
         style={{
           margin: "8px auto",
+          padding: "7px",
           minHeight: "calc(100dvh - var(--safe-top) - var(--safe-bottom) - 16px)",
+          boxShadow: "0 0 0 1.5px rgba(11,107,87,.45), 0 24px 70px rgba(2,30,28,.5)",
         }}>
+      {/* 内层：白色内容卡 */}
+      <div className="relative flex flex-col flex-1 min-h-0 overflow-y-auto rounded-xl"
+        style={{ background: "#ffffff", border: "1px solid rgba(11,107,87,.18)" }}>
 
         {/* 顶栏 */}
         <PageTopbar
