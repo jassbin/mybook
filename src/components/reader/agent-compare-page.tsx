@@ -368,11 +368,10 @@ export function AgentComparePage({
               </div>
             );
           })}
-        </div>
+        </ResultSection>
 
-        {/* ── 对比证据链（段一）──────────────────────────────────────── */}
-        <div className="relative z-10 px-5 pt-5 pb-4 border-b border-[rgba(1,1,1,.12)]">
-          <p className="text-[11px] font-black tracking-widest mb-3 uppercase" style={{ color: "#0b6b57" }}>对比洞察</p>
+        {/* ── 块4：对比洞察 ─────────────────────────────────────── */}
+        <ResultSection index="4" title="对比洞察">
           {!hasEvidence && isStreaming ? (
             <div className="flex items-center gap-2 text-sm text-[rgba(1,1,1,.45)] italic">
               <span className="inline-block w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: intensifyColor }} />
@@ -387,12 +386,11 @@ export function AgentComparePage({
               )}
             </div>
           )}
-        </div>
+        </ResultSection>
 
-        {/* ── 模式镜像（段二）─────────────────────────────────────────── */}
+        {/* ── 块5：你的模式（段二）─────────────────────────────── */}
         {(hasMirror || (isStreaming && hasEvidence)) && (
-          <div className="relative z-10 px-5 pt-4 pb-4 border-b border-[rgba(1,1,1,.12)]">
-            <p className="text-[11px] font-black tracking-widest mb-3 uppercase" style={{ color: "#0b6b57" }}>你的模式</p>
+          <ResultSection index="5" title="你的模式">
             {hasMirror ? (
               <div
                 className="text-sm leading-relaxed font-semibold px-4 py-3 rounded-sm"
@@ -413,13 +411,12 @@ export function AgentComparePage({
                 <span className="inline-block w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: intensifyColor }} />
               </div>
             )}
-          </div>
+          </ResultSection>
         )}
 
-        {/* ── 时空折叠卡（段三）──────────────────────────────────────── */}
+        {/* ── 块6：时空折叠（段三）─────────────────────────────── */}
         {(hasFold || (isStreaming && hasMirror)) && (
-          <div className="relative z-10 px-4 pt-4 pb-4 border-b border-[rgba(1,1,1,.12)]">
-            <p className="text-[11px] font-black tracking-widest mb-3 uppercase px-1" style={{ color: "#0b6b57" }}>时空折叠</p>
+          <ResultSection index="6" title="时空折叠">
             {hasFold && fold ? (
               <div
                 className="rounded-sm overflow-hidden"
