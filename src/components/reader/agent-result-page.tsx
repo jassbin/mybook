@@ -351,7 +351,7 @@ export function AgentResultPage({
               {evidence}
               {isStreaming && !hasMirror && (
                 <span className="inline-block w-0.5 h-4 ml-0.5 align-middle animate-pulse"
-                  style={{ background: "#14b8a6" }} />
+                  style={{ background: spineColor }} />
               )}
             </div>
           )}
@@ -482,7 +482,7 @@ export function AgentResultPage({
         <div className="fixed bottom-8 left-1/2 z-[100] pointer-events-none"
           style={{ transform: "translateX(-50%)" }}>
           <div className="px-5 py-3 text-sm font-bold rounded-full"
-            style={{ background: "linear-gradient(135deg,#0c5a52,#0ea5b7)", color: "#ffffff", boxShadow: "0 6px 24px rgba(20,184,166,.4)" }}>
+            style={{ background: "linear-gradient(135deg,#0c5a52,#0d6b57)", color: "#ffffff", boxShadow: "0 6px 24px rgba(12,90,82,.45)" }}>
             {toast}
           </div>
         </div>
