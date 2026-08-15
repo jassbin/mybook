@@ -951,7 +951,8 @@ export function selectDilemmas(
   domains: string[],
   intensity: 1 | 2 | 3,
   excludeIds: string[] = [],
-  count = 3
+  count = 3,
+  affinityText = ""
 ): Dilemma[] {
   const pool = DILEMMA_LIBRARY.filter(
     d =>
@@ -964,19 +965,36 @@ export function selectDilemmas(
     ? pool
     : DILEMMA_LIBRARY.filter(d => d.intensity <= intensity && !excludeIds.includes(d.id));
 
-  return weightedSample(candidates, count);
+  return weightedSample(candidates, count, affinityText);
 }
 
-/** 加权随机抽样，权重为 storyAppeal²（拉大高低差距） */
-function weightedSample(pool: Dilemma[], count: number): Dilemma[] {
+/** 困境与角色特质文本的贴合度（0-1）：困境文本的 2 字片段有多少出现在角色特质文本里 */
+function affinityScore(d: Dilemma, affinityText: string): number {
+  if (!affinityText) return 0;
+  const dText = `${d.core}${d.modernTension}${d.modernContext}`;
+  const grams = new Set<string>();
+  for (let i = 0; i < dText.length - 1; i++) grams.add(dText.slice(i, i + 2));
+  if (grams.size === 0) return 0;
+  let hit = 0;
+  grams.forEach(g => { if (affinityText.includes(g)) hit++; });
+  return hit / grams.size;
+}
+
+/**
+ * 加权随机抽样，权重 = storyAppeal² ×（1 + 2×角色贴合度）。
+ * 传入 affinityText（角色核心特质）时，与角色更贴的困境被抽中概率显著提高，减少硬凑。
+ */
+function weightedSample(pool: Dilemma[], count: number, affinityText = ""): Dilemma[] {
   if (pool.length <= count) return [...pool].sort(() => Math.random() - 0.5);
+  const weightOf = (d: Dilemma) =>
+    d.storyAppeal * d.storyAppeal * (1 + 2 * affinityScore(d, affinityText));
   const result: Dilemma[] = [];
   const remaining = [...pool];
   while (result.length < count && remaining.length > 0) {
-    const totalWeight = remaining.reduce((s, d) => s + d.storyAppeal * d.storyAppeal, 0);
+    const totalWeight = remaining.reduce((s, d) => s + weightOf(d), 0);
     let rand = Math.random() * totalWeight;
     for (let i = 0; i < remaining.length; i++) {
-      rand -= remaining[i].storyAppeal * remaining[i].storyAppeal;
+      rand -= weightOf(remaining[i]);
       if (rand <= 0) { result.push(remaining[i]); remaining.splice(i, 1); break; }
     }
   }
