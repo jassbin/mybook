@@ -257,7 +257,7 @@ export function AgentComparePage({
 
         {/* ── 双排选择对照 ─────────────────────────────────────────── */}
         <div className="relative z-10 px-5 pt-4 pb-4 border-b border-[rgba(1,1,1,.12)]">
-          <p className="text-[11px] font-bold tracking-widest text-[rgba(1,1,1,.4)] mb-4 uppercase">逐幕对照</p>
+          <p className="text-[11px] font-black tracking-widest mb-4 uppercase" style={{ color: "#0b6b57" }}>逐幕对照</p>
           <div className="grid grid-cols-2 gap-2 mb-3">
             <div className="text-[10px] font-bold text-center py-1 px-2 rounded-sm"
               style={{ background: spineColor, color: "#EFE6C9" }}>普通版</div>
