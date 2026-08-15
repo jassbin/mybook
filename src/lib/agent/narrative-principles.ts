@@ -72,14 +72,55 @@ export const ESCALATION_RULES: EscalationRule[] = [
   },
 ];
 
-/** 铁律禁令（任何时候都不能违反） */
-export const PROHIBITIONS = [
-  "不能有标准答案，不能暗示某种选择更道德或更正确",
-  "不能让角色做出完全脱离历史背景的行为",
-  "不能在前两幕出现isTrap=true的选项",
-  "点破语必须说人话，不用学术词汇，不评判对错",
-  "内心独白必须赤裸真实，是这个人在那一刻真实会想的，不是道德表态",
+/**
+ * 原则效力层级（宪法思想的代码化）：
+ *   L1 = 宪法级红线：违反 → 产品失去存在合法性（欺诈/版权/核心命题崩塌）。永远最先注入、最高优先。
+ *   L2 = 支柱级：违反 → 仍是这个产品，但核心体验残缺。
+ *   L3 = 实施级：违反 → 局部粗糙，可迭代修。
+ * 冲突仲裁规则：任意两条原则冲突时，低层永远为高层让步（L1 > L2 > L3）。
+ */
+export type PrincipleTier = "L1" | "L2" | "L3";
+
+export interface Prohibition {
+  tier: PrincipleTier;
+  text: string;
+}
+
+/**
+ * 铁律禁令（任何时候都不能违反）。已按效力层级标注，
+ * 注入 prompt 时经 buildProhibitionsBlock() 按 L1→L2→L3 排序，红线永远排在最前。
+ */
+export const PROHIBITIONS: Prohibition[] = [
+  // —— L1 宪法级红线 ——
+  {
+    tier: "L1",
+    // 既定事实锁定（原则十八）：玩家已做的选择就是唯一发生过的历史，
+    // 禁止用原著默认剧本回滚它（如已派魏延守街亭，则绝不能再出现马谡失街亭/斩马谡）。
+    text: "玩家已做的选择就是唯一发生过的历史，绝不能被原著默认剧本推翻或覆盖；被玩家换下/否决的人物不得重新登场承担同一职责或同一结局",
+  },
+  { tier: "L1", text: "不能有标准答案，不能暗示某种选择更道德或更正确" },
+  { tier: "L1", text: "只能围绕原著真实的人物/关键情节，绝不编造原著没有的重大情节或结局" },
+  // —— L2 支柱级 ——
+  { tier: "L2", text: "不能让角色做出完全脱离历史背景的行为" },
+  { tier: "L2", text: "内心独白必须赤裸真实，是这个人在那一刻真实会想的，不是道德表态" },
+  // —— L3 实施级 ——
+  { tier: "L3", text: "不能在前两幕出现isTrap=true的选项" },
+  { tier: "L3", text: "点破语必须说人话，不用学术词汇，不评判对错" },
 ];
+
+const TIER_ORDER: Record<PrincipleTier, number> = { L1: 0, L2: 1, L3: 2 };
+
+/**
+ * 把禁令按效力层级（L1→L2→L3）排序、拼成可注入 prompt 的一段文字。
+ * 宪法级红线永远排在最前，确保 AI 最先、最重地看到不可违背的约束。
+ */
+export function buildProhibitionsBlock(): string {
+  const sorted = [...PROHIBITIONS].sort(
+    (a, b) => TIER_ORDER[a.tier] - TIER_ORDER[b.tier]
+  );
+  const lines = sorted.map((p, i) => `${i + 1}. 【${p.tier}】${p.text}`);
+  return `【铁律禁令·按效力层级排序（L1宪法红线最优先，冲突时低层为高层让步）】\n${lines.join("\n")}`;
+}
 
 /** 结局质量标准 */
 export const ENDING_PRINCIPLES = [
