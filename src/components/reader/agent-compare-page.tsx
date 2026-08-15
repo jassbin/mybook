@@ -555,18 +555,18 @@ export function AgentComparePage({
 
 // ── 价值锚点卡（极压版：多维，红色系）──────────────────────────────────────
 function AnchorCard({ anchor, index = 0 }: { anchor: ValueAnchor; index?: number }) {
-  const lineColor = "#C34A28";
+  const lineColor = "#a83c2a";
   return (
     <div
       className="relative px-3 py-4"
       style={{
-        background: index === 0 ? "rgba(195,74,40,.07)" : index === 1 ? "rgba(1,1,1,.025)" : "rgba(195,74,40,.04)",
-        borderLeft: `2px solid rgba(195,74,40,${index === 0 ? ".55" : index === 1 ? ".28" : ".18"})`,
+        background: index === 0 ? "rgba(168,60,42,.07)" : index === 1 ? "rgba(1,1,1,.025)" : "rgba(168,60,42,.04)",
+        borderLeft: `2px solid rgba(168,60,42,${index === 0 ? ".55" : index === 1 ? ".28" : ".18"})`,
       }}
     >
       <span
         className="text-[10px] font-black tracking-[0.18em] uppercase block mb-3"
-        style={{ color: `rgba(195,74,40,${index === 0 ? ".85" : ".55"})` }}
+        style={{ color: `rgba(168,60,42,${index === 0 ? ".85" : ".55"})` }}
       >
         {anchor.type}
       </span>
@@ -587,7 +587,7 @@ function AnchorCard({ anchor, index = 0 }: { anchor: ValueAnchor; index?: number
         style={{
           fontSize: "12px",
           fontWeight: 500,
-          color: `rgba(195,74,40,${index === 0 ? ".75" : ".6"})`,
+          color: `rgba(168,60,42,${index === 0 ? ".75" : ".6"})`,
           fontStyle: "italic",
           letterSpacing: "0.015em",
         }}
