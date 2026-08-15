@@ -152,7 +152,8 @@ export async function POST(request: NextRequest) {
       // 无交集 → 保持 baseDomains 不变（不硬来）
     }
     const dilemmaIntensity: 1 | 2 | 3 = intensify ? 3 : 1;
-    const dilemmas = selectDilemmas(domains, dilemmaIntensity, [], 3);
+    const affinityText = dna ? `${dna.coreWound}${dna.protects}${dna.fears}` : "";
+    const dilemmas = selectDilemmas(domains, dilemmaIntensity, [], 3, affinityText);
 
     // 5. 检查原则（第一幕通常不触发反转，但传入以备不测）
     const { instructions } = buildPrinciplesPrompt(
