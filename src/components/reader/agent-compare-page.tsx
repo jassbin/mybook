@@ -237,78 +237,54 @@ export function AgentComparePage({
           </p>
         </div>
 
-        {/* ── 块1：选择模式对比 ──────────────────────────────────── */}
-        <ResultSection index="1" title="选择模式对比">
-          <ChoiceBar stats={normalStats}    color={spineColor}    textColor={spineText}   label="普通版" />
-          <ChoiceBar stats={intensifyStats} color={intensifyColor} textColor="#EFE6C9" label="极压版" />
-          <div className="flex justify-between text-[10px] font-semibold text-[rgba(1,1,1,.6)] mt-1">
-            <span>甲 = 保全优先</span>
-            <span>乙 = 中间路线</span>
-            <span>丙 = 代价更重</span>
-          </div>
-        </ResultSection>
-
-        {/* ── 块2：逐幕对照 ─────────────────────────────────────── */}
-        <ResultSection index="2" title="逐幕对照">
+        {/* ── 块1：逐幕对照（新字段：桥段名 + 今天困境；只列两边都有的幕）── */}
+        <ResultSection index="1" title="逐幕对照">
           <div className="grid grid-cols-2 gap-2 mb-3">
             <div className="text-[10px] font-bold text-center py-1 px-2 rounded-sm"
               style={{ background: spineColor, color: "#EFE6C9" }}>普通版</div>
             <div className="text-[10px] font-bold text-center py-1 px-2 rounded-sm flex items-center justify-center gap-1"
               style={{ background: intensifyColor, color: "#EFE6C9" }}><Flame size={11} strokeWidth={2.4} /> 极压版</div>
           </div>
-          {Array.from({ length: Math.max(normalState.choiceHistory.length, intensifyState.choiceHistory.length) }).map((_, i) => {
+          {Array.from({ length: Math.min(normalState.choiceHistory.length, intensifyState.choiceHistory.length) }).map((_, i) => {
             const n = normalState.choiceHistory[i];
             const x = intensifyState.choiceHistory[i];
-            const isFlipped = n && x && ((n.choiceId === "A" && x.choiceId === "C") || (n.choiceId === "C" && x.choiceId === "A"));
+            const isFlipped = (n.choiceId === "A" && x.choiceId === "C") || (n.choiceId === "C" && x.choiceId === "A");
             return (
               <div key={i} className="grid grid-cols-2 gap-2 mb-2.5">
                 {/* 普通 */}
-                <div
-                  className="text-[11px] leading-snug p-2"
-                  style={{
-                    background: n ? `${spineColor}0f` : "transparent",
-                    borderLeft: n ? `2px solid ${spineColor}70` : "none",
-                  }}
-                >
-                  {n ? (
-                    <>
-                      <div className="text-[9px] text-[rgba(1,1,1,.55)] mb-0.5">第{n.act}幕</div>
-                      <div className="font-semibold text-[rgba(1,1,1,.88)]">{n.choiceText}</div>
-                      <div className="text-[10px] text-[rgba(1,1,1,.6)] mt-0.5">{n.socialTag}</div>
-                    </>
-                  ) : <span className="text-[rgba(1,1,1,.2)]">—</span>}
+                <div className="text-[11px] leading-snug p-2"
+                  style={{ background: `${spineColor}0f`, borderLeft: `2px solid ${spineColor}70` }}>
+                  <div className="text-[13px] font-black leading-snug"
+                    style={{ fontFamily: "'Ma Shan Zheng', serif", color: "rgba(1,1,1,.88)" }}>
+                    {n.sceneName || n.choiceText}
+                  </div>
+                  <div className="text-[10px] mt-1 leading-relaxed" style={{ color: spineColor }}>
+                    → {n.modernTension || n.socialTag}
+                  </div>
                 </div>
                 {/* 极压 */}
-                <div
-                  className="text-[11px] leading-snug p-2 relative"
-                  style={{
-                    background: x ? "rgba(195,74,40,.07)" : "transparent",
-                    borderLeft: x ? `2px solid ${intensifyColor}70` : "none",
-                  }}
-                >
+                <div className="text-[11px] leading-snug p-2 relative"
+                  style={{ background: "rgba(195,74,40,.07)", borderLeft: `2px solid ${intensifyColor}70` }}>
                   {isFlipped && (
-                    <span
-                      className="absolute top-1 right-1 text-[8px] px-1 py-0.5 font-black"
-                      style={{ background: intensifyColor, color: "#EFE6C9" }}
-                    >
-                      翻转
-                    </span>
+                    <span className="absolute top-1 right-1 text-[8px] px-1 py-0.5 font-black"
+                      style={{ background: intensifyColor, color: "#EFE6C9" }}>翻转</span>
                   )}
-                  {x ? (
-                    <>
-                      <div className="text-[9px] text-[rgba(195,74,40,.5)] mb-0.5">第{x.act}幕</div>
-                      <div className="font-semibold" style={{ color: isFlipped ? intensifyColor : "rgba(1,1,1,.8)" }}>{x.choiceText}</div>
-                      <div className="text-[10px] mt-0.5" style={{ color: isFlipped ? `${intensifyColor}bb` : "rgba(195,74,40,.55)" }}>{x.socialTag}</div>
-                    </>
-                  ) : <span className="text-[rgba(1,1,1,.2)]">—</span>}
+                  <div className="text-[13px] font-black leading-snug"
+                    style={{ fontFamily: "'Ma Shan Zheng', serif", color: isFlipped ? intensifyColor : "rgba(1,1,1,.85)" }}>
+                    {x.sceneName || x.choiceText}
+                  </div>
+                  <div className="text-[10px] mt-1 leading-relaxed"
+                    style={{ color: isFlipped ? intensifyColor : "rgba(195,74,40,.7)" }}>
+                    → {x.modernTension || x.socialTag}
+                  </div>
                 </div>
               </div>
             );
           })}
         </ResultSection>
 
-        {/* ── 块3：价值轴对比 ───────────────────────────────────── */}
-        <ResultSection index="3" title="价值轴对比">
+        {/* ── 块2：价值轴对比 ───────────────────────────────────── */}
+        <ResultSection index="2" title="价值轴对比">
           {normalState.axes.map(axis => {
             const ia    = intensifyState.axes.find(a => a.key === axis.key);
             const nScore = axis.score;
