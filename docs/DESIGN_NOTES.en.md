@@ -80,10 +80,10 @@ libraries.
 
 Principles are not a flat list where everything weighs the same. They carry **effect tiers**, and conflicts follow a **yield order** — enforced in code: `narrative-principles.ts` tags each `PROHIBITIONS` entry with a `tier`, and `buildProhibitionsBlock()` injects them into every act's prompt sorted L1→L2→L3, so red lines always come first.
 
-- **L1 · Constitutional red lines** (violating = product loses legitimacy): source honesty, neutrality, behavior-accumulation + two-pass analysis, established-fact locking.
-- **L2 · Core-experience pillars** (violating = still the product, but crippled): extreme pressure, anchors, two-pass comparison, meta-axes, modern re-reading, choice-triple + equal weight.
+- **L1 · Constitutional red lines** (violating = product loses legitimacy / decays into a costume-skin RPG): source honesty, neutrality, behavior-accumulation + two-pass analysis, **modern re-reading of classics → mapping to contemporary anxiety (the soul)**, **three-way dilemma with equal-weight, all-painful options (why it's fun)**, established-fact locking.
+- **L2 · Core-experience pillars** (violating = still the product, but crippled): extreme pressure, anchors, two-pass comparison, meta-axes.
 - **L3 · Craft-level implementation** (violating = locally rough): the rest.
-- **Arbitration:** lower tier always yields to higher (L1 > L2 > L3). E.g. established-fact (L1) vs. default canon (L1): source honesty guards *the unaltered skeleton*; the part the player legally changed defers to the established fact.
+- **Arbitration:** lower tier always yields to higher (L1 > L2 > L3). E.g. established-fact (L1) vs. default canon (L1): source honesty guards *the unaltered skeleton*; the part the player legally changed defers to the established fact. Two more L1 red lines live in code: *each act must map to a contemporary structural anxiety (socialTag/modernTension never empty)*, and *the three options must be equal-weight rankings of one dilemma — none obviously safer or more optimal*.
 
 > The meta-principle "Reverse Productization" is *methodology* (how we iterate), not a design law — it stands apart and does not enter tier arbitration.
 
