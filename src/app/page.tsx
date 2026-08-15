@@ -9,7 +9,7 @@ import { AgentGameEngine } from "@/components/reader/agent-game-engine";
 import { AgentResultPage } from "@/components/reader/agent-result-page";
 import { AgentComparePage } from "@/components/reader/agent-compare-page";
 import { CompareResultPage } from "@/components/reader/compare-result-page";
-import { decodeShare } from "@/lib/reader/share-codec";
+import { decodeShare, decodeAgentState } from "@/lib/reader/share-codec";
 
 type Phase = "select" | "loading" | "character" | "game" | "result"
            | "agent-loading" | "agent-character" | "agent-game" | "agent-result"
