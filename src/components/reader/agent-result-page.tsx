@@ -212,14 +212,14 @@ export function AgentResultPage({
         {/* ── 选择模式统计条 ────────────────────────────────────── */}
         {stats.total > 0 && (
           <div className="relative z-10 px-5 pt-4 pb-4 border-b border-[rgba(1,1,1,.1)]">
-            <p className="text-[11px] font-bold tracking-widest text-[rgba(1,1,1,.38)] mb-3 uppercase">
+            <p className="text-[11px] font-black tracking-widest mb-3 uppercase" style={{ color: "#0b6b57" }}>
               你的选择模式
             </p>
             <div className="flex gap-1 h-5 rounded-sm overflow-hidden mb-2">
               {stats.aCount > 0 && (
                 <div
                   className="flex items-center justify-center text-[9px] font-bold transition-all duration-700"
-                  style={{ width: `${(stats.aCount / stats.total) * 100}%`, background: spineColor, color: spineText, opacity: 0.75 }}
+                  style={{ width: `${(stats.aCount / stats.total) * 100}%`, background: "#0d9488", color: "#ffffff" }}
                 >
                   {stats.aCount > 1 ? `甲×${stats.aCount}` : "甲"}
                 </div>
@@ -227,7 +227,7 @@ export function AgentResultPage({
               {stats.bCount > 0 && (
                 <div
                   className="flex items-center justify-center text-[9px] font-bold transition-all duration-700"
-                  style={{ width: `${(stats.bCount / stats.total) * 100}%`, background: spineColor, color: spineText, opacity: 0.5 }}
+                  style={{ width: `${(stats.bCount / stats.total) * 100}%`, background: "#d99a2b", color: "#ffffff" }}
                 >
                   {stats.bCount > 1 ? `乙×${stats.bCount}` : "乙"}
                 </div>
@@ -235,13 +235,13 @@ export function AgentResultPage({
               {stats.cCount > 0 && (
                 <div
                   className="flex items-center justify-center text-[9px] font-bold transition-all duration-700"
-                  style={{ width: `${(stats.cCount / stats.total) * 100}%`, background: spineColor, color: spineText, opacity: 0.9 }}
+                  style={{ width: `${(stats.cCount / stats.total) * 100}%`, background: "#c0492e", color: "#ffffff" }}
                 >
                   {stats.cCount > 1 ? `丙×${stats.cCount}` : "丙"}
                 </div>
               )}
             </div>
-            <div className="flex justify-between text-[10px] text-[rgba(1,1,1,.4)]">
+            <div className="flex justify-between text-[10px] font-semibold text-[rgba(1,1,1,.6)]">
               <span>甲 = 保全优先</span>
               <span>乙 = 中间路线</span>
               <span>丙 = 代价更重</span>
@@ -251,7 +251,7 @@ export function AgentResultPage({
 
         {/* ── 选择轨迹卡片 ─────────────────────────────────────── */}
         <div className="relative z-10 px-4 pt-4 pb-4 border-b border-[rgba(1,1,1,.1)]">
-          <p className="text-[11px] font-bold tracking-widest text-[rgba(1,1,1,.38)] mb-3 uppercase px-1">选择轨迹</p>
+          <p className="text-[11px] font-black tracking-widest mb-3 uppercase px-1" style={{ color: "#0b6b57" }}>选择轨迹</p>
           <div className="flex flex-col gap-2">
             {worldState.choiceHistory.map((record, i) => (
               <div key={i}
@@ -265,15 +265,15 @@ export function AgentResultPage({
                     style={{ fontFamily: "'Ma Shan Zheng', serif", color: spineText }}>{record.act}</span>
                 </div>
                 <div className="flex-1 bg-[rgba(255,255,255,.55)] px-3 py-2.5 relative">
-                  <span className="absolute top-2 right-2 text-[8px] px-1.5 py-0.5 font-medium"
-                    style={{ background: "rgba(1,1,1,.08)", color: "rgba(1,1,1,.45)" }}>
+                  <span className="absolute top-2 right-2 text-[8px] px-1.5 py-0.5 font-semibold rounded-sm"
+                    style={{ background: "rgba(11,107,87,.12)", color: "#0b6b57" }}>
                     {record.socialTag}
                   </span>
                   <div className="text-sm font-bold text-[rgba(1,1,1,.88)] leading-snug pr-16">
                     {record.choiceText}
                   </div>
                   <div className="text-[11px] mt-1 leading-relaxed"
-                    style={{ color: "rgba(1,1,1,.5)", borderLeft: `2px solid ${spineColor}40`, paddingLeft: 6 }}>
+                    style={{ color: "rgba(1,1,1,.68)", borderLeft: `2px solid ${spineColor}66`, paddingLeft: 6 }}>
                     {record.revealText}
                   </div>
                 </div>
@@ -296,7 +296,7 @@ export function AgentResultPage({
               >
                 <p
                   className="text-[10px] font-bold tracking-widest uppercase mb-2.5"
-                  style={{ color: `${spineColor}90` }}
+                  style={{ color: "#0b6b57" }}
                 >
                   这个故事触碰的底层问题
                 </p>
@@ -305,7 +305,7 @@ export function AgentResultPage({
                     <p
                       key={i}
                       className="text-[11px] leading-relaxed"
-                      style={{ color: "rgba(1,1,1,.62)" }}
+                      style={{ color: "rgba(1,1,1,.72)" }}
                     >
                       {t}
                     </p>
@@ -318,19 +318,19 @@ export function AgentResultPage({
 
         {/* ── 价值轴 ───────────────────────────────────────────── */}
         <div className="relative z-10 px-5 pt-4 pb-4 border-b border-[rgba(1,1,1,.12)]">
-          <p className="text-[11px] font-bold tracking-widest text-[rgba(1,1,1,.4)] mb-3 uppercase">价值倾向</p>
+          <p className="text-[11px] font-black tracking-widest mb-3 uppercase" style={{ color: "#0b6b57" }}>价值倾向</p>
           <div className="flex flex-col gap-3">
             {worldState.axes.map(axis => (
               <div key={axis.key}>
                 <div className="flex items-center justify-between mb-1">
                   <span className="text-sm font-bold" style={{ color: spineColor }}>{axis.key}</span>
-                  <span className="text-[11px] text-[rgba(1,1,1,.5)]">{axis.low} ↔ {axis.high}</span>
+                  <span className="text-[11px] font-semibold text-[rgba(1,1,1,.6)]">{axis.low} ↔ {axis.high}</span>
                 </div>
                 <div className="h-1.5 rounded-full bg-[rgba(1,1,1,.1)] overflow-hidden mb-1">
                   <div className="h-full rounded-full"
                     style={{ width: `${axis.score}%`, background: spineColor, transition: "width 0.8s cubic-bezier(.2,.8,.2,1)" }} />
                 </div>
-                <p className="text-[11px] text-[rgba(1,1,1,.45)]">{axis.description}</p>
+                <p className="text-[11px] text-[rgba(1,1,1,.62)]">{axis.description}</p>
               </div>
             ))}
           </div>
@@ -341,14 +341,14 @@ export function AgentResultPage({
 
         {/* ── AI 旁白：选择证据链 ──────────────────────────────── */}
         <div className="relative z-10 px-5 pt-5 pb-4 border-b border-[rgba(1,1,1,.12)]">
-          <p className="text-[11px] font-bold tracking-widest text-[rgba(1,1,1,.4)] mb-3 uppercase">由此可见</p>
+          <p className="text-[11px] font-black tracking-widest mb-3 uppercase" style={{ color: "#0b6b57" }}>由此可见</p>
           {!hasEvidence && isStreaming ? (
-            <div className="flex items-center gap-2 text-sm text-[rgba(1,1,1,.45)] italic">
+            <div className="flex items-center gap-2 text-sm text-[rgba(1,1,1,.6)] italic">
               <span className="inline-block w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: spineColor }} />
               正在归纳你的选择轨迹……
             </div>
           ) : (
-            <div className="text-sm leading-[1.75] text-[rgba(1,1,1,.82)]">
+            <div className="text-sm leading-[1.75] text-[rgba(1,1,1,.9)]">
               {evidence}
               {isStreaming && !hasMirror && (
                 <span className="inline-block w-0.5 h-4 ml-0.5 align-middle animate-pulse"
@@ -361,7 +361,7 @@ export function AgentResultPage({
         {/* ── 选择模式镜像 ─────────────────────────────────────── */}
         {(hasMirror || (isStreaming && hasEvidence)) && (
           <div className="relative z-10 px-5 pt-4 pb-4 border-b border-[rgba(1,1,1,.12)]">
-            <p className="text-[11px] font-bold tracking-widest text-[rgba(1,1,1,.4)] mb-3 uppercase">你的模式</p>
+            <p className="text-[11px] font-black tracking-widest mb-3 uppercase" style={{ color: "#0b6b57" }}>你的模式</p>
             {hasMirror ? (
               <div
                 className="text-sm leading-relaxed font-semibold px-4 py-3 rounded-sm"
