@@ -546,6 +546,7 @@ export function AgentComparePage({
 
         <div ref={bottomRef} className="pb-2" />
       </div>
+      </div>
 
       {toast && (
         <div className="fixed bottom-8 left-1/2 z-[100] pointer-events-none"
