@@ -30,7 +30,11 @@ function parseSections(text: string): {
 } {
   const parts = text.split("===SEP===");
   const evidence   = (parts[0] ?? "").trim();
-  const mirror     = (parts[1] ?? "").trim();
+  // 护栏：过滤 prompt 泄漏
+  const looksLikePromptLeak = (s: string) =>
+    /题目|分隔符|严格按|按照格式|输出格式|输出中|不加任何标题|===SEP===|JSON|数组|字段/.test(s);
+  const rawMirror  = (parts[1] ?? "").trim();
+  const mirror     = looksLikePromptLeak(rawMirror) ? "" : rawMirror;
   const anchorRaw  = (parts[3] ?? "").trim();
 
   let anchorsJson: string | null = null;
