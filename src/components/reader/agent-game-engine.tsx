@@ -14,6 +14,7 @@ import { buildAgentStoryShareUrl } from "@/lib/reader/share-codec";
 
 interface ActData {
   title: string;
+  sceneName?: string;
   messages: { id: string; type: string; text: string; delay?: number }[];
   choices: {
     id: string; label: string; text: string;
