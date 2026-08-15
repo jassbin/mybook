@@ -1,6 +1,6 @@
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { z } from "zod";
-import { CHARACTER_DNA } from "@/lib/agent/character-dna";
+import { CHARACTER_DNA, normalizeTitle } from "@/lib/agent/character-dna";
 
 /**
  * list_characters —— 列出「难得读书」里所有可代入的名著角色。
@@ -23,8 +23,10 @@ export function registerListCharacters(server: McpServer, _userId: string) {
       },
     },
     async ({ book }) => {
+      // 归一化过滤：空串/纯空白按「无过滤（列全部）」处理；书名号/emoji/空白均容错匹配
+      const nBook = normalizeTitle(book ?? "");
       const list = CHARACTER_DNA
-        .filter((c) => (book ? c.book === book : true))
+        .filter((c) => (nBook ? normalizeTitle(c.book) === nBook : true))
         .map((c) => ({
           book: c.book,
           character: c.name,
