@@ -160,8 +160,12 @@ export function BookSelect({ onSelect }: BookSelectProps) {
             你想成为谁
           </div>
           <div
-            className="text-[13px] font-bold leading-snug text-right"
-            style={{ fontFamily: "'Noto Serif SC', serif", color: "#0a4a3e" }}
+            className="text-[15px] font-black leading-snug text-right"
+            style={{
+              fontFamily: "'Noto Serif SC', serif",
+              color: "transparent",
+              WebkitTextStroke: "0.7px #0a4a3e",
+            }}
           >
             选一本书，附身角色<br />感受风雪，照见自己
           </div>
