@@ -139,8 +139,17 @@ export function summarizeState(state: WorldState): string {
 
   const recentChoices = state.choiceHistory
     .slice(-4)
-    .map((c, i) => `第${c.act}幕选「${c.choiceText}」→${c.consequenceText}`)
+    .map((c) => `第${c.act}幕选「${c.choiceText}」→${c.consequenceText}`)
     .join("\n");
+
+  // 把「已发生的选择结果」升级为不可推翻的既定事实，强约束下一幕承接，
+  // 防止 AI 用原著默认剧本覆盖玩家的选择（例如玩家已派魏延守街亭并守住，
+  // 后面就绝不能再滑回「马谡失街亭」的默认走向）。
+  const establishedFacts = state.choiceHistory.length > 0
+    ? state.choiceHistory
+        .map((c) => `· 第${c.act}幕：你选择了「${c.choiceText}」，其结果已经发生——${c.consequenceText}`)
+        .join("\n")
+    : "（暂无已发生的事实）";
 
   const tensions = state.pendingTensions.length > 0
     ? state.pendingTensions.join("；")
@@ -152,6 +161,10 @@ export function summarizeState(state: WorldState): string {
 
   return `当前第${state.actNumber}幕（${state.storyPhase}段），情绪基调：${state.emotionalTone}
 价值轴：${axesSummary}
+
+【已成定局·不可推翻的事实】（本幕必须与以下事实完全一致，绝对不得出现与之矛盾的情节；玩家已做的选择就是唯一发生过的历史，禁止用原著默认剧本覆盖它，禁止让被玩家换下/否决的人物重新登场承担同一职责或结局）：
+${establishedFacts}
+
 近期选择：\n${recentChoices || "（暂无）"}
 未解伏笔：${tensions}
 ${anchors}
