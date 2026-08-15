@@ -233,7 +233,7 @@ export const META_AXES: MetaAxis[] = [
 ];
 
 /**
- * 把当前局的专属四轴分值映射到6个元轴上（关键词匹配投票法）
+ * 把当前局的专属四轴分值映射到元价值轴上（关键词匹配投票法）
  * 返回 0-100 的元轴分值，可跨局比较
  */
 export function mapToMetaAxes(axes: WorldState["axes"]): Record<string, number> {
