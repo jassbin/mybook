@@ -5,7 +5,7 @@ import { useState } from "react";
 import type { BookMeta } from "@/lib/reader/types";
 import type { WorldState } from "@/lib/agent/world-state";
 import { getCharacterDNA } from "@/lib/agent/character-dna";
-import { darkenForCard, withAlpha } from "@/lib/reader/color";
+import { withAlpha } from "@/lib/reader/color";
 
 export interface AgentCharInitData {
   state: WorldState;
