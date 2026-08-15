@@ -26,38 +26,50 @@ interface ValueAnchor {
   question: string;   // 自省问题（25字内）
 }
 
+// 价值轴成因（第三段，数组）
+interface AxisReason {
+  key: string;
+  reason: string;
+}
+
 // 把流式全文按 ===SEP=== 分成四段
 function parseSections(text: string): {
   evidence: string;
   mirror: string;
-  anchorsJson: string | null;   // 数组 JSON
+  axisReasonsJson: string | null;   // 第三段：价值倾向成因数组
+  anchorsJson: string | null;       // 第四段：价值锚点数组
 } {
   const parts = text.split("===SEP===");
   const evidence   = (parts[0] ?? "").trim();
   const mirror     = (parts[1] ?? "").trim();
+  const reasonRaw  = (parts[2] ?? "").trim();
   const anchorRaw  = (parts[3] ?? "").trim();
 
-  // 解析价值锚点数组
-  let anchorsJson: string | null = null;
-  if (anchorRaw) {
-    // 先尝试数组
-    const arrMatch = anchorRaw.match(/\[[\s\S]*\]/);
+  const grabArray = (raw: string): string | null => {
+    if (!raw) return null;
+    const arrMatch = raw.match(/\[[\s\S]*\]/);
     if (arrMatch) {
-      try { JSON.parse(arrMatch[0]); anchorsJson = arrMatch[0]; } catch { anchorsJson = null; }
+      try { JSON.parse(arrMatch[0]); return arrMatch[0]; } catch { /* fall through */ }
     }
-    // 兼容旧版单对象
-    if (!anchorsJson) {
-      const objMatch = anchorRaw.match(/\{[\s\S]*\}/);
-      if (objMatch) {
-        try {
-          const obj = JSON.parse(objMatch[0]);
-          anchorsJson = JSON.stringify([obj]);
-        } catch { anchorsJson = null; }
-      }
+    return null;
+  };
+
+  const axisReasonsJson = grabArray(reasonRaw);
+
+  // 解析价值锚点数组
+  let anchorsJson: string | null = grabArray(anchorRaw);
+  // 兼容旧版单对象
+  if (!anchorsJson && anchorRaw) {
+    const objMatch = anchorRaw.match(/\{[\s\S]*\}/);
+    if (objMatch) {
+      try {
+        const obj = JSON.parse(objMatch[0]);
+        anchorsJson = JSON.stringify([obj]);
+      } catch { anchorsJson = null; }
     }
   }
 
-  return { evidence, mirror, anchorsJson };
+  return { evidence, mirror, axisReasonsJson, anchorsJson };
 }
 
 
