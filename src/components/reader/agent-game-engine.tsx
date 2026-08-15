@@ -410,7 +410,6 @@ export function AgentGameEngine({
                 }}>
                 继续 →
               </button>
-              {/* 过渡提示：三点依次跳动 + 文字，精致淡入 */}
               {/* 过渡提示：无背景无边框，纯文字淡入 */}
               <div
                 style={{
