@@ -302,11 +302,8 @@ export function AgentResultPage({
           </div>
         </div>
 
-        {/* ── 元价值底色：6 维跨角色画像（数据每局都在算，此前从未展示） ── */}
-        <MetaAxisProfile worldState={worldState} accent={"#0c5a52"} />
-
-        {/* ── AI 旁白：选择证据链 ──────────────────────────────── */}
-        <div className="relative z-10 px-5 pt-5 pb-4 border-b border-[rgba(1,1,1,.12)]">
+        {/* ── AI 点评：证据链 + 模式一句话，合并成一段 ────────── */}
+        <div className="relative z-10 px-5 pt-5 pb-4 border-b border-[rgba(0,0,0,.9)]">
           <p className="text-[11px] font-black tracking-widest mb-3 uppercase" style={{ color: "#0b6b57" }}>由此可见</p>
           {!hasEvidence && isStreaming ? (
             <div className="flex items-center gap-2 text-sm text-[rgba(1,1,1,.6)] italic">
@@ -314,86 +311,28 @@ export function AgentResultPage({
               正在归纳你的选择轨迹……
             </div>
           ) : (
-            <div className="text-sm leading-[1.75] text-[rgba(1,1,1,.9)]">
-              {evidence}
-              {isStreaming && !hasMirror && (
-                <span className="inline-block w-0.5 h-4 ml-0.5 align-middle animate-pulse"
-                  style={{ background: spineColor }} />
-              )}
-            </div>
-          )}
-        </div>
-
-        {/* ── 选择模式镜像 ─────────────────────────────────────── */}
-        {(hasMirror || (isStreaming && hasEvidence)) && (
-          <div className="relative z-10 px-5 pt-4 pb-4 border-b border-[rgba(1,1,1,.12)]">
-            <p className="text-[11px] font-black tracking-widest mb-3 uppercase" style={{ color: "#0b6b57" }}>你的模式</p>
-            {hasMirror ? (
-              <div
-                className="text-sm leading-relaxed font-semibold px-4 py-3 rounded-sm"
-                style={{ background: `${spineColor}14`, borderLeft: `3px solid ${spineColor}`, color: "rgba(1,1,1,.88)" }}
-              >
-                {mirror}
-                {isStreaming && !hasFold && (
+            <>
+              <div className="text-sm leading-[1.75] text-[rgba(1,1,1,.9)]">
+                {evidence}
+                {isStreaming && !hasMirror && (
                   <span className="inline-block w-0.5 h-4 ml-0.5 align-middle animate-pulse"
                     style={{ background: spineColor }} />
                 )}
               </div>
-            ) : (
-              <div className="flex items-center gap-2 text-sm text-[rgba(1,1,1,.35)] italic">
-                <span className="inline-block w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: spineColor }} />
-              </div>
-            )}
-          </div>
-        )}
-
-        {/* ── 时空折叠卡（古今对照）───────────────────────────── */}
-        {(hasFold || (isStreaming && hasMirror)) && (
-          <div className="relative z-10 px-4 pt-4 pb-4 border-b border-[rgba(1,1,1,.12)]">
-            <p className="text-[11px] font-black tracking-widest mb-3 uppercase px-1" style={{ color: "#0b6b57" }}>时空折叠</p>
-            {hasFold && fold ? (
-              <div
-                className="rounded-sm overflow-hidden"
-                style={{ border: `1px solid ${spineColor}40`, boxShadow: "0 2px 12px rgba(0,0,0,.06)" }}
-              >
-                <div className="grid grid-cols-2">
-                  <div className="px-3 py-4 flex flex-col gap-1.5" style={{ background: spineColor }}>
-                    <span className="text-[9px] font-bold tracking-widest" style={{ color: `${spineText}80` }}>
-                      {worldState.character} · 书中
-                    </span>
-                    <p className="text-sm font-bold leading-snug" style={{ color: spineText }}>
-                      {fold.ancientScene}
-                    </p>
-                  </div>
-                  <div className="px-3 py-4 flex flex-col gap-1.5 bg-[rgba(255,255,255,.6)]">
-                    <span className="text-[9px] font-bold tracking-widest" style={{ color: "#0b6b57" }}>
-                      你 · 今天
-                    </span>
-                    <p className="text-sm font-bold leading-snug text-[rgba(1,1,1,.9)]">
-                      {fold.modernScene}
-                    </p>
-                  </div>
-                </div>
+              {hasMirror && (
                 <div
-                  className="px-4 py-3 flex items-center gap-2"
-                  style={{ background: `${spineColor}18`, borderTop: `1px solid ${spineColor}30` }}
+                  className="mt-3 text-sm leading-relaxed font-semibold px-4 py-3 rounded-sm"
+                  style={{ background: `${spineColor}14`, borderLeft: `3px solid ${spineColor}`, color: "rgba(1,1,1,.88)" }}
                 >
-                  <MoveHorizontal size={15} style={{ color: spineColor }} strokeWidth={2.2} />
-                  <p className="text-sm font-bold leading-snug" style={{ color: spineColor }}>
-                    {fold.bridge}
-                  </p>
+                  {mirror}
                 </div>
-              </div>
-            ) : (
-              <div className="flex items-center gap-2 text-sm text-[rgba(1,1,1,.35)] italic">
-                <span className="inline-block w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: spineColor }} />
-              </div>
-            )}
-          </div>
-        )}
+              )}
+            </>
+          )}
+        </div>
 
-        {/* ── 多维价值锚点（第四段）────────────────────────────── */}
-        {(hasAnchors || (isStreaming && hasFold)) && (
+        {/* ── 多维价值锚点（照见自己）──────────────────────────── */}
+        {(hasAnchors || (isStreaming && hasMirror)) && (
           <div className="relative z-10 px-4 pt-4 pb-4 border-b border-[rgba(1,1,1,.1)]">
             <p className="text-[11px] font-black tracking-widest mb-4 uppercase px-1" style={{ color: "#0b6b57" }}>照见自己</p>
             {hasAnchors ? (
