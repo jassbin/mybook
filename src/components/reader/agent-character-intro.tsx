@@ -37,8 +37,8 @@ export function AgentCharacterIntro({
   const [switching, setSwitching] = useState(false);
   const [showPicker, setShowPicker] = useState(false);
   const [customName, setCustomName] = useState("");
-  // 角色专属强调色：取书脊色并压深到可读，呼应首页书卡「每书一色」
-  const accent = darkenForCard(bookMeta?.color ?? "#0b6b57");
+  // 角色页统一绿色主色（与首页深绿体系一致）
+  const accent = "#0b6b57";
 
   const labels = ["愤怒来自", "守护什么", "最怕失去"];
 
