@@ -187,8 +187,9 @@ export function AgentGameEngine({
     // 存到 ref，继续时使用
     pendingChoiceRef.current = { choice, act: currentAct };
 
-    // 立即后台预加载
-    setTimeout(() => prefetchNextAct(choice, currentAct, worldStateRef.current), 200);
+    // 立即预热下一幕（0ms，不再等 200ms）：玩家读「后果文字」的这几秒
+    // 正好完全覆盖 LLM 生成时间，点「继续」时结果通常已就位 → 秒开。
+    prefetchNextAct(choice, currentAct, worldStateRef.current);
 
     // 方案A：陷阱选项不再「游戏结束」，而是「付出重大代价后继续」——
     // 把代价描述作为一条沉重后果插入，随后照常走到下一幕，保证最终能抵达价值观报告。
