@@ -167,7 +167,6 @@ export function AgentResultPage({
   }, [worldState, copyUrl]);
 
   const isStreaming = !aiDone;
-  const hasEvidence = evidence.length > 0;
   const hasMirror   = mirror.length > 0;
   const hasAnchors  = anchors.length > 0;
 
