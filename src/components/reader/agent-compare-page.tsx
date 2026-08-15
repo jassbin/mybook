@@ -280,9 +280,9 @@ export function AgentComparePage({
                 >
                   {n ? (
                     <>
-                      <div className="text-[9px] text-[rgba(1,1,1,.35)] mb-0.5">第{n.act}幕</div>
-                      <div className="font-semibold text-[rgba(1,1,1,.8)]">{n.choiceText}</div>
-                      <div className="text-[10px] text-[rgba(1,1,1,.45)] mt-0.5">{n.socialTag}</div>
+                      <div className="text-[9px] text-[rgba(1,1,1,.55)] mb-0.5">第{n.act}幕</div>
+                      <div className="font-semibold text-[rgba(1,1,1,.88)]">{n.choiceText}</div>
+                      <div className="text-[10px] text-[rgba(1,1,1,.6)] mt-0.5">{n.socialTag}</div>
                     </>
                   ) : <span className="text-[rgba(1,1,1,.2)]">—</span>}
                 </div>
@@ -365,7 +365,7 @@ export function AgentComparePage({
                 <div className="flex items-center justify-between mb-1">
                   <span className="text-sm font-bold text-[rgba(1,1,1,.8)]">{axis.key}</span>
                   <div className="flex items-center gap-1.5">
-                    <span className="text-[11px] text-[rgba(1,1,1,.4)]">{axis.low} ↔ {axis.high}</span>
+                    <span className="text-[11px] font-semibold text-[rgba(1,1,1,.6)]">{axis.low} ↔ {axis.high}</span>
                     {shifted && (
                       <span
                         className="text-[9px] font-black px-1.5 py-0.5 rounded-sm"
@@ -393,11 +393,11 @@ export function AgentComparePage({
                       style={{ width: `${xScore}%`, background: intensifyColor, opacity: 0.75, transition: "width 0.8s cubic-bezier(.2,.8,.2,1) 0.15s" }} />
                   </div>
                   <span className="text-[9px] w-5 text-right shrink-0 font-bold"
-                    style={{ color: diff > 8 ? intensifyColor : diff < -8 ? spineColor : "rgba(1,1,1,.4)" }}>
+                    style={{ color: diff > 8 ? intensifyColor : diff < -8 ? spineColor : "rgba(1,1,1,.55)" }}>
                     {diff > 0 ? `+${diff}` : diff < 0 ? `${diff}` : "≈"}
                   </span>
                 </div>
-                <p className="text-[10px] text-[rgba(1,1,1,.38)] mt-1">{axis.description}</p>
+                <p className="text-[10px] text-[rgba(1,1,1,.6)] mt-1">{axis.description}</p>
               </div>
             );
           })}
@@ -471,10 +471,10 @@ export function AgentComparePage({
                   </div>
                   {/* 右：你/今天 */}
                   <div className="px-3 py-4 flex flex-col gap-1.5 bg-[rgba(255,255,255,.6)]">
-                    <span className="text-[9px] font-bold tracking-widest text-[rgba(1,1,1,.4)]">
+                    <span className="text-[9px] font-bold tracking-widest" style={{ color: "#0b6b57" }}>
                       你 · 今天
                     </span>
-                    <p className="text-sm font-bold leading-snug text-[rgba(1,1,1,.82)]">
+                    <p className="text-sm font-bold leading-snug text-[rgba(1,1,1,.9)]">
                       {fold.modernScene}
                     </p>
                   </div>
