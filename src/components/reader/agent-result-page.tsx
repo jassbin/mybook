@@ -208,13 +208,16 @@ export function AgentResultPage({
           </p>
         </div>
 
-        {/* ── 块1：选择轨迹 ─────────────────────────────────────── */}
-        <ResultSection index="1" title="选择轨迹" hint={`${worldState.choiceHistory.length} 幕`}>
-          <div className="flex flex-col gap-2">
+        {/* ── 块1：选择轨迹（大框内轻分隔列表，不再逐条套框）──── */}
+        <ResultSection index="1" title="选择轨迹" hint={`${worldState.choiceHistory.length} 幕`} bodyClassName="px-0 py-0">
+          <div className="flex flex-col">
             {worldState.choiceHistory.map((record, i) => (
               <div key={i}
-                className="flex gap-0 overflow-hidden anim-ink"
-                style={{ animationDelay: `${i * 70}ms`, boxShadow: "0 1px 4px rgba(0,0,0,.07)", border: "1px solid rgba(0,0,0,.9)" }}>
+                className="flex gap-0 anim-ink"
+                style={{
+                  animationDelay: `${i * 60}ms`,
+                  borderTop: i === 0 ? "none" : "1px solid rgba(0,0,0,.12)",
+                }}>
                 <div
                   className="flex flex-col items-center justify-center px-2.5 py-3 flex-shrink-0"
                   style={{ background: spineColor, minWidth: 40 }}>
@@ -222,7 +225,7 @@ export function AgentResultPage({
                   <span className="text-lg font-black leading-none mt-0.5"
                     style={{ fontFamily: "'Ma Shan Zheng', serif", color: spineText }}>{record.act}</span>
                 </div>
-                <div className="flex-1 bg-[rgba(255,255,255,.55)] px-3 py-2.5 relative">
+                <div className="flex-1 px-3.5 py-3">
                   {/* 大字：原著知名桥段名，一眼认出经历了什么 */}
                   <div className="text-base font-black text-[rgba(1,1,1,.9)] leading-snug"
                     style={{ fontFamily: "'Ma Shan Zheng', serif" }}>
@@ -232,11 +235,11 @@ export function AgentResultPage({
                   <div className="text-[12px] mt-1 leading-snug text-[rgba(1,1,1,.72)]">
                     你选择了：{record.choiceText}
                   </div>
-                  {/* 对应今天的困境 */}
+                  {/* 对应今天的困境（精炼） */}
                   {(record.modernTension || record.socialTag) && (
-                    <div className="text-[11px] mt-1.5 leading-relaxed"
-                      style={{ color: "#0b6b57", borderLeft: `2px solid ${spineColor}66`, paddingLeft: 6 }}>
-                      {record.modernTension || record.socialTag}
+                    <div className="text-[11px] mt-1.5 leading-relaxed font-semibold"
+                      style={{ color: "#0b6b57" }}>
+                      → {record.modernTension || record.socialTag}
                     </div>
                   )}
                 </div>
@@ -266,50 +269,58 @@ export function AgentResultPage({
           </div>
         </ResultSection>
 
-        {/* ── 块3：由此可见（AI 点评）───────────────────────────── */}
-        <ResultSection index="3" title="由此可见">
-          {!hasEvidence && isStreaming ? (
-            <div className="flex items-center gap-2 text-sm text-[rgba(1,1,1,.6)] italic">
+        {/* ── 块3：照见自己（点破 + 清爽序号自省列表）─────────── */}
+        <ResultSection index="3" title="照见自己">
+          {/* 开头一句狠话点破你的模式（原「由此可见」精华并入此处） */}
+          {hasMirror ? (
+            <div
+              className="text-sm leading-relaxed font-bold px-4 py-3 rounded-sm mb-4"
+              style={{ background: `${spineColor}14`, borderLeft: `3px solid ${spineColor}`, color: "rgba(1,1,1,.9)" }}
+            >
+              {mirror}
+            </div>
+          ) : isStreaming ? (
+            <div className="flex items-center gap-2 text-sm text-[rgba(1,1,1,.6)] italic mb-4">
               <span className="inline-block w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: spineColor }} />
-              正在归纳你的选择轨迹……
+              正在看穿你……
+            </div>
+          ) : null}
+
+          {/* 清爽序号列表：每条一针见血，界限分明 */}
+          {hasAnchors ? (
+            <div className="flex flex-col">
+              {anchors.map((a, i) => (
+                <div key={i}
+                  className="flex gap-3 py-3"
+                  style={{ borderTop: i === 0 ? "none" : "1px solid rgba(0,0,0,.1)" }}>
+                  <span
+                    className="flex items-center justify-center text-[12px] font-black rounded-md flex-shrink-0 mt-0.5"
+                    style={{ width: 22, height: 22, background: spineColor, color: spineText }}>
+                    {i + 1}
+                  </span>
+                  <div className="flex-1">
+                    <div className="text-[10px] font-black tracking-[0.15em] uppercase mb-1" style={{ color: `${spineColor}cc` }}>
+                      {a.type}
+                    </div>
+                    <p className="text-[15px] font-bold leading-snug mb-1.5"
+                      style={{ fontFamily: "'Noto Serif SC', serif", color: "rgba(1,1,1,.86)" }}>
+                      {a.image}
+                    </p>
+                    <p className="text-[12px] leading-relaxed italic" style={{ color: `${spineColor}c0` }}>
+                      {a.question}
+                    </p>
+                  </div>
+                </div>
+              ))}
             </div>
           ) : (
-            <>
-              <div className="text-sm leading-[1.75] text-[rgba(1,1,1,.9)]">
-                {evidence}
-                {isStreaming && !hasMirror && (
-                  <span className="inline-block w-0.5 h-4 ml-0.5 align-middle animate-pulse"
-                    style={{ background: spineColor }} />
-                )}
-              </div>
-              {hasMirror && (
-                <div
-                  className="mt-3 text-sm leading-relaxed font-semibold px-4 py-3 rounded-sm"
-                  style={{ background: `${spineColor}14`, borderLeft: `3px solid ${spineColor}`, color: "rgba(1,1,1,.88)" }}
-                >
-                  {mirror}
-                </div>
-              )}
-            </>
-          )}
-        </ResultSection>
-
-        {/* ── 块4：照见自己（多维价值锚点）─────────────────────── */}
-        {(hasAnchors || (isStreaming && hasMirror)) && (
-          <ResultSection index="4" title="照见自己">
-            {hasAnchors ? (
-              <div className="flex flex-col gap-3">
-                {anchors.map((a, i) => (
-                  <AnchorCard key={i} anchor={a} spineColor={spineColor} index={i} />
-                ))}
-              </div>
-            ) : (
+            !hasMirror && (
               <div className="flex items-center gap-2 text-sm text-[rgba(1,1,1,.35)] italic px-1">
                 <span className="inline-block w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: spineColor }} />
               </div>
-            )}
-          </ResultSection>
-        )}
+            )
+          )}
+        </ResultSection>
 
         {/* ── 极压入口 ─────────────────────────────────────────── */}
         {onIntensify && (
