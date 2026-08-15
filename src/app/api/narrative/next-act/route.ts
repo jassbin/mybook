@@ -87,7 +87,8 @@ export async function POST(request: NextRequest) {
       : nextState.storyPhase === "转" ? 2
       : 1;
 
-    const dilemmas = selectDilemmas(domains, intensity, [], 3);
+    const affinityText = dna ? `${dna.coreWound}${dna.protects}${dna.fears}` : "";
+    const dilemmas = selectDilemmas(domains, intensity, [], 3, affinityText);
 
     // 4.5 极压·逐幕分型施压：按本幕幕号只下发对应那一层（第1幕砸主流 / 第2幕逃隐性 / 第3幕撞矛盾）
     let intensifyTargetBlock = "";
