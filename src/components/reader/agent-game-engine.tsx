@@ -65,6 +65,8 @@ export function AgentGameEngine({
   const [showTrap, setShowTrap] = useState(false);
   const [trapData, setTrapData] = useState<{ ending: string; revival: string; trapChoiceId: string } | null>(null);
   const [isTransitioning, setIsTransitioning] = useState(false);
+  // 过渡等待的分阶段文案索引：0=推演中… 1=正在为你推演下一幕… 2=马上就好，稍候…
+  const [waitPhase, setWaitPhase] = useState(0);
   const bottomRef = useRef<HTMLDivElement>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const choicesAnchorRef = useRef<HTMLDivElement>(null);
