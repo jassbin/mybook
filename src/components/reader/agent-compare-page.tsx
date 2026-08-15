@@ -113,14 +113,10 @@ export function AgentComparePage({
   }, [intensifyState.choiceHistory]);
 
   // ── 解析四段 ─────────────────────────────────────────────────────────────
-  const { evidence, mirror, foldJson, anchorsJson } = useMemo(
+  const { evidence, mirror, anchorsJson } = useMemo(
     () => parseSections(aiText),
     [aiText],
   );
-  const fold: SpacetimeFold | null = useMemo(() => {
-    if (!foldJson) return null;
-    try { return JSON.parse(foldJson); } catch { return null; }
-  }, [foldJson]);
   const anchors: ValueAnchor[] = useMemo(() => {
     if (!anchorsJson) return [];
     try {
@@ -132,7 +128,6 @@ export function AgentComparePage({
   const isStreaming = !aiDone;
   const hasEvidence = evidence.length > 0;
   const hasMirror   = mirror.length > 0;
-  const hasFold     = fold !== null;
   const hasAnchors  = anchors.length > 0;
 
   // ── 流式对比旁白（走四段协议）─────────────────────────────────────────────
