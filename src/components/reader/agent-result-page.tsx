@@ -215,39 +215,6 @@ export function AgentResultPage({
             ))}
           </div>
 
-          {/* ── 结构性张力：本局触碰的底层问题 ── */}
-          {(() => {
-            const tensions = [...new Set(
-              worldState.choiceHistory
-                .map(c => c.modernTension)
-                .filter((t): t is string => !!t)
-            )];
-            if (!tensions.length) return null;
-            return (
-              <div
-                className="mt-4 px-3 py-3 rounded-sm"
-                style={{ background: `${spineColor}0a`, borderLeft: `3px solid ${spineColor}40` }}
-              >
-                <p
-                  className="text-[10px] font-bold tracking-widest uppercase mb-2.5"
-                  style={{ color: "#0b6b57" }}
-                >
-                  这个故事触碰的底层问题
-                </p>
-                <div className="flex flex-col gap-2">
-                  {tensions.map((t, i) => (
-                    <p
-                      key={i}
-                      className="text-[11px] leading-relaxed"
-                      style={{ color: "rgba(1,1,1,.72)" }}
-                    >
-                      {t}
-                    </p>
-                  ))}
-                </div>
-              </div>
-            );
-          })()}
         </div>
 
         {/* ── 价值轴 ───────────────────────────────────────────── */}
