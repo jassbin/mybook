@@ -57,6 +57,14 @@ export function BookSelect({ onSelect }: BookSelectProps) {
 
   useEffect(() => { setBooks(buildPresetBooks()); }, []);
 
+  // 首屏书架渲染后，标记入场动画已完成（延迟到动画结束）
+  useEffect(() => {
+    if (books.length && !didAnimate.current) {
+      const t = setTimeout(() => { didAnimate.current = true; }, 900);
+      return () => clearTimeout(t);
+    }
+  }, [books.length]);
+
   // 切换主题偏好：重建书架（优先推荐命中主题的书与角色）
   const handleThemeChange = (next: ThemeKey) => {
     setTheme(next);
@@ -195,11 +203,11 @@ export function BookSelect({ onSelect }: BookSelectProps) {
               onClick={() => handlePresetClick(book)}
               onMouseEnter={() => setHovered(book.key)}
               onMouseLeave={() => setHovered(null)}
-              className="relative overflow-hidden text-left transition-all duration-[220ms] active:scale-[.985] hover:-translate-y-1 anim-spine flex flex-col rounded-2xl"
+              className={`relative overflow-hidden text-left transition-all duration-[220ms] active:scale-[.985] hover:-translate-y-1 flex flex-col rounded-2xl${didAnimate.current ? "" : " anim-spine"}`}
               style={{
                 background: "#ffffff",
                 border: "1.5px solid rgba(16,185,129,.4)",
-                animationDelay: `${i * 70}ms`,
+                animationDelay: didAnimate.current ? undefined : `${i * 70}ms`,
                 boxShadow: hovered === book.key
                   ? "0 12px 28px rgba(16,185,129,.28), 0 0 0 1px rgba(16,185,129,.5)"
                   : "0 4px 16px rgba(6,60,50,.1)",
