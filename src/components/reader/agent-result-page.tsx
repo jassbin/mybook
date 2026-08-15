@@ -8,8 +8,7 @@ import {
   buildAgentStoryShareUrl,
 } from "@/lib/reader/share-codec";
 import { PageTopbar } from "./page-topbar";
-import { Flame, Share2, Drama, MoveHorizontal } from "lucide-react";
-import { MetaAxisProfile } from "./meta-axis-profile";
+import { Flame, Share2, Drama } from "lucide-react";
 
 interface AgentResultPageProps {
   worldState: WorldState;
@@ -18,13 +17,6 @@ interface AgentResultPageProps {
   onNewBook: () => void;
   onIntensify?: () => void;
   onBack?: () => void;
-}
-
-// 时空折叠 JSON 结构
-interface SpacetimeFold {
-  ancientScene: string;
-  modernScene: string;
-  bridge: string;
 }
 
 // 价值锚点 JSON 结构（第四段，数组）
@@ -38,21 +30,12 @@ interface ValueAnchor {
 function parseSections(text: string): {
   evidence: string;
   mirror: string;
-  foldJson: string | null;
   anchorsJson: string | null;   // 数组 JSON
 } {
   const parts = text.split("===SEP===");
   const evidence   = (parts[0] ?? "").trim();
   const mirror     = (parts[1] ?? "").trim();
-  const foldRaw    = (parts[2] ?? "").trim();
   const anchorRaw  = (parts[3] ?? "").trim();
-
-  // 解析时空折叠
-  let foldJson: string | null = null;
-  if (foldRaw) {
-    const m = foldRaw.match(/\{[\s\S]*\}/);
-    if (m) { try { JSON.parse(m[0]); foldJson = m[0]; } catch { foldJson = null; } }
-  }
 
   // 解析价值锚点数组
   let anchorsJson: string | null = null;
@@ -74,7 +57,7 @@ function parseSections(text: string): {
     }
   }
 
-  return { evidence, mirror, foldJson, anchorsJson };
+  return { evidence, mirror, anchorsJson };
 }
 
 
@@ -90,25 +73,11 @@ export function AgentResultPage({
   const spineColor = "#0b6b57";
   const spineText  = "#EFE6C9";
 
-  // 选择模式统计
-  const stats = useMemo(() => {
-    const h = worldState.choiceHistory;
-    const total  = h.length;
-    const aCount = h.filter(c => c.choiceId === "A").length;
-    const bCount = h.filter(c => c.choiceId === "B").length;
-    const cCount = h.filter(c => c.choiceId === "C").length;
-    return { total, aCount, bCount, cCount };
-  }, [worldState.choiceHistory]);
-
-  // 解析四段
-  const { evidence, mirror, foldJson, anchorsJson } = useMemo(
+  // 解析各段
+  const { evidence, mirror, anchorsJson } = useMemo(
     () => parseSections(aiText),
     [aiText]
   );
-  const fold: SpacetimeFold | null = useMemo(() => {
-    if (!foldJson) return null;
-    try { return JSON.parse(foldJson); } catch { return null; }
-  }, [foldJson]);
   const anchors: ValueAnchor[] = useMemo(() => {
     if (!anchorsJson) return [];
     try {
@@ -175,7 +144,6 @@ export function AgentResultPage({
   const isStreaming = !aiDone;
   const hasEvidence = evidence.length > 0;
   const hasMirror   = mirror.length > 0;
-  const hasFold     = fold !== null;
   const hasAnchors  = anchors.length > 0;
 
   return (
