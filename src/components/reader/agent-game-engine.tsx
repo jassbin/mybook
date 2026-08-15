@@ -178,7 +178,7 @@ export function AgentGameEngine({
     // 方案A：陷阱选项不再「游戏结束」，而是「付出重大代价后继续」——
     // 把代价描述作为一条沉重后果插入，随后照常走到下一幕，保证最终能抵达价值观报告。
     const trapCostMsg = choice.isTrap && currentAct.trapEndingText
-      ? [{ id: "trap-cost", type: "narrator", text: currentAct.trapEndingText, delay: 0,
+      ? [{ id: "trap-cost", type: "trapcost", text: currentAct.trapEndingText, delay: 0,
            key: `trapcost-${worldStateRef.current.actNumber}` }]
       : [];
 
