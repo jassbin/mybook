@@ -172,7 +172,7 @@ export function BookSelect({ onSelect }: BookSelectProps) {
               className="relative overflow-hidden text-left transition-all duration-[220ms] active:scale-[.985] hover:-translate-y-1 anim-spine flex flex-col rounded-2xl"
               style={{
                 background: "#ffffff",
-                border: "3px solid rgba(16,185,129,.6)",
+                border: "1.5px solid rgba(16,185,129,.4)",
                 animationDelay: `${i * 70}ms`,
                 boxShadow: hovered === book.key
                   ? "0 12px 28px rgba(16,185,129,.28), 0 0 0 1px rgba(16,185,129,.5)"
@@ -182,7 +182,7 @@ export function BookSelect({ onSelect }: BookSelectProps) {
               {/* 书名区：清爽实色浅绿底 + 书脊色大字书名（无厚重描边，颜色鲜明） */}
               <div
                 className="relative flex items-center justify-center shrink-0 px-3"
-                style={{ minHeight: 60, paddingTop: 10, paddingBottom: 10, background: "#d7f5ec", borderBottom: "2px solid rgba(16,185,129,.45)" }}
+                style={{ minHeight: 60, paddingTop: 10, paddingBottom: 10, background: "#d7f5ec", borderBottom: "1px solid rgba(16,185,129,.3)" }}
               >
                 <span
                   className="relative z-10 text-center w-full"
@@ -193,7 +193,7 @@ export function BookSelect({ onSelect }: BookSelectProps) {
                     letterSpacing: book.title.length > 4 ? 2 : 4,
                     wordBreak: "break-all",
                     whiteSpace: "normal",
-                    color: "#e0393f",
+                    color: book.color,
                   }}
                 >
                   {book.title}
@@ -205,7 +205,7 @@ export function BookSelect({ onSelect }: BookSelectProps) {
                 <div className="flex items-center gap-1.5 flex-wrap">
                   <span
                     className="text-xs font-black tracking-wide"
-                    style={{ color: "#2563eb" }}
+                    style={{ color: book.color }}
                   >
                     {book.recommendedChar}
                   </span>
