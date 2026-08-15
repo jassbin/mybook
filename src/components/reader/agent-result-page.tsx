@@ -86,10 +86,22 @@ export function AgentResultPage({
   const spineText  = "#EFE6C9";
 
   // 解析各段
-  const { evidence, mirror, anchorsJson } = useMemo(
+  const { evidence, mirror, axisReasonsJson, anchorsJson } = useMemo(
     () => parseSections(aiText),
     [aiText]
   );
+  // 价值轴成因映射：轴名 → 「你为何在这」解释
+  const axisReasonMap: Record<string, string> = useMemo(() => {
+    if (!axisReasonsJson) return {};
+    try {
+      const parsed = JSON.parse(axisReasonsJson) as AxisReason[];
+      const map: Record<string, string> = {};
+      if (Array.isArray(parsed)) {
+        parsed.forEach(r => { if (r?.key && r?.reason) map[r.key] = r.reason; });
+      }
+      return map;
+    } catch { return {}; }
+  }, [axisReasonsJson]);
   const anchors: ValueAnchor[] = useMemo(() => {
     if (!anchorsJson) return [];
     try {
