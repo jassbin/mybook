@@ -69,9 +69,11 @@ export function AgentGameEngine({
   const choicesAnchorRef = useRef<HTMLDivElement>(null);
   const spineColor = bookMeta?.color ?? "#1A3A5C";
 
-  // 用 ref 保存预加载结果 — 避免闭包读到旧 state
-  const prefetchedRef = useRef<{ state: WorldState; act: ActData } | null>(null);
+  // 用 ref 保存预加载结果 — 避免闭包读到旧 state。记录预热对应的 choiceId，
+  // 以便「选项一出现就预热默认项」：若用户点了别的选项，丢弃重来。
+  const prefetchedRef = useRef<{ state: WorldState; act: ActData; choiceId: string } | null>(null);
   const prefetchingRef = useRef(false);
+  const prefetchingIdRef = useRef<string | null>(null);
   const pendingChoiceRef = useRef<{ choice: ActData["choices"][0]; act: ActData } | null>(null);
   const worldStateRef = useRef<WorldState>(initialState);
   useEffect(() => { worldStateRef.current = worldState; }, [worldState]);
