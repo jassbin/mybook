@@ -80,7 +80,7 @@ export function PageTopbar({
         )}
         {subtitle && (
           <div className="text-[10px] leading-tight truncate"
-            style={{ color: darkMode ? "rgba(239,230,201,.42)" : "rgba(1,1,1,.36)" }}>
+            style={{ color: darkMode ? "rgba(239,230,201,.42)" : "rgba(12,60,58,.62)" }}>
             {subtitle}
           </div>
         )}
