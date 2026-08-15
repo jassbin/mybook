@@ -217,7 +217,7 @@ export function BookSelect({ onSelect }: BookSelectProps) {
                     letterSpacing: book.title.length > 4 ? 2 : 4,
                     wordBreak: "break-all",
                     whiteSpace: "normal",
-                    color: book.color,
+                    color: darkenForCard(book.color),
                   }}
                 >
                   {book.title}
@@ -229,7 +229,7 @@ export function BookSelect({ onSelect }: BookSelectProps) {
                 <div className="flex items-center gap-1.5 flex-wrap">
                   <span
                     className="text-xs font-black tracking-wide"
-                    style={{ color: book.color }}
+                    style={{ color: darkenForCard(book.color) }}
                   >
                     {book.recommendedChar}
                   </span>
@@ -308,11 +308,11 @@ export function BookSelect({ onSelect }: BookSelectProps) {
                     style={{ borderTop: idx > 0 ? "1px solid rgba(1,1,1,.08)" : "none" }}
                   >
                     {/* 书脊色条 */}
-                    <div className="shrink-0 w-1 self-stretch rounded-[1px]" style={{ background: b.color }} />
+                    <div className="shrink-0 w-1 self-stretch rounded-[1px]" style={{ background: darkenForCard(b.color) }} />
                     <div className="flex flex-col min-w-0 flex-1">
                       <span
                         className="text-xs font-black leading-tight"
-                        style={{ fontFamily: "'Ma Shan Zheng', serif", color: b.color, letterSpacing: 1 }}
+                        style={{ fontFamily: "'Ma Shan Zheng', serif", color: darkenForCard(b.color), letterSpacing: 1 }}
                       >
                         《{b.title}》
                       </span>
