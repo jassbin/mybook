@@ -111,16 +111,12 @@ export function AgentGameEngine({
     pendingChoiceRef.current = null;
 
     const msgs = currentAct.messages;
-    let elapsed = 0;
-    const timers: ReturnType<typeof setTimeout>[] = [];
-    msgs.forEach((msg, i) => {
-      elapsed += (msg.delay ?? 0) + (i === 0 ? 0 : 480);
-      timers.push(setTimeout(() => {
-        setDisplayedMsgs(prev => [...prev, { ...msg, key: `${worldStateRef.current.actNumber}-${msg.id}` }]);
-        if (i === msgs.length - 1) setTimeout(() => setShowChoices(true), 550);
-      }, elapsed));
-    });
-    return () => timers.forEach(clearTimeout);
+    // 一口气全部展示：进入本幕时所有叙述一次性出现，不逐条、不闪
+    setDisplayedMsgs(
+      msgs.map(msg => ({ ...msg, key: `${worldStateRef.current.actNumber}-${msg.id}` }))
+    );
+    const t = setTimeout(() => setShowChoices(true), 400);
+    return () => clearTimeout(t);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentAct]);
 
