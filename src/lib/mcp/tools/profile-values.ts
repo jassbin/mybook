@@ -66,7 +66,9 @@ export function registerProfileValues(server: McpServer, _userId: string) {
           : null,
       };
       if (typeof forAct === "number") {
-        result.intensifyDirectiveForAct = buildIntensifyDirectiveForAct(profile, forAct).trim();
+        // 分型施压只有 3 型（1砸主流 / 2逃隐性 / 3撞矛盾）；超出上限的幕号夹到 3，避免出现「第999幕」这类越界输出
+        const safeForAct = Math.min(3, Math.max(1, Math.floor(forAct)));
+        result.intensifyDirectiveForAct = buildIntensifyDirectiveForAct(profile, safeForAct).trim();
       }
 
       return {
