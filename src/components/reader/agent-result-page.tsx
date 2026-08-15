@@ -365,7 +365,7 @@ export function AgentResultPage({
             {hasMirror ? (
               <div
                 className="text-sm leading-relaxed font-semibold px-4 py-3 rounded-sm"
-                style={{ background: `${spineColor}12`, borderLeft: `3px solid ${spineColor}`, color: "rgba(1,1,1,.78)" }}
+                style={{ background: `${spineColor}14`, borderLeft: `3px solid ${spineColor}`, color: "rgba(1,1,1,.88)" }}
               >
                 {mirror}
                 {isStreaming && !hasFold && (
@@ -384,7 +384,7 @@ export function AgentResultPage({
         {/* ── 时空折叠卡（古今对照）───────────────────────────── */}
         {(hasFold || (isStreaming && hasMirror)) && (
           <div className="relative z-10 px-4 pt-4 pb-4 border-b border-[rgba(1,1,1,.12)]">
-            <p className="text-[11px] font-bold tracking-widest text-[rgba(1,1,1,.4)] mb-3 uppercase px-1">时空折叠</p>
+            <p className="text-[11px] font-black tracking-widest mb-3 uppercase px-1" style={{ color: "#0b6b57" }}>时空折叠</p>
             {hasFold && fold ? (
               <div
                 className="rounded-sm overflow-hidden"
@@ -400,10 +400,10 @@ export function AgentResultPage({
                     </p>
                   </div>
                   <div className="px-3 py-4 flex flex-col gap-1.5 bg-[rgba(255,255,255,.6)]">
-                    <span className="text-[9px] font-bold tracking-widest text-[rgba(1,1,1,.4)]">
+                    <span className="text-[9px] font-bold tracking-widest" style={{ color: "#0b6b57" }}>
                       你 · 今天
                     </span>
-                    <p className="text-sm font-bold leading-snug text-[rgba(1,1,1,.82)]">
+                    <p className="text-sm font-bold leading-snug text-[rgba(1,1,1,.9)]">
                       {fold.modernScene}
                     </p>
                   </div>
@@ -429,7 +429,7 @@ export function AgentResultPage({
         {/* ── 多维价值锚点（第四段）────────────────────────────── */}
         {(hasAnchors || (isStreaming && hasFold)) && (
           <div className="relative z-10 px-4 pt-4 pb-4 border-b border-[rgba(1,1,1,.1)]">
-            <p className="text-[11px] font-bold tracking-widest text-[rgba(1,1,1,.38)] mb-4 uppercase px-1">照见自己</p>
+            <p className="text-[11px] font-black tracking-widest mb-4 uppercase px-1" style={{ color: "#0b6b57" }}>照见自己</p>
             {hasAnchors ? (
               <div className="flex flex-col gap-3">
                 {anchors.map((a, i) => (
