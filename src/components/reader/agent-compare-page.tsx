@@ -245,10 +245,10 @@ export function AgentComparePage({
 
         {/* ── 选择模式对比条 ──────────────────────────────────────── */}
         <div className="relative z-10 px-5 pt-4 pb-4 border-b border-[rgba(1,1,1,.1)]">
-          <p className="text-[11px] font-bold tracking-widest text-[rgba(1,1,1,.38)] mb-3 uppercase">选择模式对比</p>
+          <p className="text-[11px] font-black tracking-widest mb-3 uppercase" style={{ color: "#0b6b57" }}>选择模式对比</p>
           <ChoiceBar stats={normalStats}    color={spineColor}    textColor={spineText}   label="普通版" />
           <ChoiceBar stats={intensifyStats} color={intensifyColor} textColor="#EFE6C9" label="极压版" />
-          <div className="flex justify-between text-[10px] text-[rgba(1,1,1,.38)] mt-1">
+          <div className="flex justify-between text-[10px] font-semibold text-[rgba(1,1,1,.6)] mt-1">
             <span>甲 = 保全优先</span>
             <span>乙 = 中间路线</span>
             <span>丙 = 代价更重</span>
@@ -353,7 +353,7 @@ export function AgentComparePage({
 
         {/* ── 价值轴对比 ───────────────────────────────────────────── */}
         <div className="relative z-10 px-5 pt-4 pb-4 border-b border-[rgba(1,1,1,.12)]">
-          <p className="text-[11px] font-bold tracking-widest text-[rgba(1,1,1,.4)] mb-3 uppercase">价值轴对比</p>
+          <p className="text-[11px] font-black tracking-widest mb-3 uppercase" style={{ color: "#0b6b57" }}>价值轴对比</p>
           {normalState.axes.map(axis => {
             const ia    = intensifyState.axes.find(a => a.key === axis.key);
             const nScore = axis.score;
@@ -405,7 +405,7 @@ export function AgentComparePage({
 
         {/* ── 对比证据链（段一）──────────────────────────────────────── */}
         <div className="relative z-10 px-5 pt-5 pb-4 border-b border-[rgba(1,1,1,.12)]">
-          <p className="text-[11px] font-bold tracking-widest text-[rgba(1,1,1,.4)] mb-3 uppercase">对比洞察</p>
+          <p className="text-[11px] font-black tracking-widest mb-3 uppercase" style={{ color: "#0b6b57" }}>对比洞察</p>
           {!hasEvidence && isStreaming ? (
             <div className="flex items-center gap-2 text-sm text-[rgba(1,1,1,.45)] italic">
               <span className="inline-block w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: intensifyColor }} />
@@ -425,7 +425,7 @@ export function AgentComparePage({
         {/* ── 模式镜像（段二）─────────────────────────────────────────── */}
         {(hasMirror || (isStreaming && hasEvidence)) && (
           <div className="relative z-10 px-5 pt-4 pb-4 border-b border-[rgba(1,1,1,.12)]">
-            <p className="text-[11px] font-bold tracking-widest text-[rgba(1,1,1,.4)] mb-3 uppercase">你的模式</p>
+            <p className="text-[11px] font-black tracking-widest mb-3 uppercase" style={{ color: "#0b6b57" }}>你的模式</p>
             {hasMirror ? (
               <div
                 className="text-sm leading-relaxed font-semibold px-4 py-3 rounded-sm"
@@ -452,7 +452,7 @@ export function AgentComparePage({
         {/* ── 时空折叠卡（段三）──────────────────────────────────────── */}
         {(hasFold || (isStreaming && hasMirror)) && (
           <div className="relative z-10 px-4 pt-4 pb-4 border-b border-[rgba(1,1,1,.12)]">
-            <p className="text-[11px] font-bold tracking-widest text-[rgba(1,1,1,.4)] mb-3 uppercase px-1">时空折叠</p>
+            <p className="text-[11px] font-black tracking-widest mb-3 uppercase px-1" style={{ color: "#0b6b57" }}>时空折叠</p>
             {hasFold && fold ? (
               <div
                 className="rounded-sm overflow-hidden"
@@ -501,7 +501,7 @@ export function AgentComparePage({
         {/* ── 多维价值锚点（段四）──────────────────────────────── */}
         {(hasAnchors || (isStreaming && hasFold)) && (
           <div className="relative z-10 px-4 pt-4 pb-4 border-b border-[rgba(1,1,1,.1)]">
-            <p className="text-[11px] font-bold tracking-widest text-[rgba(1,1,1,.38)] mb-4 uppercase px-1">照见自己</p>
+            <p className="text-[11px] font-black tracking-widest mb-4 uppercase px-1" style={{ color: "#0b6b57" }}>照见自己</p>
             {hasAnchors ? (
               <div className="flex flex-col gap-3">
                 {anchors.map((a, i) => (
