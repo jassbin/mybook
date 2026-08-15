@@ -223,17 +223,22 @@ export function AgentResultPage({
                     style={{ fontFamily: "'Ma Shan Zheng', serif", color: spineText }}>{record.act}</span>
                 </div>
                 <div className="flex-1 bg-[rgba(255,255,255,.55)] px-3 py-2.5 relative">
-                  <span className="absolute top-2 right-2 text-[8px] px-1.5 py-0.5 font-semibold rounded-sm"
-                    style={{ background: "rgba(11,107,87,.12)", color: "#0b6b57" }}>
-                    {record.socialTag}
-                  </span>
-                  <div className="text-sm font-bold text-[rgba(1,1,1,.88)] leading-snug pr-16">
-                    {record.choiceText}
+                  {/* 大字：原著知名桥段名，一眼认出经历了什么 */}
+                  <div className="text-base font-black text-[rgba(1,1,1,.9)] leading-snug"
+                    style={{ fontFamily: "'Ma Shan Zheng', serif" }}>
+                    {record.sceneName || record.choiceText}
                   </div>
-                  <div className="text-[11px] mt-1 leading-relaxed"
-                    style={{ color: "rgba(1,1,1,.68)", borderLeft: `2px solid ${spineColor}66`, paddingLeft: 6 }}>
-                    {record.revealText}
+                  {/* 我选择了什么 */}
+                  <div className="text-[12px] mt-1 leading-snug text-[rgba(1,1,1,.72)]">
+                    你选择了：{record.choiceText}
                   </div>
+                  {/* 对应今天的困境 */}
+                  {(record.modernTension || record.socialTag) && (
+                    <div className="text-[11px] mt-1.5 leading-relaxed"
+                      style={{ color: "#0b6b57", borderLeft: `2px solid ${spineColor}66`, paddingLeft: 6 }}>
+                      {record.modernTension || record.socialTag}
+                    </div>
+                  )}
                 </div>
               </div>
             ))}
