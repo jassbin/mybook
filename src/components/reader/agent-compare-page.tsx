@@ -249,9 +249,8 @@ export function AgentComparePage({
           </p>
         </div>
 
-        {/* ── 选择模式对比条 ──────────────────────────────────────── */}
-        <div className="relative z-10 px-5 pt-4 pb-4 border-b border-[rgba(1,1,1,.1)]">
-          <p className="text-[11px] font-black tracking-widest mb-3 uppercase" style={{ color: "#0b6b57" }}>选择模式对比</p>
+        {/* ── 块1：选择模式对比 ──────────────────────────────────── */}
+        <ResultSection index="1" title="选择模式对比">
           <ChoiceBar stats={normalStats}    color={spineColor}    textColor={spineText}   label="普通版" />
           <ChoiceBar stats={intensifyStats} color={intensifyColor} textColor="#EFE6C9" label="极压版" />
           <div className="flex justify-between text-[10px] font-semibold text-[rgba(1,1,1,.6)] mt-1">
@@ -259,11 +258,10 @@ export function AgentComparePage({
             <span>乙 = 中间路线</span>
             <span>丙 = 代价更重</span>
           </div>
-        </div>
+        </ResultSection>
 
-        {/* ── 双排选择对照 ─────────────────────────────────────────── */}
-        <div className="relative z-10 px-5 pt-4 pb-4 border-b border-[rgba(1,1,1,.12)]">
-          <p className="text-[11px] font-black tracking-widest mb-4 uppercase" style={{ color: "#0b6b57" }}>逐幕对照</p>
+        {/* ── 块2：逐幕对照 ─────────────────────────────────────── */}
+        <ResultSection index="2" title="逐幕对照">
           <div className="grid grid-cols-2 gap-2 mb-3">
             <div className="text-[10px] font-bold text-center py-1 px-2 rounded-sm"
               style={{ background: spineColor, color: "#EFE6C9" }}>普通版</div>
