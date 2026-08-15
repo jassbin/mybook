@@ -62,7 +62,6 @@ export function AgentComparePage({
 
   // 普通版统一绿色主色（与首页深绿体系一致）；极压版保留红色以形成语义对比
   const spineColor    = "#0b6b57";
-  const spineText     = "#EFE6C9";
   const intensifyColor = "#a83c2a";
 
   const showToast = useCallback((msg: string) => {
