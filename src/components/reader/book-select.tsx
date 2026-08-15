@@ -191,7 +191,6 @@ export function BookSelect({ onSelect }: BookSelectProps) {
                     fontSize: book.title.length > 4 ? 17 : 24,
                     lineHeight: 1.2,
                     letterSpacing: book.title.length > 4 ? 2 : 4,
-                    color: book.color,
                     wordBreak: "break-all",
                     whiteSpace: "normal",
                     color: "#e0393f",
