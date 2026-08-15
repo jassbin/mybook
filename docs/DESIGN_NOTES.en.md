@@ -54,8 +54,9 @@ at the specific thing you did last run, drawing the previously-computed-but-
 never-shown meta-value-axes onto the result page, and expanding the content
 libraries.
 
-## The 17 principles (at a glance)
+## The 18 principles (at a glance)
 
+0. **Source honesty (governing all)** — never fabricate; if the book/character isn't reliably known, stop honestly.
 1. **Neutrality** — never presuppose a value stance; no "correct" answer.
 2. **Discovering values** — through *accumulated behavior*, not self-report questionnaires.
 3. **Extreme pressure** — force out the *deep* values, not the performed ones.
@@ -73,6 +74,18 @@ libraries.
 15. **Comparison page** — only "the same ruler" reveals the gap.
 16. **Cost logic** — reversals are *relational blowback*, not punishment from the sky.
 17. **Choice → feedback loop** — coherent, striking, and surprising, all at once.
+18. **Established-fact locking** — once the player's choice legally diverges from the canon (e.g. Wei Yan holds Jieting), that new history is the *only* history; the default canon must never roll it back (no more "Ma Su loses Jieting / is executed"). This is an L1 red line.
+
+## Principle tiers & conflict arbitration (constitutional model)
+
+Principles are not a flat list where everything weighs the same. They carry **effect tiers**, and conflicts follow a **yield order** — enforced in code: `narrative-principles.ts` tags each `PROHIBITIONS` entry with a `tier`, and `buildProhibitionsBlock()` injects them into every act's prompt sorted L1→L2→L3, so red lines always come first.
+
+- **L1 · Constitutional red lines** (violating = product loses legitimacy): source honesty, neutrality, behavior-accumulation + two-pass analysis, established-fact locking.
+- **L2 · Core-experience pillars** (violating = still the product, but crippled): extreme pressure, anchors, two-pass comparison, meta-axes, modern re-reading, choice-triple + equal weight.
+- **L3 · Craft-level implementation** (violating = locally rough): the rest.
+- **Arbitration:** lower tier always yields to higher (L1 > L2 > L3). E.g. established-fact (L1) vs. default canon (L1): source honesty guards *the unaltered skeleton*; the part the player legally changed defers to the established fact.
+
+> The meta-principle "Reverse Productization" is *methodology* (how we iterate), not a design law — it stands apart and does not enter tier arbitration.
 
 ## Landing-status self-assessment
 
