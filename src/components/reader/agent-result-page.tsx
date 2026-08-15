@@ -184,13 +184,13 @@ export function AgentResultPage({
         </div>
 
         {/* ── 选择轨迹卡片 ─────────────────────────────────────── */}
-        <div className="relative z-10 px-4 pt-4 pb-4 border-b border-[rgba(1,1,1,.1)]">
+        <div className="relative z-10 px-4 pt-4 pb-4 border-b border-[rgba(0,0,0,.9)]">
           <p className="text-[11px] font-black tracking-widest mb-3 uppercase px-1" style={{ color: "#0b6b57" }}>选择轨迹</p>
           <div className="flex flex-col gap-2">
             {worldState.choiceHistory.map((record, i) => (
               <div key={i}
                 className="flex gap-0 overflow-hidden anim-ink"
-                style={{ animationDelay: `${i * 70}ms`, boxShadow: "0 1px 4px rgba(0,0,0,.07)", border: "1px solid rgba(1,1,1,.1)" }}>
+                style={{ animationDelay: `${i * 70}ms`, boxShadow: "0 1px 4px rgba(0,0,0,.07)", border: "1px solid rgba(0,0,0,.9)" }}>
                 <div
                   className="flex flex-col items-center justify-center px-2.5 py-3 flex-shrink-0"
                   style={{ background: spineColor, minWidth: 40 }}>
@@ -218,7 +218,7 @@ export function AgentResultPage({
         </div>
 
         {/* ── 价值轴 ───────────────────────────────────────────── */}
-        <div className="relative z-10 px-5 pt-4 pb-4 border-b border-[rgba(1,1,1,.12)]">
+        <div className="relative z-10 px-5 pt-4 pb-4 border-b border-[rgba(0,0,0,.9)]">
           <p className="text-[11px] font-black tracking-widest mb-3 uppercase" style={{ color: "#0b6b57" }}>价值倾向</p>
           <div className="flex flex-col gap-3">
             {worldState.axes.map(axis => (
@@ -268,7 +268,7 @@ export function AgentResultPage({
 
         {/* ── 多维价值锚点（照见自己）──────────────────────────── */}
         {(hasAnchors || (isStreaming && hasMirror)) && (
-          <div className="relative z-10 px-4 pt-4 pb-4 border-b border-[rgba(1,1,1,.1)]">
+          <div className="relative z-10 px-4 pt-4 pb-4 border-b border-[rgba(0,0,0,.9)]">
             <p className="text-[11px] font-black tracking-widest mb-4 uppercase px-1" style={{ color: "#0b6b57" }}>照见自己</p>
             {hasAnchors ? (
               <div className="flex flex-col gap-3">
