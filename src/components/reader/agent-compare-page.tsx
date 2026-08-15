@@ -134,44 +134,6 @@ export function AgentComparePage({
     if (aiDone) bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [aiDone]);
 
-  // ── 渲染占比条辅助 ─────────────────────────────────────────────────────────
-  function ChoiceBar({
-    stats, color, textColor, label,
-  }: { stats: typeof normalStats; color: string; textColor: string; label: string }) {
-    if (stats.total === 0) return null;
-    return (
-      <div>
-        <p className="text-[10px] font-bold mb-1.5" style={{ color: `${color}cc` }}>{label}</p>
-        <div className="flex gap-0.5 h-5 rounded-sm overflow-hidden mb-1.5">
-          {stats.aCount > 0 && (
-            <div
-              className="flex items-center justify-center text-[9px] font-bold transition-all duration-700"
-              style={{ width: `${(stats.aCount / stats.total) * 100}%`, background: color, color: textColor, opacity: 0.7 }}
-            >
-              {stats.aCount > 1 ? `甲×${stats.aCount}` : "甲"}
-            </div>
-          )}
-          {stats.bCount > 0 && (
-            <div
-              className="flex items-center justify-center text-[9px] font-bold transition-all duration-700"
-              style={{ width: `${(stats.bCount / stats.total) * 100}%`, background: color, color: textColor, opacity: 0.45 }}
-            >
-              {stats.bCount > 1 ? `乙×${stats.bCount}` : "乙"}
-            </div>
-          )}
-          {stats.cCount > 0 && (
-            <div
-              className="flex items-center justify-center text-[9px] font-bold transition-all duration-700"
-              style={{ width: `${(stats.cCount / stats.total) * 100}%`, background: color, color: textColor, opacity: 0.92 }}
-            >
-              {stats.cCount > 1 ? `丙×${stats.cCount}` : "丙"}
-            </div>
-          )}
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div
       className="fresh-backdrop flex flex-col min-h-screen"
