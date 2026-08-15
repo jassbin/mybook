@@ -6,6 +6,7 @@ import type { BookMeta } from "@/lib/reader/types";
 import type { WorldState } from "@/lib/agent/world-state";
 import { buildAgentResultShareUrl, buildAgentStoryShareUrl } from "@/lib/reader/share-codec";
 import { PageTopbar } from "./page-topbar";
+import { ResultSection } from "./result-section";
 import { Flame, Share2, MoveHorizontal } from "lucide-react";
 
 interface AgentComparePageProps {
