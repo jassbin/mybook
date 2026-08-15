@@ -7,7 +7,7 @@ import type { WorldState } from "@/lib/agent/world-state";
 import { buildAgentResultShareUrl, buildAgentStoryShareUrl } from "@/lib/reader/share-codec";
 import { PageTopbar } from "./page-topbar";
 import { ResultSection } from "./result-section";
-import { Flame, Share2, MoveHorizontal } from "lucide-react";
+import { Flame, Share2 } from "lucide-react";
 
 interface AgentComparePageProps {
   bookMeta: BookMeta | null;
@@ -18,12 +18,6 @@ interface AgentComparePageProps {
   onBack?: () => void;
 }
 
-interface SpacetimeFold {
-  ancientScene: string;
-  modernScene: string;
-  bridge: string;
-}
-
 interface ValueAnchor {
   type: string;
   image: string;
@@ -32,19 +26,13 @@ interface ValueAnchor {
 
 // 把流式全文按 ===SEP=== 分成四段
 function parseSections(text: string): {
-  evidence: string; mirror: string; foldJson: string | null; anchorsJson: string | null;
+  evidence: string; mirror: string; anchorsJson: string | null;
 } {
   const parts = text.split("===SEP===");
   const evidence   = (parts[0] ?? "").trim();
   const mirror     = (parts[1] ?? "").trim();
-  const foldRaw    = (parts[2] ?? "").trim();
   const anchorRaw  = (parts[3] ?? "").trim();
 
-  let foldJson: string | null = null;
-  if (foldRaw) {
-    const m = foldRaw.match(/\{[\s\S]*\}/);
-    if (m) { try { JSON.parse(m[0]); foldJson = m[0]; } catch { foldJson = null; } }
-  }
   let anchorsJson: string | null = null;
   if (anchorRaw) {
     // 先尝试数组
@@ -56,7 +44,7 @@ function parseSections(text: string): {
       if (obj) { try { anchorsJson = JSON.stringify([JSON.parse(obj[0])]); } catch { anchorsJson = null; } }
     }
   }
-  return { evidence, mirror, foldJson, anchorsJson };
+  return { evidence, mirror, anchorsJson };
 }
 
 
