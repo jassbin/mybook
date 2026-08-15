@@ -215,46 +215,6 @@ export function AgentResultPage({
           </p>
         </div>
 
-        {/* ── 选择模式统计条 ────────────────────────────────────── */}
-        {stats.total > 0 && (
-          <div className="relative z-10 px-5 pt-4 pb-4 border-b border-[rgba(1,1,1,.1)]">
-            <p className="text-[11px] font-black tracking-widest mb-3 uppercase" style={{ color: "#0b6b57" }}>
-              你的选择模式
-            </p>
-            <div className="flex gap-1 h-5 rounded-sm overflow-hidden mb-2">
-              {stats.aCount > 0 && (
-                <div
-                  className="flex items-center justify-center text-[9px] font-bold transition-all duration-700"
-                  style={{ width: `${(stats.aCount / stats.total) * 100}%`, background: "#0d9488", color: "#ffffff" }}
-                >
-                  {stats.aCount > 1 ? `甲×${stats.aCount}` : "甲"}
-                </div>
-              )}
-              {stats.bCount > 0 && (
-                <div
-                  className="flex items-center justify-center text-[9px] font-bold transition-all duration-700"
-                  style={{ width: `${(stats.bCount / stats.total) * 100}%`, background: "#d99a2b", color: "#ffffff" }}
-                >
-                  {stats.bCount > 1 ? `乙×${stats.bCount}` : "乙"}
-                </div>
-              )}
-              {stats.cCount > 0 && (
-                <div
-                  className="flex items-center justify-center text-[9px] font-bold transition-all duration-700"
-                  style={{ width: `${(stats.cCount / stats.total) * 100}%`, background: "#c0492e", color: "#ffffff" }}
-                >
-                  {stats.cCount > 1 ? `丙×${stats.cCount}` : "丙"}
-                </div>
-              )}
-            </div>
-            <div className="flex justify-between text-[10px] font-semibold text-[rgba(1,1,1,.6)]">
-              <span>甲 = 保全优先</span>
-              <span>乙 = 中间路线</span>
-              <span>丙 = 代价更重</span>
-            </div>
-          </div>
-        )}
-
         {/* ── 选择轨迹卡片 ─────────────────────────────────────── */}
         <div className="relative z-10 px-4 pt-4 pb-4 border-b border-[rgba(1,1,1,.1)]">
           <p className="text-[11px] font-black tracking-widest mb-3 uppercase px-1" style={{ color: "#0b6b57" }}>选择轨迹</p>
