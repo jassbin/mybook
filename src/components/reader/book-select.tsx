@@ -52,6 +52,8 @@ export function BookSelect({ onSelect }: BookSelectProps) {
   const [notFound, setNotFound] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  // 是否已经播过首屏入场动画：切换主题重建书架时不再重播，避免书名"跳一下"
+  const didAnimate = useRef(false);
 
   useEffect(() => { setBooks(buildPresetBooks()); }, []);
 
