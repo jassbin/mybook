@@ -217,20 +217,18 @@ html { font-size: 16px; }
   box-shadow:
     0 0 0 1.5px rgba(11,107,87,.4),
     0 0 54px rgba(34,197,178,.3),
-    0 24px 70px rgba(2,30,28,.5);
+    0 30px 90px rgba(2,30,28,.5) !important;
 }
 
 /* ── 结果页三层背景：深绿(外·fresh-backdrop) → 浅绿(中·result-mid) → 白卡(内·result-card) ── */
 .result-mid {
-  background: linear-gradient(180deg, #dff3ea, #cдeklmn);
+  background: linear-gradient(180deg, #dff3ea, #c7ecdd);
 }
 .result-card {
   background: #ffffff;
   border: 1.5px solid rgba(11,107,87,.28);
   border-radius: 14px;
   box-shadow: 0 4px 16px rgba(6,60,50,.1);
-}
-    0 30px 90px rgba(2,30,28,.5) !important;
 }
 @media (prefers-reduced-motion: reduce) {
   .fresh-backdrop::before { animation: none; }
