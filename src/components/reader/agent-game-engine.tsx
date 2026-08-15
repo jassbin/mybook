@@ -224,6 +224,18 @@ export function AgentGameEngine({
     });
   }, [currentAct, prefetchNextAct]);
 
+  // 提速：选项一出现就预热「默认项」（第一个未锁选项）的下一幕，不等用户点击。
+  // 若用户随后点了别的选项，prefetchNextAct 会作废旧预热并即时重来。
+  useEffect(() => {
+    if (!showChoices || choiceDone) return;
+    const firstPickable = currentAct.choices.find(c => !lockedIds.includes(c.id));
+    if (!firstPickable) return;
+    const t = setTimeout(() => {
+      prefetchNextAct(firstPickable, currentAct, worldStateRef.current);
+    }, 400); // 稍等选项入场动画，避免与消息播放争抢
+    return () => clearTimeout(t);
+  }, [showChoices, choiceDone, currentAct, lockedIds, prefetchNextAct]);
+
   // 「继续」按钮：读 ref 不读 state，彻底避免闭包问题
   const handleContinue = useCallback(async () => {
     setWaitingForContinue(false);
