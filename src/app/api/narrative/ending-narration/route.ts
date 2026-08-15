@@ -1,6 +1,6 @@
 // src/app/api/narrative/ending-narration/route.ts
 // 结局旁白：流式生成，输出用 ===SEP=== 分割为四段：
-//   段1=选择证据链 | 段2=选择模式镜像 | 段3=时空折叠JSON | 段4=价值锚点JSON
+//   段1=选择证据链 | 段2=选择模式镜像 | 段3=价值倾向成因JSON数组 | 段4=价值锚点JSON
 import { NextRequest } from "next/server";
 import { appAi } from "@/lib/eazo-ai-billing";
 import type { WorldState } from "@/lib/agent/world-state";
