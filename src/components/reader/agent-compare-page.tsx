@@ -389,92 +389,54 @@ export function AgentComparePage({
           )}
         </ResultSection>
 
-        {/* ── 块5：你的模式（段二）─────────────────────────────── */}
-        {(hasMirror || (isStreaming && hasEvidence)) && (
-          <ResultSection index="5" title="你的模式">
+        {/* ── 块5：照见自己（点破 + 清爽序号列表；已并入你的模式，去时空折叠）── */}
+        {(hasMirror || hasAnchors || isStreaming) && (
+          <ResultSection index="5" title="照见自己">
+            {/* 开头一句点破两次选择的差异 */}
             {hasMirror ? (
               <div
-                className="text-sm leading-relaxed font-semibold px-4 py-3 rounded-sm"
+                className="text-sm leading-relaxed font-bold px-4 py-3 rounded-sm mb-4"
                 style={{
                   background: `linear-gradient(135deg, ${spineColor}12, ${intensifyColor}10)`,
                   borderLeft: `3px solid ${intensifyColor}`,
-                  color: "rgba(1,1,1,.78)",
+                  color: "rgba(1,1,1,.88)",
                 }}
               >
                 {mirror}
-                {isStreaming && !hasFold && (
-                  <span className="inline-block w-0.5 h-4 ml-0.5 align-middle animate-pulse"
-                    style={{ background: intensifyColor }} />
-                )}
               </div>
-            ) : (
-              <div className="flex items-center gap-2 text-sm text-[rgba(1,1,1,.35)] italic">
+            ) : isStreaming && !hasAnchors ? (
+              <div className="flex items-center gap-2 text-sm text-[rgba(1,1,1,.5)] italic mb-4">
                 <span className="inline-block w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: intensifyColor }} />
+                正在看穿两个你……
               </div>
-            )}
-          </ResultSection>
-        )}
+            ) : null}
 
-        {/* ── 块6：时空折叠（段三）─────────────────────────────── */}
-        {(hasFold || (isStreaming && hasMirror)) && (
-          <ResultSection index="6" title="时空折叠">
-            {hasFold && fold ? (
-              <div
-                className="rounded-sm overflow-hidden"
-                style={{ border: `1px solid ${spineColor}40`, boxShadow: "0 2px 12px rgba(0,0,0,.06)" }}
-              >
-                <div className="grid grid-cols-2">
-                  {/* 左：角色/书中 */}
-                  <div className="px-3 py-4 flex flex-col gap-1.5"
-                    style={{ background: `linear-gradient(135deg, ${spineColor} 0%, ${intensifyColor} 100%)` }}>
-                    <span className="text-[9px] font-bold tracking-widest" style={{ color: "rgba(239,230,201,.7)" }}>
-                      {normalState.character} · 书中
-                    </span>
-                    <p className="text-sm font-bold leading-snug" style={{ color: "#EFE6C9" }}>
-                      {fold.ancientScene}
-                    </p>
-                  </div>
-                  {/* 右：你/今天 */}
-                  <div className="px-3 py-4 flex flex-col gap-1.5 bg-[rgba(255,255,255,.6)]">
-                    <span className="text-[9px] font-bold tracking-widest" style={{ color: "#0b6b57" }}>
-                      你 · 今天
-                    </span>
-                    <p className="text-sm font-bold leading-snug text-[rgba(1,1,1,.9)]">
-                      {fold.modernScene}
-                    </p>
-                  </div>
-                </div>
-                {/* 打通语 */}
-                <div
-                  className="px-4 py-3 flex items-center gap-2"
-                  style={{ background: `${spineColor}18`, borderTop: `1px solid ${spineColor}28` }}
-                >
-                  <MoveHorizontal size={15} style={{ color: intensifyColor }} strokeWidth={2.2} />
-                  <p className="text-sm font-bold leading-snug" style={{ color: intensifyColor }}>
-                    {fold.bridge}
-                  </p>
-                </div>
-              </div>
-            ) : (
-              <div className="flex items-center gap-2 text-sm text-[rgba(1,1,1,.35)] italic">
-                <span className="inline-block w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: intensifyColor }} />
-              </div>
-            )}
-          </ResultSection>
-        )}
-
-        {/* ── 块7：照见自己（段四）─────────────────────────────── */}
-        {(hasAnchors || (isStreaming && hasFold)) && (
-          <ResultSection index="7" title="照见自己">
-            {hasAnchors ? (
-              <div className="flex flex-col gap-3">
+            {/* 序号列表 */}
+            {hasAnchors && (
+              <div className="flex flex-col">
                 {anchors.map((a, i) => (
-                  <AnchorCard key={i} anchor={a} index={i} />
+                  <div key={i}
+                    className="flex gap-3 py-3"
+                    style={{ borderTop: i === 0 ? "none" : "1px solid rgba(0,0,0,.1)" }}>
+                    <span
+                      className="flex items-center justify-center text-[12px] font-black rounded-md flex-shrink-0 mt-0.5"
+                      style={{ width: 22, height: 22, background: intensifyColor, color: "#EFE6C9" }}>
+                      {i + 1}
+                    </span>
+                    <div className="flex-1">
+                      <div className="text-[10px] font-black tracking-[0.15em] uppercase mb-1" style={{ color: `${intensifyColor}cc` }}>
+                        {a.type}
+                      </div>
+                      <p className="text-[15px] font-bold leading-snug mb-1.5"
+                        style={{ fontFamily: "'Noto Serif SC', serif", color: "rgba(1,1,1,.86)" }}>
+                        {a.image}
+                      </p>
+                      <p className="text-[12px] leading-relaxed italic" style={{ color: `${intensifyColor}c0` }}>
+                        {a.question}
+                      </p>
+                    </div>
+                  </div>
                 ))}
-              </div>
-            ) : (
-              <div className="flex items-center gap-2 text-sm text-[rgba(1,1,1,.35)] italic px-1">
-                <span className="inline-block w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: intensifyColor }} />
               </div>
             )}
           </ResultSection>
