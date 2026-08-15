@@ -87,7 +87,7 @@ export function AgentResultPage({
   const spineText  = "#EFE6C9";
 
   // 解析各段
-  const { evidence, mirror, axisReasonsJson, anchorsJson } = useMemo(
+  const { mirror, axisReasonsJson, anchorsJson } = useMemo(
     () => parseSections(aiText),
     [aiText]
   );
