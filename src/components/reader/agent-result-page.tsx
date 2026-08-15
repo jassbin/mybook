@@ -86,8 +86,9 @@ export function AgentResultPage({
   const [toast, setToast]   = useState<string | null>(null);
   const bottomRef           = useRef<HTMLDivElement>(null);
 
-  const spineColor = bookMeta?.color ?? "#1A3A5C";
-  const spineText  = bookMeta?.textColor ?? "#EFE6C9";
+  // 结果页统一绿色主色（与首页深绿体系一致），不再随书脊色变化
+  const spineColor = "#0b6b57";
+  const spineText  = "#EFE6C9";
 
   // 选择模式统计
   const stats = useMemo(() => {
