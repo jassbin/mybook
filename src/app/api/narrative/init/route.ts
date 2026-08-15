@@ -366,8 +366,9 @@ ${dilemmaHints}
           },
           { role: "user", content: prompt },
         ],
-        max_tokens: 1800,
-        temperature: 0.8,
+        max_tokens: 1800, // 内容量不缩减：重试只降 temperature，不降 max_tokens
+        // 重试时降低随机性，更易一次输出合法 JSON（0.8→0.5→0.3），避免反复失败叠成长延迟
+        temperature: attempt === 1 ? 0.8 : attempt === 2 ? 0.5 : 0.3,
       });
       const raw = result.choices?.[0]?.message?.content ?? "";
       const m = raw.match(/```(?:json)?\s*(\{[\s\S]*?\})\s*```/) || raw.match(/(\{[\s\S]*\})/);
@@ -377,7 +378,7 @@ ${dilemmaHints}
       return parsed;
     } catch (e) {
       lastErr = e;
-      if (attempt < 3) await new Promise(r => setTimeout(r, attempt * 800));
+      if (attempt < 3) await new Promise(r => setTimeout(r, attempt * 400)); // 缩短重试间隔
     }
   }
   throw lastErr;
