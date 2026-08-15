@@ -359,7 +359,7 @@ ${dilemmaHints}
           },
           { role: "user", content: prompt },
         ],
-        max_tokens: 3000,
+        max_tokens: 1800,
         temperature: 0.8,
       });
       const raw = result.choices?.[0]?.message?.content ?? "";
