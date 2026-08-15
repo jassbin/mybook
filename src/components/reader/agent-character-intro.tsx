@@ -91,7 +91,7 @@ export function AgentCharacterIntro({
         {/* ── 顶部：书名 + 角色名 + tagline（薄荷绿玻璃头，书脊色点缀）── */}
         <div
           className="relative z-10 px-5 pt-6 pb-5"
-          style={{ background: withAlpha(accent, 0.1), borderBottom: `1px solid ${withAlpha(accent, 0.25)}`, paddingLeft: 56 }}
+          style={{ background: "linear-gradient(135deg, rgba(16,185,129,.16), rgba(45,212,191,.07))", paddingLeft: 56 }}
         >
           <div className="text-xs tracking-widest mb-2" style={{ color: "rgba(11,74,63,.65)" }}>
             《{initData.state.book}》· 今日角色
@@ -100,8 +100,9 @@ export function AgentCharacterIntro({
             className="text-4xl font-black leading-none mb-2"
             style={{
               fontFamily: "'Ma Shan Zheng', serif",
-              color: accent,
+              color: accentGreen,
               letterSpacing: "3px",
+              textShadow: "0 1px 0 rgba(255,255,255,.95), 0 0 2px rgba(255,255,255,.8), 0 2px 4px rgba(4,55,50,.26)",
             }}
           >
             {initData.character}
@@ -117,7 +118,7 @@ export function AgentCharacterIntro({
                 <span
                   key={tag}
                   className="text-[10px] font-bold px-2 py-0.5 rounded-full text-white"
-                  style={{ background: accent }}
+                  style={{ background: "linear-gradient(135deg,#10b981,#2dd4bf)" }}
                 >
                   {tag}
                 </span>
@@ -138,7 +139,7 @@ export function AgentCharacterIntro({
               className="flex gap-3 items-start mb-4 anim-ink"
               style={{ animationDelay: `${i * 120}ms` }}
             >
-              <div className="shrink-0 w-16 text-xs font-black pt-0.5 tracking-wide" style={{ color: accent }}>
+              <div className="shrink-0 w-16 text-xs font-black pt-0.5 tracking-wide" style={{ color: accentGreen }}>
                 {labels[i]}
               </div>
               <div className="text-sm leading-relaxed text-[#0a3a30] font-medium">
@@ -158,9 +159,9 @@ export function AgentCharacterIntro({
               <div
                 key={axis.key}
                 className="flex flex-col gap-0.5 p-3 rounded-xl"
-                style={{ background: "#ffffff", border: `1.5px solid ${withAlpha(accent, 0.3)}` }}
+                style={{ background: "rgba(255,255,255,.6)", border: "1px solid rgba(16,185,129,.22)" }}
               >
-                <div className="text-xs font-black" style={{ color: accent }}>
+                <div className="text-xs font-black" style={{ color: accentGreen }}>
                   {axis.key}
                 </div>
                 <div className="text-[10px] text-[rgba(10,58,48,.55)]">
@@ -182,9 +183,9 @@ export function AgentCharacterIntro({
             onClick={onEnter}
             className="w-full py-3.5 font-bold tracking-widest text-sm text-white transition-all active:scale-95 rounded-full"
             style={{
-              background: accent,
+              background: "linear-gradient(135deg,#10b981,#2dd4bf)",
               fontFamily: "'Noto Serif SC', serif",
-              boxShadow: `0 6px 20px ${withAlpha(accent, 0.4)}`,
+              boxShadow: "0 6px 20px rgba(16,185,129,.4)",
             }}
           >
             进入{initData.character}的身体
@@ -195,7 +196,7 @@ export function AgentCharacterIntro({
             onClick={() => setShowPicker(true)}
             disabled={switching || !canSwitch}
             className="w-full py-3 text-sm font-bold rounded-full transition-all active:scale-95 disabled:opacity-35"
-            style={{ background: "transparent", color: accent, border: `2px solid ${withAlpha(accent, 0.5)}` }}
+            style={{ background: "transparent", color: "#0b4a3f", border: "1.5px solid rgba(16,185,129,.4)" }}
           >
             {switching ? "正在换角色……" : "选择其他角色"}
           </button>
