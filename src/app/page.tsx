@@ -72,6 +72,44 @@ export default function Home() {
   // ── URL 分享还原 ────────────────────────────────────────────────────────
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
+
+    // 1) Agent 结果页分享：?ag=<WorldState>&mode=agent-result
+    const agEncoded = params.get("ag");
+    if (agEncoded && params.get("mode") === "agent-result") {
+      const st = decodeAgentState<WorldState>(agEncoded);
+      if (st?.axes && st?.choiceHistory) {
+        const clean = new URL(window.location.href);
+        clean.searchParams.delete("ag");
+        clean.searchParams.delete("mode");
+        window.history.replaceState({}, "", clean.toString());
+        setAgentFinalState(st);
+        setBookTitle(st.book);
+        setPhase("agent-result");
+        return;
+      }
+    }
+
+    // 2) Agent 极压对比页分享：?agc=<普通State>&agc2=<极压State>&mode=agent-compare
+    const agcEncoded = params.get("agc");
+    const agc2Encoded = params.get("agc2");
+    if (agcEncoded && agc2Encoded && params.get("mode") === "agent-compare") {
+      const normal = decodeAgentState<WorldState>(agcEncoded);
+      const intensify = decodeAgentState<WorldState>(agc2Encoded);
+      if (normal?.axes && intensify?.axes) {
+        const clean = new URL(window.location.href);
+        clean.searchParams.delete("agc");
+        clean.searchParams.delete("agc2");
+        clean.searchParams.delete("mode");
+        window.history.replaceState({}, "", clean.toString());
+        setAgentNormalState(normal);
+        setAgentIntensifyFinalState(intensify);
+        setBookTitle(normal.book);
+        setPhase("agent-compare");
+        return;
+      }
+    }
+
+    // 3) 旧版 AnalysisResult 分享：?s=<payload>
     const encoded = params.get("s");
     if (!encoded) return;
     const payload = decodeShare(encoded);
