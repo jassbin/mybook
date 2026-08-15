@@ -12,6 +12,7 @@ export async function POST(request: NextRequest) {
       state,
       choiceId,
       choiceText,
+      sceneName,
       revealText,
       socialTag,
       consequenceText,
@@ -27,6 +28,7 @@ export async function POST(request: NextRequest) {
       state: WorldState;
       choiceId: string;
       choiceText: string;
+      sceneName?: string;
       revealText: string;
       socialTag: string;
       consequenceText: string;
@@ -48,6 +50,7 @@ export async function POST(request: NextRequest) {
       revealText,
       socialTag,
       consequenceText,
+      ...(sceneName ? { sceneName } : {}),
       ...(modernTension ? { modernTension } : {}),
     };
 
