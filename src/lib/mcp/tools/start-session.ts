@@ -35,12 +35,14 @@ export function registerStartSession(server: McpServer, _userId: string) {
     async ({ book, character, intensify }) => {
       const dna = getCharacterDNA(character, book);
       if (!dna) {
+        // 截断超长输入，避免把几千字符的垃圾原样回显
+        const short = (s: string) => (s.length > 30 ? s.slice(0, 30) + "…" : s);
         return {
           isError: true,
           content: [
             {
               type: "text",
-              text: `No preset character "${character}" in book "${book}". Call list_characters to see valid pairs (note: book titles have no 《》).`,
+              text: `No preset character "${short(character ?? "")}" in book "${short(book ?? "")}". Call list_characters to see valid pairs (book titles work with or without 《》).`,
             },
           ],
         };
