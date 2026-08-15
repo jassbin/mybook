@@ -130,8 +130,16 @@ export function AgentGameEngine({
     act: ActData,
     currentState: WorldState,
   ) => {
-    if (prefetchingRef.current || prefetchedRef.current) return;
+    // 已有正确目标的预热结果 / 正在预热同一目标 → 无需重复
+    if (prefetchedRef.current?.choiceId === choice.id) return;
+    if (prefetchingRef.current && prefetchingIdRef.current === choice.id) return;
+    // 已有的是别的选项的预热结果 → 作废，重新预热当前选项
+    if (prefetchedRef.current && prefetchedRef.current.choiceId !== choice.id) {
+      prefetchedRef.current = null;
+    }
+    // 正在预热别的选项 → 让它跑完但结果会被下面的 choiceId 校验丢弃
     prefetchingRef.current = true;
+    prefetchingIdRef.current = choice.id;
     setNextActLoading(true);
     const conseqText = [
       ...(act.consequenceMap[choice.id] ?? []),
@@ -158,14 +166,21 @@ export function AgentGameEngine({
           normalChoiceHistory,
         }),
       });
-      if (res.ok) prefetchedRef.current = await res.json() as { state: WorldState; act: ActData };
+      // 仅当这次预热仍是最新目标时才采纳，避免旧目标结果覆盖
+      if (res.ok && prefetchingIdRef.current === choice.id) {
+        const data = await res.json() as { state: WorldState; act: ActData };
+        prefetchedRef.current = { ...data, choiceId: choice.id };
+      }
     } catch (e) {
       console.warn("prefetch failed:", e);
     } finally {
-      prefetchingRef.current = false;
-      setNextActLoading(false);
+      if (prefetchingIdRef.current === choice.id) {
+        prefetchingRef.current = false;
+        prefetchingIdRef.current = null;
+        setNextActLoading(false);
+      }
     }
-  }, []);
+  }, [normalChoiceHistory]);
 
   const handleChoice = useCallback((choice: ActData["choices"][0]) => {
     setChoiceDone(true);
