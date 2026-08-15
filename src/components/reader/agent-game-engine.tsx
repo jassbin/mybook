@@ -421,7 +421,9 @@ export function AgentGameEngine({
                 <span
                   className="animate-pulse inline-block rounded-full flex-shrink-0"
                   style={{ width: 6, height: 6, background: spineColor }} />
-                <span style={{ fontSize: 12, color: "rgba(1,1,1,.4)" }}>推演中…</span>
+                <span style={{ fontSize: 12, color: "rgba(1,1,1,.4)" }}>
+                  {waitPhase === 0 ? "推演中…" : waitPhase === 1 ? "正在为你推演下一幕…" : "马上就好，稍候…"}
+                </span>
               </div>
             </div>
           )}
