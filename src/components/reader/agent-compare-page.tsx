@@ -69,7 +69,7 @@ export function AgentComparePage({
 
   const spineColor    = bookMeta?.color    ?? "#1A3A5C";
   const spineText     = bookMeta?.textColor ?? "#EFE6C9";
-  const intensifyColor = "#C34A28";
+  const intensifyColor = "#a83c2a";
 
   const showToast = useCallback((msg: string) => {
     setToast(msg);
@@ -544,7 +544,7 @@ export function AgentComparePage({
         <div className="fixed bottom-8 left-1/2 z-[100] pointer-events-none"
           style={{ transform: "translateX(-50%)" }}>
           <div className="px-5 py-3 text-sm font-bold rounded-full"
-            style={{ background: "linear-gradient(135deg,#0c5a52,#0ea5b7)", color: "#ffffff", boxShadow: "0 6px 24px rgba(20,184,166,.4)" }}>
+            style={{ background: "linear-gradient(135deg,#0c5a52,#0d6b57)", color: "#ffffff", boxShadow: "0 6px 24px rgba(12,90,82,.45)" }}>
             {toast}
           </div>
         </div>
