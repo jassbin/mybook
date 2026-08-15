@@ -22,7 +22,7 @@ export function SceneMessage({ message, onShown }: SceneMessageProps) {
   if (!visible) return null;
 
   // 陷阱「重大代价」块：琥珀警示左边条，和普通叙述区分但不打断阅读
-  if (message.type === "trapcost") {
+  if ((message.type as string) === "trapcost") {
     return (
       <div className="anim-ink mb-3 max-w-full">
         <div
