@@ -38,13 +38,14 @@ export function registerListCharacters(server: McpServer, _userId: string) {
         }));
 
       if (list.length === 0) {
+        const short = (s: string) => (s.length > 30 ? s.slice(0, 30) + "…" : s);
         return {
           isError: true,
           content: [
             {
               type: "text",
               text: book
-                ? `No characters found for book "${book}". Call list_characters without a filter to see all books.`
+                ? `No characters found for book "${short(book)}". Call list_characters without a filter to see all books.`
                 : "No characters available.",
             },
           ],
