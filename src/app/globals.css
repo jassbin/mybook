@@ -170,10 +170,10 @@ html { font-size: 16px; }
 .fresh-backdrop {
   position: relative;
   background:
-    radial-gradient(120% 85% at 8% -5%, rgba(34,197,178,.5), transparent 50%),
-    radial-gradient(115% 80% at 95% 2%, rgba(22,180,200,.42), transparent 50%),
-    radial-gradient(130% 90% at 82% 105%, rgba(13,148,120,.46), transparent 54%),
-    linear-gradient(150deg, #042b2d 0%, #073f3c 40%, #0a4e46 68%, #05302f 100%);
+    radial-gradient(120% 85% at 8% -5%, rgba(94,234,212,.55), transparent 52%),
+    radial-gradient(115% 80% at 95% 2%, rgba(103,232,249,.45), transparent 52%),
+    radial-gradient(130% 90% at 82% 105%, rgba(52,211,153,.4), transparent 56%),
+    linear-gradient(150deg, #7fe9d0 0%, #56d6c4 38%, #43c8b6 66%, #6fe0cf 100%);
 }
 .fresh-backdrop::before {
   content: "";
