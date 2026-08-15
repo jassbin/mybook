@@ -182,7 +182,7 @@ export function BookSelect({ onSelect }: BookSelectProps) {
               {/* 书名区：清爽实色浅绿底 + 书脊色大字书名（无厚重描边，颜色鲜明） */}
               <div
                 className="relative flex items-center justify-center shrink-0 px-3"
-                style={{ minHeight: 60, paddingTop: 10, paddingBottom: 10, background: "linear-gradient(135deg, #d7f5ec, #eafaf4)" }}
+                style={{ minHeight: 60, paddingTop: 10, paddingBottom: 10, background: "linear-gradient(135deg, #d7f5ec 0%, #eafaf4 55%, #fdf0c8 100%)" }}
               >
                 <span
                   className="relative z-10 text-center w-full"
