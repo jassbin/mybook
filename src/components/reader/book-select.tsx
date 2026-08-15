@@ -8,7 +8,6 @@ interface BookSelectProps {
 }
 
 /** 模糊搜索：只要输入中有任意字符出现在书名里，就纳入候选，按覆盖率排序 */
-function fuzzySearch(query: string, n = 6): BookMeta[] {
   const q = query.replace(/[《》\s]/g, "").toLowerCase();
   if (!q) return [];
   const scored = ALL_BOOKS.map((b) => {
