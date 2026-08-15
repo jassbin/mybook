@@ -317,47 +317,10 @@ export function AgentComparePage({
               </div>
             );
           })}
+        </ResultSection>
 
-          {/* ── 结构性张力汇总：本局触碰过的底层问题 ── */}
-          {(() => {
-            const allRecords = [
-              ...normalState.choiceHistory,
-              ...intensifyState.choiceHistory,
-            ];
-            const tensions = [...new Set(
-              allRecords.map(c => c.modernTension).filter((t): t is string => !!t)
-            )].slice(0, 4);
-            if (!tensions.length) return null;
-            return (
-              <div
-                className="mt-4 px-3 py-3 rounded-sm"
-                style={{ background: "rgba(195,74,40,.06)", borderLeft: "3px solid rgba(195,74,40,.35)" }}
-              >
-                <p
-                  className="text-[10px] font-bold tracking-widest uppercase mb-2.5"
-                  style={{ color: "rgba(195,74,40,.75)" }}
-                >
-                  这两局触碰的底层问题
-                </p>
-                <div className="flex flex-col gap-2">
-                  {tensions.map((t, idx) => (
-                    <p
-                      key={idx}
-                      className="text-[11px] leading-relaxed"
-                      style={{ color: "rgba(1,1,1,.62)" }}
-                    >
-                      {t}
-                    </p>
-                  ))}
-                </div>
-              </div>
-            );
-          })()}
-        </div>
-
-        {/* ── 价值轴对比 ───────────────────────────────────────────── */}
-        <div className="relative z-10 px-5 pt-4 pb-4 border-b border-[rgba(1,1,1,.12)]">
-          <p className="text-[11px] font-black tracking-widest mb-3 uppercase" style={{ color: "#0b6b57" }}>价值轴对比</p>
+        {/* ── 块3：价值轴对比 ───────────────────────────────────── */}
+        <ResultSection index="3" title="价值轴对比">
           {normalState.axes.map(axis => {
             const ia    = intensifyState.axes.find(a => a.key === axis.key);
             const nScore = axis.score;
