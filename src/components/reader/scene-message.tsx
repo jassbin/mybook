@@ -1,6 +1,6 @@
 "use client";
 // src/components/reader/scene-message.tsx
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import type { StoryMessage } from "@/lib/reader/types";
 
 interface SceneMessageProps {
@@ -9,22 +9,15 @@ interface SceneMessageProps {
 }
 
 export function SceneMessage({ message, onShown }: SceneMessageProps) {
-  const [visible, setVisible] = useState(false);
-
+  // 一口气展示：不再逐条延迟、不再淡入闪烁，挂载即显示
   useEffect(() => {
-    const t = setTimeout(() => {
-      setVisible(true);
-      onShown?.();
-    }, message.delay ?? 0);
-    return () => clearTimeout(t);
-  }, [message.delay, onShown]);
-
-  if (!visible) return null;
+    onShown?.();
+  }, [onShown]);
 
   // 陷阱「重大代价」块：琥珀警示左边条，和普通叙述区分但不打断阅读
   if ((message.type as string) === "trapcost") {
     return (
-      <div className="anim-ink mb-3 max-w-full">
+      <div className="mb-3 max-w-full">
         <div
           className="text-sm leading-relaxed pl-3 py-2 pr-3 rounded-r-md"
           style={{
@@ -47,8 +40,9 @@ export function SceneMessage({ message, onShown }: SceneMessageProps) {
     system:   "bubble bubble-narrator text-center text-xs italic",
   }[message.type];
 
+  // 叙述文字占满整行（除非换段落），不再限宽留白
   return (
-    <div className={`anim-ink mb-3 ${message.type === "dialog" ? "max-w-[88%]" : "max-w-full"}`}>
+    <div className="mb-3 max-w-full">
       <div className={cls}>{message.text}</div>
     </div>
   );
