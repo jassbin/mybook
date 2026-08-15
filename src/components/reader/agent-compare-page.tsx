@@ -459,13 +459,12 @@ export function AgentComparePage({
                 <span className="inline-block w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: intensifyColor }} />
               </div>
             )}
-          </div>
+          </ResultSection>
         )}
 
-        {/* ── 多维价值锚点（段四）──────────────────────────────── */}
+        {/* ── 块7：照见自己（段四）─────────────────────────────── */}
         {(hasAnchors || (isStreaming && hasFold)) && (
-          <div className="relative z-10 px-4 pt-4 pb-4 border-b border-[rgba(1,1,1,.1)]">
-            <p className="text-[11px] font-black tracking-widest mb-4 uppercase px-1" style={{ color: "#0b6b57" }}>照见自己</p>
+          <ResultSection index="7" title="照见自己">
             {hasAnchors ? (
               <div className="flex flex-col gap-3">
                 {anchors.map((a, i) => (
@@ -477,7 +476,7 @@ export function AgentComparePage({
                 <span className="inline-block w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: intensifyColor }} />
               </div>
             )}
-          </div>
+          </ResultSection>
         )}
 
         {/* ── 分享 + 操作 ──────────────────────────────────────────── */}
