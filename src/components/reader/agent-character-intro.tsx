@@ -37,7 +37,6 @@ export function AgentCharacterIntro({
   const [switching, setSwitching] = useState(false);
   const [showPicker, setShowPicker] = useState(false);
   const [customName, setCustomName] = useState("");
-  const accentGreen = "#0b6b57";
   // 角色专属强调色：取书脊色并压深到可读，呼应首页书卡「每书一色」
   const accent = darkenForCard(bookMeta?.color ?? "#0b6b57");
 
@@ -236,7 +235,7 @@ export function AgentCharacterIntro({
                       <span className="text-sm font-black" style={{ color: "#0a3a30" }}>{c.name}</span>
                       {active && <span className="text-[10px] px-1.5 py-0.5 rounded-full text-white" style={{ background: "#10b981" }}>当前</span>}
                       {c.dominantDomains?.[0] && !active && (
-                        <span className="text-[9px] px-1.5 py-0.5 rounded-full font-bold text-white" style={{ background: "linear-gradient(135deg,#10b981,#2dd4bf)" }}>{c.dominantDomains[0]}</span>
+                        <span className="text-[9px] px-1.5 py-0.5 rounded-full font-bold text-white" style={{ background: accent }}>{c.dominantDomains[0]}</span>
                       )}
                     </div>
                     <div className="text-[11px] mt-0.5 leading-snug" style={{ color: "rgba(10,58,48,.7)" }}>{c.hook}</div>
@@ -261,7 +260,7 @@ export function AgentCharacterIntro({
                   onClick={() => handlePick(customName)}
                   disabled={!customName.trim()}
                   className="shrink-0 w-10 h-10 flex items-center justify-center font-bold text-white rounded-full active:scale-95 disabled:opacity-40"
-                  style={{ background: "linear-gradient(135deg,#14b8a6,#0ea5b7)", fontSize: 20 }}
+                  style={{ background: accent, fontSize: 20 }}
                   aria-label="进入"
                 >→</button>
               </div>
