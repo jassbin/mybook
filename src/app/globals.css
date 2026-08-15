@@ -271,16 +271,16 @@ html { font-size: 16px; }
 }
 .choice-card:hover, .choice-card:focus-visible {
   background: #F7EFD4;
-  border-color: #0d6b57;
+  border-color: #C34A28;
   transform: translateX(3px);
-  box-shadow: 0 4px 16px rgba(13,107,87,.18);
+  box-shadow: 0 4px 16px rgba(195,74,40,.15);
   outline: none;
 }
 .choice-card:active {
   transform: translateX(3px) scale(.985);
 }
 .choice-card .choice-label {
-  color: #0d6b57;
+  color: #C34A28;
   font-weight: 900;
   font-family: "Ma Shan Zheng", serif;
   font-size: 18px;
