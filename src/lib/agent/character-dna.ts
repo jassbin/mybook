@@ -500,8 +500,32 @@ export const CHARACTER_DNA: CharacterDNA[] = [
 ];
 
 /** 按角色名查 DNA */
+/**
+ * 归一化书名/角色名，用于容错匹配：
+ * 去掉书名号《》〈〉『』「」、首尾空白、零宽字符、emoji 与控制符，转小写。
+ * 这样「《红楼梦》」「红楼梦 」「红楼梦😀」都能匹配到预设「红楼梦」。
+ */
+export function normalizeTitle(s: string): string {
+  return (s ?? "")
+    .replace(/[《》〈〉『』「」【】\[\]]/g, "")
+    .replace(/[\u200B-\u200D\uFEFF]/g, "")
+    // 去掉 emoji 与大部分符号杂项（保留中英文数字）
+    .replace(/[\p{Emoji_Presentation}\p{Extended_Pictographic}]/gu, "")
+    .replace(/[\u0000-\u001F\u007F]/g, "")
+    .trim()
+    .toLowerCase();
+}
+
 export function getCharacterDNA(name: string, book: string): CharacterDNA | null {
-  return CHARACTER_DNA.find(c => c.name === name && c.book === book) ?? null;
+  // 先精确匹配，未命中再用归一化容错匹配（去书名号/空白/emoji 等）
+  const exact = CHARACTER_DNA.find(c => c.name === name && c.book === book);
+  if (exact) return exact;
+  const nName = normalizeTitle(name);
+  const nBook = normalizeTitle(book);
+  if (!nName || !nBook) return null;
+  return CHARACTER_DNA.find(
+    c => normalizeTitle(c.name) === nName && normalizeTitle(c.book) === nBook
+  ) ?? null;
 }
 
 // ── 通用角色原型兜底库 ───────────────────────────────────────────
