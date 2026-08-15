@@ -145,12 +145,12 @@ export function BookSelect({ onSelect }: BookSelectProps) {
                 <button
                   key={tdef.key}
                   onClick={() => handleThemeChange(tdef.key)}
-                  className="shrink-0 px-3.5 py-1.5 text-[13px] font-bold rounded-full border transition-all active:scale-95 whitespace-nowrap"
+                  className="shrink-0 px-3.5 py-1.5 text-[13px] font-bold rounded-full border-2 transition-all active:scale-95 whitespace-nowrap"
                   style={{
-                    background: active ? "linear-gradient(135deg,#14b8a6,#0ea5b7)" : "rgba(255,255,255,.5)",
-                    color: active ? "#ffffff" : "rgba(12,60,58,.7)",
-                    borderColor: active ? "transparent" : "rgba(56,189,168,.3)",
-                    boxShadow: active ? "0 4px 14px rgba(20,184,166,.35)" : "none",
+                    background: active ? "linear-gradient(135deg,#0f766e,#0d9488)" : "rgba(255,255,255,.65)",
+                    color: active ? "#ffffff" : "#0f5c52",
+                    borderColor: active ? "#0f766e" : "rgba(15,118,110,.55)",
+                    boxShadow: active ? "0 4px 14px rgba(13,148,136,.35)" : "none",
                     fontFamily: "'Noto Serif SC', serif",
                   }}
                 >
