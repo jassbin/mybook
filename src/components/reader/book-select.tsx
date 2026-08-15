@@ -271,10 +271,10 @@ export function BookSelect({ onSelect }: BookSelectProps) {
                 if (e.key === "Escape") setShowDropdown(false);
               }}
               placeholder="输入书名，如「骆驼祥子」「悲惨世界」……"
-              className="flex-1 min-w-0 border bg-[rgba(255,255,255,.6)] rounded-full px-4 py-2.5 text-sm font-semibold text-[#0c3c3a] placeholder:text-[rgba(12,60,58,.4)] focus:outline-none focus:border-[rgba(20,184,166,.6)] transition-all"
+              className="flex-1 min-w-0 border-2 bg-[rgba(255,255,255,.6)] rounded-full px-4 py-2.5 text-sm font-semibold text-[#0c3c3a] placeholder:text-[rgba(12,60,58,.4)] focus:outline-none focus:border-[#0f766e] transition-all"
               style={{
                 fontFamily: "'Noto Serif SC', serif",
-                borderColor: "rgba(56,189,168,.3)",
+                borderColor: "rgba(15,118,110,.6)",
               }}
               autoComplete="off"
             />
