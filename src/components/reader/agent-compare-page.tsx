@@ -81,29 +81,6 @@ export function AgentComparePage({
   const handleShareIntensifyResult = useCallback(() => copyUrl(buildAgentResultShareUrl(intensifyState), "极压版结果"), [intensifyState, copyUrl]);
   const handleShareStory           = useCallback(() => copyUrl(buildAgentStoryShareUrl(normalState.book, normalState.character), "故事链接"), [normalState, copyUrl]);
 
-  // ── 选择模式统计（普通 + 极压分别算）────────────────────────────────────
-  const normalStats = useMemo(() => {
-    const h = normalState.choiceHistory;
-    const total = h.length;
-    return {
-      total,
-      aCount: h.filter(c => c.choiceId === "A").length,
-      bCount: h.filter(c => c.choiceId === "B").length,
-      cCount: h.filter(c => c.choiceId === "C").length,
-    };
-  }, [normalState.choiceHistory]);
-
-  const intensifyStats = useMemo(() => {
-    const h = intensifyState.choiceHistory;
-    const total = h.length;
-    return {
-      total,
-      aCount: h.filter(c => c.choiceId === "A").length,
-      bCount: h.filter(c => c.choiceId === "B").length,
-      cCount: h.filter(c => c.choiceId === "C").length,
-    };
-  }, [intensifyState.choiceHistory]);
-
   // ── 解析四段 ─────────────────────────────────────────────────────────────
   const { evidence, mirror, anchorsJson } = useMemo(
     () => parseSections(aiText),
