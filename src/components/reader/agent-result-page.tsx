@@ -260,7 +260,9 @@ export function AgentResultPage({
                   <div className="h-full rounded-full"
                     style={{ width: `${axis.score}%`, background: spineColor, transition: "width 0.8s cubic-bezier(.2,.8,.2,1)" }} />
                 </div>
-                <p className="text-[11px] text-[rgba(1,1,1,.62)]">{axis.description}</p>
+                <p className="text-[11px] leading-relaxed" style={{ color: "rgba(1,1,1,.72)" }}>
+                  {axisReasonMap[axis.key] || axis.description}
+                </p>
               </div>
             ))}
           </div>
