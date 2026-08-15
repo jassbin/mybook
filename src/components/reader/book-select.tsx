@@ -205,7 +205,7 @@ export function BookSelect({ onSelect }: BookSelectProps) {
                 <div className="flex items-center gap-1.5 flex-wrap">
                   <span
                     className="text-xs font-black tracking-wide"
-                    style={{ color: book.color, textShadow: "0 1px 0 rgba(255,255,255,.85)" }}
+                    style={{ color: book.color }}
                   >
                     {book.recommendedChar}
                   </span>
