@@ -212,7 +212,7 @@ ${anchorHint}
         { role: "user", content: prompt },
       ],
       stream: true,
-      max_tokens: 700,
+      max_tokens: 1000,
       temperature: 0.82,
     });
 
