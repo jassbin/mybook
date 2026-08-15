@@ -8,6 +8,7 @@ import {
   buildAgentStoryShareUrl,
 } from "@/lib/reader/share-codec";
 import { PageTopbar } from "./page-topbar";
+import { ResultSection } from "./result-section";
 import { Flame, Share2, Drama } from "lucide-react";
 
 interface AgentResultPageProps {
@@ -207,9 +208,8 @@ export function AgentResultPage({
           </p>
         </div>
 
-        {/* ── 选择轨迹卡片 ─────────────────────────────────────── */}
-        <div className="relative z-10 px-4 pt-4 pb-4 border-b border-[rgba(0,0,0,.9)]">
-          <p className="text-[11px] font-black tracking-widest mb-3 uppercase px-1" style={{ color: "#0b6b57" }}>选择轨迹</p>
+        {/* ── 块1：选择轨迹 ─────────────────────────────────────── */}
+        <ResultSection index="1" title="选择轨迹" hint={`${worldState.choiceHistory.length} 幕`}>
           <div className="flex flex-col gap-2">
             {worldState.choiceHistory.map((record, i) => (
               <div key={i}
@@ -243,12 +243,10 @@ export function AgentResultPage({
               </div>
             ))}
           </div>
+        </ResultSection>
 
-        </div>
-
-        {/* ── 价值轴 ───────────────────────────────────────────── */}
-        <div className="relative z-10 px-5 pt-4 pb-4 border-b border-[rgba(0,0,0,.9)]">
-          <p className="text-[11px] font-black tracking-widest mb-3 uppercase" style={{ color: "#0b6b57" }}>价值倾向</p>
+        {/* ── 块2：价值倾向 ─────────────────────────────────────── */}
+        <ResultSection index="2" title="价值倾向" hint="你为何在这">
           <div className="flex flex-col gap-3">
             {worldState.axes.map(axis => (
               <div key={axis.key}>
@@ -266,11 +264,10 @@ export function AgentResultPage({
               </div>
             ))}
           </div>
-        </div>
+        </ResultSection>
 
-        {/* ── AI 点评：证据链 + 模式一句话，合并成一段 ────────── */}
-        <div className="relative z-10 px-5 pt-5 pb-4 border-b border-[rgba(0,0,0,.9)]">
-          <p className="text-[11px] font-black tracking-widest mb-3 uppercase" style={{ color: "#0b6b57" }}>由此可见</p>
+        {/* ── 块3：由此可见（AI 点评）───────────────────────────── */}
+        <ResultSection index="3" title="由此可见">
           {!hasEvidence && isStreaming ? (
             <div className="flex items-center gap-2 text-sm text-[rgba(1,1,1,.6)] italic">
               <span className="inline-block w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: spineColor }} />
@@ -295,12 +292,11 @@ export function AgentResultPage({
               )}
             </>
           )}
-        </div>
+        </ResultSection>
 
-        {/* ── 多维价值锚点（照见自己）──────────────────────────── */}
+        {/* ── 块4：照见自己（多维价值锚点）─────────────────────── */}
         {(hasAnchors || (isStreaming && hasMirror)) && (
-          <div className="relative z-10 px-4 pt-4 pb-4 border-b border-[rgba(0,0,0,.9)]">
-            <p className="text-[11px] font-black tracking-widest mb-4 uppercase px-1" style={{ color: "#0b6b57" }}>照见自己</p>
+          <ResultSection index="4" title="照见自己">
             {hasAnchors ? (
               <div className="flex flex-col gap-3">
                 {anchors.map((a, i) => (
@@ -312,7 +308,7 @@ export function AgentResultPage({
                 <span className="inline-block w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: spineColor }} />
               </div>
             )}
-          </div>
+          </ResultSection>
         )}
 
         {/* ── 极压入口 ─────────────────────────────────────────── */}
