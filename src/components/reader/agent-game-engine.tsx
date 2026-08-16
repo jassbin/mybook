@@ -383,12 +383,31 @@ export function AgentGameEngine({
         }),
       });
       if (!res.ok) throw new Error("next-act failed");
-      const data = await res.json();
-      if (!data.act?.shouldContinue || data.state.actNumber > data.state.maxActs) {
+      const data = await res.json() as {
+        state: WorldState;
+        scene: Partial<ActData> & { messages: ActData["messages"] };
+        choicesContext?: { intensifyMode?: boolean; intensifyTargetBlock?: string };
+      };
+      if (!(data.scene?.shouldContinue ?? true) || data.state.actNumber > data.state.maxActs) {
         onComplete(data.state); return;
       }
+      const sceneAct: ActData = {
+        title: data.scene.title ?? "",
+        sceneName: data.scene.sceneName,
+        messages: data.scene.messages ?? [],
+        choices: [],
+        consequenceMap: {},
+        forcedContinue: [],
+        newTensions: data.scene.newTensions ?? [],
+        newAnchors: data.scene.newAnchors ?? [],
+        newEmotionalTone: data.scene.newEmotionalTone,
+        shouldContinue: data.scene.shouldContinue ?? true,
+      };
+      setChoicesLoading(true);
       setWorldState(data.state);
-      setCurrentAct(data.act);
+      setCurrentAct(sceneAct);
+      // 正文已渲染，异步补选项
+      fetchChoicesFor(data.state, sceneAct, data.choicesContext, choice.id);
     } catch (e) {
       console.error("handleContinue fetch failed:", e);
       setIsTransitioning(false);
@@ -396,7 +415,7 @@ export function AgentGameEngine({
     } finally {
       setNextActLoading(false);
     }
-  }, [onComplete]);
+  }, [onComplete, fetchChoicesFor, normalChoiceHistory]);
 
   const handleRevive = useCallback(() => {
     setShowTrap(false);
