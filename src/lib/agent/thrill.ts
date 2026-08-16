@@ -70,6 +70,24 @@ export const PERSONA_INSIGHT: Record<string, string> = {
 
 export type RiskLevel = "low" | "mid" | "high";
 
+/** 本幕类型：两难抉择幕(代价) 或 爽点幕(三种爽法) */
+export type ActKind = "dilemma" | "thrill";
+
+/** 爽法策略——爽点幕里三个选项各是一种，用于区分"你偏好哪种爽" */
+export const THRILL_STRATEGIES = [
+  "硬刚", "智取", "被宠", "反杀", "扮猪吃虎", "一击制胜",
+] as const;
+export type ThrillStrategy = (typeof THRILL_STRATEGIES)[number];
+
+export const STRATEGY_INSIGHT: Record<string, string> = {
+  硬刚: "你爽在正面把话甩回去——不藏不忍，敢当场翻脸。你要的痛快，是不委屈自己。",
+  智取: "你爽在用脑子四两拨千斤——不动声色就让对方下不来台。你享受的是掌控节奏。",
+  被宠: "你爽在有人替你出头、把你护在身后——你渴望的是被在乎、被偏爱的安全感。",
+  反杀: "你爽在忍到最后一刻的绝地翻盘——你享受把劣势一举掀桌的爆发。",
+  扮猪吃虎: "你爽在藏拙之后亮出实力、看轻视你的人傻眼——你享受被低估再反转的落差。",
+  一击制胜: "你爽在干净利落一招定胜负——不拖泥带水，要的是绝对的效率与锋芒。",
+};
+
 /** 单次爽感选择的记录（与困境层的 ChoiceRecord 并行累积） */
 export interface ThrillRecord {
   act: number;
