@@ -328,7 +328,7 @@ ${dilemmaHints}
     return runActLLM({
       prompt: `${contextBlock}
 
-请生成第${state.actNumber}幕（${state.storyPhase}段）的【正文部分】，只输出正文，不要生成选项。输出严格JSON：
+请生成第${state.actNumber}幕的【正文部分】，只输出正文，不要生成选项。输出严格JSON：
 {
   "title": "幕标题（8字内，体现本幕核心张力）",
   "sceneName": "本幕对应的原著知名桥段/场景名（越有名越好，如「空城计」「挥泪斩马谡」；若非知名桥段则用6字内场景概括）",
@@ -384,7 +384,7 @@ ${sceneText || "（无正文，按当前叙事状态设困境）"}
 
   const prompt = `${contextBlock}
 
-请生成第${state.actNumber}幕（${state.storyPhase}段），输出严格JSON：
+请生成第${state.actNumber}幕，输出严格JSON：
 {
   "title": "幕标题（8字内，体现本幕核心张力）",
   "sceneName": "本幕对应的原著知名桥段/场景名（越有名越好，让人一眼认出，如「空城计」「挥泪斩马谡」「桃园结义」「火烧赤壁」；若本幕不是知名桥段，则用6字内的场景概括，如「街亭对峙」）",
