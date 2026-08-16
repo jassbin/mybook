@@ -83,7 +83,8 @@ export function createWorldState(
   book: string,
   character: string,
   characterTagline: string,
-  axes: { key: string; low: string; high: string; description: string }[]
+  axes: { key: string; low: string; high: string; description: string }[],
+  channel?: string,
 ): WorldState {
   return {
     book,
@@ -101,6 +102,10 @@ export function createWorldState(
     narrativeAnchors: [],
     consecutiveSelfPreserve: 0,
     consecutiveSacrifice: 0,
+    channel,
+    thrillMeter: 20,
+    thrillHistory: [],
+    triggeredClimaxes: [],
   };
 }
 
