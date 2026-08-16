@@ -12,6 +12,15 @@ export interface ChoiceRecord {
   consequenceText: string; // 后果摘要
   /** 本幕困境的结构性张力——这个处境在今天可以被命名的底层问题 */
   modernTension?: string;
+  // ── 爽感层（与困境并存的第二套坐标）──
+  /** 本次爽感数值变化（心动/推理/气运） */
+  thrillDelta?: number;
+  /** 爽点人格轴：掌控型/勇敢型/策略型…用于"照见自己" */
+  personaAxis?: string;
+  /** 风险偏好：low/mid/high */
+  riskLevel?: "low" | "mid" | "high";
+  /** 本次是否引爆名场面 */
+  triggeredClimax?: boolean;
 }
 
 export interface WorldState {
@@ -55,6 +64,19 @@ export interface WorldState {
   // 连续选择追踪（用于触发反转规则）
   consecutiveSelfPreserve: number;  // 连续选「保全自己」次数
   consecutiveSacrifice: number;     // 连续选「牺牲自己」次数
+
+  // ── 爽感层状态 ──
+  /** 频道，用于决定爽感变量换皮（心动/推理/气运） */
+  channel?: string;
+  /** 当前爽感数值 0-100，初始 20（留出成长空间） */
+  thrillMeter: number;
+  /** 每次选择的爽感记录（与 choiceHistory 并行） */
+  thrillHistory: {
+    act: number; delta: number; meterAfter: number;
+    personaAxis?: string; riskLevel?: "low" | "mid" | "high"; triggeredClimax: boolean;
+  }[];
+  /** 已引爆的名场面标题，避免重复 */
+  triggeredClimaxes: string[];
 }
 
 export function createWorldState(
