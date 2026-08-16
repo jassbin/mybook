@@ -349,7 +349,7 @@ ${dilemmaHints}
 
   // ── 爽感层 prompt 块：让每个选项在困境后果之外，同时携带爽感增量/人格轴/风险/名场面 ──
   const tc = getThrillConfig((state.channel ?? undefined) as any);
-  const thrillMeter = (state as WorldState).thrillMeter ?? 20;
+  const thrillMeter = state.thrillMeter ?? 20;
   const thrillFieldsJson = `,"thrillDelta":<-5到+18的整数，选得漂亮/痛快就多涨，平淡则少涨或不涨>,"personaAxis":"<${PERSONA_AXES.join("/")} 之一，标记这个选项底层是哪种人格追求>","riskLevel":"<low|mid|high 该选项的冒险程度>","triggersClimax":<true|false 该选项本身是否是关键高光选项，选它直接引爆名场面>`;
   const thrillReq = `- 【爽感层·与困境并存·必须逐项填写】除了困境后果，每个选项还要给出爽感字段：
   · 本作的爽感变量是「${tc.label}${tc.icon}」（当前 ${thrillMeter}/100）。定位：${tc.vibe}
