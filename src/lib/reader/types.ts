@@ -1027,7 +1027,7 @@ export function buildBooksByChannel(channel: ChannelKey): BookMeta[] {
   // 不限：四大名著 + 全部安全额外书，一起随机，无硬置顶
   if (channel === "any") {
     const classicsAsBooks = CLASSICS.map(d =>
-      buildBookMeta(d.key, d.title, d.color, d.textColor, d.tagline, d.candidates));
+      ({ ...buildBookMeta(d.key, d.title, d.color, d.textColor, d.tagline, d.candidates), channel: "classic" as ChannelKey }));
     const extrasAsBooks = EXTRA_BOOKS
       .filter(b => isCopyrightSafe(b.authorDeathYear))
       .map(buildFromLoose);
@@ -1035,7 +1035,7 @@ export function buildBooksByChannel(channel: ChannelKey): BookMeta[] {
   }
   if (channel === "classic") {
     return shuffled(CLASSICS).slice(0, N).map(d =>
-      buildBookMeta(d.key, d.title, d.color, d.textColor, d.tagline, d.candidates));
+      ({ ...buildBookMeta(d.key, d.title, d.color, d.textColor, d.tagline, d.candidates), channel: "classic" as ChannelKey }));
   }
   const pool = EXTRA_BOOKS
     .filter(b => isCopyrightSafe(b.authorDeathYear))
