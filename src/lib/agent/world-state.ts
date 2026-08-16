@@ -21,6 +21,10 @@ export interface ChoiceRecord {
   riskLevel?: "low" | "mid" | "high";
   /** 本次是否引爆名场面 */
   triggeredClimax?: boolean;
+  /** 本次选择类型：两难 / 爽点 */
+  choiceKind?: "dilemma" | "thrill";
+  /** 爽点选择的爽法策略（硬刚/智取/被宠…） */
+  strategy?: string;
 }
 
 export interface WorldState {
