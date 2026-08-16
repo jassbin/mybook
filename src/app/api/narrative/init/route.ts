@@ -342,6 +342,7 @@ ${dilemmaHints}
 - 正文要把玩家带到一个"即将做抉择"的临界点，但不要写出选项本身。
 - shouldContinue：如果故事张力已充分释放（通常≥8幕后）可设为false表示本幕是最后一幕`,
       validate: (p) => Array.isArray(p.messages) && p.messages.length >= 1,
+      maxTokens: 900,
     });
   }
   if (phase === "choices") {
@@ -424,6 +425,17 @@ ${sceneText || "（无正文，按当前叙事状态设困境）"}
 - ${trapHint}
 - shouldContinue：如果故事张力已充分释放（通常≥8幕后），可设为false表示本幕是最后一幕`;
 
+  return runActLLM({ prompt, validate: (p) => Array.isArray(p.choices) && p.choices.length >= 2 });
+}
+
+// ── 共享 LLM 调用 + 重试 + JSON 解析：三阶段（full/scene/choices）都走这里 ──
+async function runActLLM({
+  prompt, validate, maxTokens = 1800,
+}: {
+  prompt: string;
+  validate: (parsed: Record<string, unknown> & { messages?: unknown[]; choices?: unknown[] }) => boolean;
+  maxTokens?: number;
+}) {
   let lastErr: unknown;
   for (let attempt = 1; attempt <= 3; attempt++) {
     try {
@@ -438,19 +450,18 @@ ${sceneText || "（无正文，按当前叙事状态设困境）"}
           },
           { role: "user", content: prompt },
         ],
-        max_tokens: 1800, // 内容量不缩减：重试只降 temperature，不降 max_tokens
-        // 重试时降低随机性，更易一次输出合法 JSON（0.8→0.5→0.3），避免反复失败叠成长延迟
+        max_tokens: maxTokens,
         temperature: attempt === 1 ? 0.8 : attempt === 2 ? 0.5 : 0.3,
       });
       const raw = result.choices?.[0]?.message?.content ?? "";
       const m = raw.match(/```(?:json)?\s*(\{[\s\S]*?\})\s*```/) || raw.match(/(\{[\s\S]*\})/);
       if (!m) throw new Error("no JSON");
       const parsed = JSON.parse(m[1] ?? m[0]);
-      if (!parsed.choices || parsed.choices.length < 2) throw new Error("invalid act");
+      if (!validate(parsed)) throw new Error("invalid act payload");
       return parsed;
     } catch (e) {
       lastErr = e;
-      if (attempt < 3) await new Promise(r => setTimeout(r, attempt * 400)); // 缩短重试间隔
+      if (attempt < 3) await new Promise(r => setTimeout(r, attempt * 400));
     }
   }
   throw lastErr;
