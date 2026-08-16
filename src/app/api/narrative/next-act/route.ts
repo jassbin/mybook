@@ -85,10 +85,11 @@ export async function POST(request: NextRequest) {
     const dna = getCharacterDNA(nextState.character, nextState.book);
     const domains = dna?.dominantDomains ?? [];
     const isIntensify = !!(nextState as any).intensifyMode;
-    // 极压模式全程最高强度；普通模式按叙事阶段升级
+    // 极压模式全程最高强度；普通模式按幕号进度升级（不再用起承转合标签）
+    const progress = nextState.actNumber / Math.max(nextState.maxActs, 1);
     const intensity: 1 | 2 | 3 = isIntensify ? 3
-      : nextState.storyPhase === "合" || nextState.storyPhase === "尾声" ? 3
-      : nextState.storyPhase === "转" ? 2
+      : progress >= 0.75 ? 3
+      : progress >= 0.45 ? 2
       : 1;
 
     const affinityText = dna ? `${dna.coreWound}${dna.protects}${dna.fears}` : "";
