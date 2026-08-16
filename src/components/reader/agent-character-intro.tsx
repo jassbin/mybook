@@ -146,7 +146,7 @@ export function AgentCharacterIntro({
             </div>
           ))}
 
-          <div className="border-t border-[rgba(16,185,129,.2)] my-4" />
+          <div className="border-t border-[rgba(16,185,129,.45)] my-4" />
 
           {/* 四轴预览 */}
           <div className="text-xs font-bold tracking-widest text-[rgba(10,58,48,.42)] mb-3 uppercase">
