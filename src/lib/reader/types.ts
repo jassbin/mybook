@@ -691,6 +691,22 @@ export function buildPresetBooks(): BookMeta[] {
   return [classic, ...shuffled(extras)];
 }
 
+/**
+ * 按频道返回该频道下的全部书（不截断，书多）。
+ * classic=四大名著；其余频道从 EXTRA_BOOKS 按 channel 筛（未标 channel 的书默认归 world）。
+ * 只返回版权安全的书。
+ */
+export function buildBooksByChannel(channel: ChannelKey): BookMeta[] {
+  if (channel === "classic") {
+    return shuffled(CLASSICS).map(d =>
+      buildBookMeta(d.key, d.title, d.color, d.textColor, d.tagline, d.candidates));
+  }
+  const pool = EXTRA_BOOKS
+    .filter(b => isCopyrightSafe(b.authorDeathYear))
+    .filter(b => (b.channel ?? "world") === channel);
+  return shuffled(pool).map(buildFromLoose);
+}
+
 // ── 主题偏好 ────────────────────────────────────────────────────
 // 每个主题映射到「困境场域」。选主题只是「优先推荐 + 加重」，
 // 绝不硬塞：只会浮现原著里本就带该场域标签的书与角色。
