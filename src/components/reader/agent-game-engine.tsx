@@ -450,7 +450,7 @@ export function AgentGameEngine({
         {/* 顶栏：返回 + 标题 + 分享（故事页用深色古香态，与内容页统一） */}
         <PageTopbar
           title={currentAct.title}
-          subtitle={`第${worldState.actNumber}幕 · ${worldState.storyPhase}${nextActLoading ? " · 生成中…" : ""}${intensifyMode ? " 🔥" : ""}`}
+          subtitle={`第${worldState.actNumber}/${worldState.maxActs}幕${nextActLoading ? " · 生成中…" : ""}${intensifyMode ? " 🔥" : ""}`}
           onBack={onBack}
           onShare={handleShareStory}
           shareLabel="分享故事"
