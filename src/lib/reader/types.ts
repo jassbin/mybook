@@ -140,7 +140,7 @@ export function isCopyrightSafe(_authorDeathYear: number): boolean {
 
 // ── 非四大名著：有时代共鸣的书库 ──────────────────────────────────
 // ── 频道分类（首页芯片分频道展示书库）──────────────────────────────
-export type ChannelKey = "any" | "classic" | "world" | "xianxia" | "romance" | "modern";
+export type ChannelKey = "any" | "webromance" | "scriptmurder" | "classic" | "world" | "xianxia" | "romance" | "modern";
 
 export interface ChannelDef {
   key: ChannelKey;
