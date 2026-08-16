@@ -118,6 +118,7 @@ export function AgentGameEngine({
     setLockedIds([]);
     prefetchedRef.current = null;
     prefetchingRef.current = false;
+    choicesResultRef.current = null;
     pendingChoiceRef.current = null;
 
     const msgs = currentAct.messages;
@@ -312,11 +313,13 @@ export function AgentGameEngine({
 
     // 直接用预加载结果（ref，永远是最新的）
     if (prefetchedRef.current) {
-      const fetched = prefetchedRef.current as { state: WorldState; act: ActData };
+      const fetched = prefetchedRef.current as { state: WorldState; act: ActData; choicesPending?: boolean };
       prefetchedRef.current = null;
       if (!fetched.act.shouldContinue || fetched.state.actNumber > fetched.state.maxActs) {
         onComplete(fetched.state); return;
       }
+      // 正文先渲染；若选项还没到，标记 loading，由 fetchChoicesFor 合并进来
+      setChoicesLoading(!!fetched.choicesPending && fetched.act.choices.length === 0);
       setWorldState(fetched.state);
       setCurrentAct(fetched.act);
       return;
