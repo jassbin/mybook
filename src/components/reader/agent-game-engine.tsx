@@ -130,6 +130,49 @@ export function AgentGameEngine({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentAct]);
 
+  // 拆分生成第二段：为已生成的正文补齐选项。结果存 ref；若该幕已是当前渲染幕则直接合并进 currentAct。
+  const fetchChoicesFor = useCallback(async (
+    state: WorldState,
+    sceneAct: ActData,
+    choicesContext: { intensifyMode?: boolean; intensifyTargetBlock?: string } | undefined,
+    choiceId: string,
+  ) => {
+    try {
+      const res = await fetch("/api/narrative/act-choices", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          state,
+          sceneMessages: sceneAct.messages.map(m => ({ text: m.text })),
+          choicesContext,
+          normalChoiceHistory,
+        }),
+      });
+      if (!res.ok) throw new Error("act-choices failed");
+      const part = await res.json() as ChoicesPart;
+      choicesResultRef.current = { choiceId, part };
+      // 若预热结果仍指向这一目标，把选项补进去（供 handleContinue 后续读取）
+      if (prefetchedRef.current?.choiceId === choiceId) {
+        prefetchedRef.current = {
+          ...prefetchedRef.current,
+          act: { ...prefetchedRef.current.act, ...part },
+          choicesPending: false,
+        };
+      }
+      // 若这一幕已经渲染出来了（玩家已点继续、正文在读），直接把选项合并进 currentAct
+      setCurrentAct(prev => {
+        if (prev.choices.length > 0) return prev; // 已有选项，无需合并
+        // 仅当当前渲染的正是这一幕（用首条消息比对）才合并，避免错配
+        if (prev.messages[0]?.text !== sceneAct.messages[0]?.text) return prev;
+        return { ...prev, ...part };
+      });
+      setChoicesLoading(false);
+    } catch (e) {
+      console.warn("fetchChoices failed:", e);
+      choicesResultRef.current = { choiceId, part: null };
+    }
+  }, [normalChoiceHistory]);
+
   // 后台预加载下一幕，结果存 ref
   const prefetchNextAct = useCallback(async (
     choice: ActData["choices"][0],
