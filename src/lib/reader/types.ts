@@ -1233,6 +1233,13 @@ export interface ChoiceOption {
   socialTag: string; // modern anxiety tag shown after choice
   scores: Record<string, number>; // axis key → delta (-30 to +30)
   isTrap?: boolean;  // triggers special ending if selected
+  // 爽感层：选项类型(两难/爽点) + 爽法策略 + 名场面标记
+  choiceKind?: "dilemma" | "thrill";
+  strategy?: string;
+  personaAxis?: string;
+  riskLevel?: "low" | "mid" | "high";
+  triggersClimax?: boolean;
+  thrillDelta?: number;
 }
 
 export interface StoryScene {
