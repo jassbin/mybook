@@ -144,14 +144,21 @@ export function summarizeState(state: WorldState): string {
     .map((c) => `第${c.act}幕选「${c.choiceText}」→${c.consequenceText}`)
     .join("\n");
 
-  // 把「已发生的选择结果」升级为不可推翻的既定事实，强约束下一幕承接，
-  // 防止 AI 用原著默认剧本覆盖玩家的选择（例如玩家已派魏延守街亭并守住，
-  // 后面就绝不能再滑回「马谡失街亭」的默认走向）。
-  const establishedFacts = state.choiceHistory.length > 0
+  // 既定事实块——分模式：普通模式全锁（保真）；极限模式=平行推演，只锁「玩家的选择」，
+  // 放开「原著默认命运/结局」，允许在合理因果 + 匹配代价下被改写。解决与 lockClause 的指令打架。
+  const isIntensify = !!(state as unknown as { intensifyMode?: boolean }).intensifyMode;
+  const establishedList = state.choiceHistory.length > 0
     ? state.choiceHistory
         .map((c) => `· 第${c.act}幕：你选择了「${c.choiceText}」，其结果已经发生——${c.consequenceText}`)
         .join("\n")
     : "（暂无已发生的事实）";
+  const establishedBlock = isIntensify
+    ? `【玩家已做的选择——绝对锁定，永不可翻】（这是玩家亲手做过的操作，任何情况下都不得推翻、改写，也不得让被玩家换下/否决的人物重新承担同一职责或结局）：
+${establishedList}
+
+【原著默认命运/结局——本局可改写（极限·平行推演）】：本局是平行时空推演，原著里"注定"的结局（某人必死、某段关系必然破裂、某场败局必然发生）不再是铁律，可以被改写——但必须同时满足两条：①改写只能由「玩家上面已做的选择 + 前文已埋的伏笔/关系/形势」合理推导出来，禁止天降、禁止无铺垫的奇迹；②任何逆转都要付出与之匹配的、看得见的永久代价（牺牲、反噬、失去），不能是无代价的爽文。改写时必须在正文里写清这条因果链：为什么在这条平行线上结局能被改写、又付出了什么。`
+    : `【已成定局·不可推翻的事实】（本幕必须与以下事实完全一致，绝对不得出现与之矛盾的情节；玩家已做的选择就是唯一发生过的历史，禁止用原著默认剧本覆盖它，禁止让被玩家换下/否决的人物重新登场承担同一职责或结局）：
+${establishedList}`;
 
   const tensions = state.pendingTensions.length > 0
     ? state.pendingTensions.join("；")
@@ -164,8 +171,7 @@ export function summarizeState(state: WorldState): string {
   return `当前第${state.actNumber}幕（${state.storyPhase}段），情绪基调：${state.emotionalTone}
 价值轴：${axesSummary}
 
-【已成定局·不可推翻的事实】（本幕必须与以下事实完全一致，绝对不得出现与之矛盾的情节；玩家已做的选择就是唯一发生过的历史，禁止用原著默认剧本覆盖它，禁止让被玩家换下/否决的人物重新登场承担同一职责或结局）：
-${establishedFacts}
+${establishedBlock}
 
 近期选择：\n${recentChoices || "（暂无）"}
 未解伏笔：${tensions}
