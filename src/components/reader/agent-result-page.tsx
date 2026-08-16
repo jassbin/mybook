@@ -215,7 +215,10 @@ export function AgentResultPage({
         {/* ── 块1：选择轨迹（大框内轻分隔列表，不再逐条套框）──── */}
         <ResultSection index="1" title="选择轨迹" hint={`${worldState.choiceHistory.length} 幕`} bodyClassName="px-0 py-0">
           <div className="flex flex-col">
-            {worldState.choiceHistory.map((record, i) => (
+            {worldState.choiceHistory.map((record, i) => {
+              const isThrill = record.choiceKind === "thrill";
+              const PINK = "#E85D9B";
+              return (
               <div key={i}
                 className="flex gap-0 anim-ink"
                 style={{
@@ -224,19 +227,26 @@ export function AgentResultPage({
                 }}>
                 <div
                   className="flex flex-col items-center justify-center px-2.5 py-3 flex-shrink-0"
-                  style={{ background: spineColor, minWidth: 40 }}>
+                  style={{ background: isThrill ? PINK : spineColor, minWidth: 40 }}>
                   <span className="text-[9px] font-bold leading-none" style={{ color: `${spineText}99` }}>幕</span>
                   <span className="text-lg font-black leading-none mt-0.5"
                     style={{ fontFamily: "'Ma Shan Zheng', serif", color: spineText }}>{record.act}</span>
                 </div>
                 <div className="flex-1 px-3.5 py-3">
                   {/* 大字：原著知名桥段名，一眼认出经历了什么 */}
-                  <div className="text-base font-black text-[rgba(1,1,1,.9)] leading-snug"
+                  <div className="text-base font-black text-[rgba(1,1,1,.9)] leading-snug flex items-center gap-1.5"
                     style={{ fontFamily: "'Ma Shan Zheng', serif" }}>
                     {record.sceneName || record.choiceText}
+                    {isThrill && (
+                      <span className="text-[10px] font-black px-1.5 py-0.5 rounded-full shrink-0"
+                        style={{ background: "rgba(232,93,155,.14)", color: PINK, fontFamily: "'Noto Serif SC', serif" }}>
+                        爽{record.strategy ? `·${record.strategy}` : ""}
+                      </span>
+                    )}
                   </div>
-                  {/* 我选择了什么 */}
-                  <div className="text-[12px] mt-1 leading-snug text-[rgba(1,1,1,.72)]">
+                  {/* 我选择了什么——爽点选择用粉色字体标注 */}
+                  <div className="text-[12px] mt-1 leading-snug"
+                    style={{ color: isThrill ? PINK : "rgba(1,1,1,.72)", fontWeight: isThrill ? 700 : 400 }}>
                     你选择了：{record.choiceText}
                   </div>
                   {/* 对应今天的困境（精炼） */}
@@ -248,7 +258,8 @@ export function AgentResultPage({
                   )}
                 </div>
               </div>
-            ))}
+              );
+            })}
           </div>
         </ResultSection>
 
