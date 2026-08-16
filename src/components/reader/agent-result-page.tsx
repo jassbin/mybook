@@ -279,7 +279,7 @@ export function AgentResultPage({
                 <div className="text-[10px] font-black tracking-[.35em] mb-1" style={{ color: "rgba(255,255,255,.85)" }}>{tc.icon} 评级</div>
                 <div className="text-[30px] font-black" style={{ fontFamily: "'Ma Shan Zheng', serif", color: "#fff", letterSpacing: "3px" }}>{rating}</div>
                 <div className="flex items-center justify-center gap-4 mt-2 text-[11px] font-bold" style={{ color: "rgba(255,255,255,.92)" }}>
-                  <span>{tc.label} {meter}</span>
+                  <span>{thrillCount} 次爽点</span>
                   <span>·</span>
                   <span>名场面 ×{profile.climaxCount}</span>
                   <span>·</span>
