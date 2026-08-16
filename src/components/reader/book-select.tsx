@@ -125,27 +125,27 @@ export function BookSelect({ onSelect }: BookSelectProps) {
           margin: "9px auto",
         }}
       >
-        {/* Header：标题两行错落，纯净白底，靠字体与间距撑场面 */}
-        <header className="relative z-10 flex flex-col items-stretch gap-0.5 mx-4 mt-6 mb-3 px-1">
+        {/* Header：标题 + 副标题同一行，紧凑 */}
+        <header className="relative z-10 flex flex-col items-center gap-1 px-5 pt-5 pb-3 text-center">
           <div
-            className="text-[32px] font-black leading-tight tracking-tight text-left"
+            className="text-[30px] font-black leading-tight tracking-tight"
             style={{
               fontFamily: "'Ma Shan Zheng', serif",
               color: "#06463c",
-              letterSpacing: "2px",
+              letterSpacing: "1px",
             }}
           >
-            附身角色
+            附身名著角色
           </div>
           <div
-            className="text-[32px] font-black leading-tight tracking-tight text-right"
+            className="text-[30px] font-black leading-tight tracking-tight"
             style={{
               fontFamily: "'Ma Shan Zheng', serif",
-              color: "#0d9488",
-              letterSpacing: "2px",
+              color: "#06463c",
+              letterSpacing: "1px",
             }}
           >
-            照亮你的价值观
+            测测你的价值观
           </div>
         </header>
 
