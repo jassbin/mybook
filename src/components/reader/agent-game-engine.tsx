@@ -40,6 +40,7 @@ interface ActData {
     isTrap?: boolean; isSelfPreserve?: boolean; isSacrifice?: boolean;
     thrillDelta?: number; personaAxis?: string;
     riskLevel?: "low" | "mid" | "high"; triggersClimax?: boolean;
+    choiceKind?: "dilemma" | "thrill"; strategy?: string;
   }[];
   trapEndingText?: string;
   trapRevivalText?: string;
