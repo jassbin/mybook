@@ -298,7 +298,8 @@ ${lockClause}`
 · 让它随剧情推进由隐到显，最终由玩家自己回味，而不是被告知。`
     : "";
 
-  const prompt = `你是《${state.book}》「${state.character}」故事的叙事导演。
+  // ── 共享上下文块：正文段与选项段两阶段生成都复用同一份约束，避免重复维护 ──
+  const contextBlock = `你是《${state.book}》「${state.character}」故事的叙事导演。
 
 ${buildProhibitionsBlock()}
 
@@ -311,7 +312,12 @@ ${principleBlock}${intensifyBlock}${intensifyTargetBlock}
 【本幕可用困境方向（从中选取最贴合当前状态的）】
 ${dilemmaHints}
 
-【本幕开场钩子】${openingHook ?? "续接上一幕的张力，不要另起炉灶"}
+【本幕开场钩子】${openingHook ?? "续接上一幕的张力，不要另起炉灶"}`;
+
+  // 暴露拆分生成所需的上下文与派生量，供 callActScene / callActChoices 复用
+  actPromptCtx = { contextBlock, axesKeys, isTrapAllowed, dilemmas, state, trapHint };
+
+  const prompt = `${contextBlock}
 
 请生成第${state.actNumber}幕（${state.storyPhase}段），输出严格JSON：
 {
