@@ -624,6 +624,162 @@ const EXTRA_BOOKS: LooseBookDef[] = [
       { name: "叶修", hook: "被俱乐部逼着退役、交出账号，从网吧重新打起——热爱能不能对抗现实", dominantDomains: ["职场权力", "身份认同"] },
     ],
   },
+
+  // ── 江湖仙侠·扩充 ─────────────────────────────────────
+  {
+    title: "射雕英雄传", channel: "xianxia",
+    color: "#2E5A6B", textColor: "#E8F4FA",
+    tagline: "憨直少年一步步长成大侠——侠之大者，是天赋还是选择",
+    authorDeathYear: 9999,
+    candidates: [
+      { name: "郭靖", hook: "天资平平却守着最笨的道义，家国与恩义冲突时他从不取巧——值不值", dominantDomains: ["身份认同", "背叛信任"] },
+      { name: "黄蓉", hook: "聪明绝顶、为爱不管不顾——她的机变到底护住了什么、又放弃了什么", dominantDomains: ["感情关系", "命运偏爱"] },
+    ],
+  },
+  {
+    title: "天龙八部", channel: "xianxia",
+    color: "#3A4A5C", textColor: "#E8ECF4",
+    tagline: "身世、家国、爱恨——每个人都被命运推着走向不愿去的地方",
+    authorDeathYear: 9999,
+    candidates: [
+      { name: "乔峰", hook: "顶天立地的英雄一夜成了人人喊打的契丹人——身份是别人给的，他还能是谁", dominantDomains: ["身份认同", "命运偏爱"] },
+      { name: "段誉", hook: "不愿学武、不愿争斗，却被卷进所有恩怨——善良在这个世界够用吗", dominantDomains: ["感情关系", "身份认同"] },
+      { name: "虚竹", hook: "只想做个安分和尚，却被塞了一身武功和权位——你要的和命给的不一样时", dominantDomains: ["命运偏爱", "身份认同"] },
+    ],
+  },
+  {
+    title: "笑傲江湖", channel: "xianxia",
+    color: "#3A5A4E", textColor: "#E8F5EE",
+    tagline: "人人都说退隐江湖，可权力的游戏里，谁真能全身而退",
+    authorDeathYear: 9999,
+    candidates: [
+      { name: "令狐冲", hook: "只想自由自在，却被门派、正邪、权谋反复裹挟——洒脱是不是也要付代价", dominantDomains: ["身份认同", "背叛信任"] },
+      { name: "岳不群", hook: "端着君子的体面走向深渊——他是什么时候开始骗自己的", dominantDomains: ["职场权力", "禁忌诱惑"] },
+    ],
+  },
+
+  // ── 热血今潮·扩充 ─────────────────────────────────────
+  {
+    title: "三体", channel: "modern",
+    color: "#1C2A4A", textColor: "#E6ECFA",
+    tagline: "文明存亡面前，道德与生存哪个先崩塌",
+    authorDeathYear: 9999,
+    candidates: [
+      { name: "罗辑", hook: "被迫背负全人类的命运，用最冷酷的威慑换和平——救世主和刽子手只差一念", dominantDomains: ["生存底线", "身份认同"] },
+      { name: "叶文洁", hook: "对人类彻底失望，按下了那个按钮——她是罪人，还是被时代逼疯的清醒者", dominantDomains: ["背叛信任", "命运偏爱"] },
+    ],
+  },
+  {
+    title: "庆余年", channel: "modern",
+    color: "#2A4A3E", textColor: "#E8F5EE",
+    tagline: "带着现代观念闯入庙堂——是同流合污，还是改写规则",
+    authorDeathYear: 9999,
+    candidates: [
+      { name: "范闲", hook: "看透了权力的肮脏却身在其中，想守着心里那点干净——现实允许吗", dominantDomains: ["职场权力", "身份认同"] },
+    ],
+  },
+  {
+    title: "鬼吹灯", channel: "modern",
+    color: "#3A2E1A", textColor: "#F0E6D2",
+    tagline: "贪婪、恐惧、义气——在生死墓穴里，人会露出真面目",
+    authorDeathYear: 9999,
+    candidates: [
+      { name: "胡八一", hook: "为钱下墓，却总在生死关头选择救人——他嘴上的规矩和心里的底线哪个更硬", dominantDomains: ["生存底线", "背叛信任"] },
+    ],
+  },
+
+  // ── 经典殿堂·扩充（古典名著） ─────────────────────────
+  {
+    title: "聊斋志异", channel: "classic",
+    color: "#3A2A4A", textColor: "#F0E6FA",
+    tagline: "花妖狐魅比人更有情——真正吃人的从来不是鬼",
+    authorDeathYear: 1715,
+    candidates: [
+      { name: "宁采臣", hook: "穷书生守着一身正气，面对聂小倩的深情与危险——胆小和守正只有一线之隔", dominantDomains: ["感情关系", "身份认同"] },
+      { name: "聂小倩", hook: "被迫害人的女鬼想做回好人——洗清过往需要付出什么", dominantDomains: ["命运偏爱", "禁忌诱惑"] },
+    ],
+  },
+  {
+    title: "封神演义", channel: "classic",
+    color: "#5C2A2A", textColor: "#F5E6D2",
+    tagline: "天命已定的封神榜上，忠与逆、人与神，谁能自己选",
+    authorDeathYear: 1650,
+    candidates: [
+      { name: "姜子牙", hook: "七十岁才逢明主，替天封神却也替天背了骂名——奉命行事能不能免责", dominantDomains: ["职场权力", "命运偏爱"] },
+      { name: "哪吒", hook: "剔骨还父削肉还母，只为不认这具身体带来的亏欠——你能选择自己的出身吗", dominantDomains: ["家庭代际", "身份认同"] },
+    ],
+  },
+  {
+    title: "儒林外史", channel: "classic",
+    color: "#4A4028", textColor: "#F0E8D2",
+    tagline: "读书人挤破头求功名——科举这条独木桥，压弯了多少人的脊梁",
+    authorDeathYear: 1754,
+    candidates: [
+      { name: "范进", hook: "考了大半辈子终于中举，人却疯了——一个人的一生只值一张榜吗", dominantDomains: ["命运偏爱", "身份认同"] },
+    ],
+  },
+
+  // ── 儿女情长·扩充 ─────────────────────────────────────
+  {
+    title: "西厢记", channel: "romance",
+    color: "#A0446E", textColor: "#FBEAF1",
+    tagline: "愿天下有情人终成眷属——可礼教从不给爱情让路",
+    authorDeathYear: 1324,
+    candidates: [
+      { name: "崔莺莺", hook: "相府千金爱上穷书生，一边是门第一边是真心——她敢不敢越那道墙", dominantDomains: ["感情关系", "禁忌诱惑"] },
+      { name: "张生", hook: "为爱奔走却前途未卜——爱情和功名，他能不能两全", dominantDomains: ["感情关系", "身份认同"] },
+    ],
+  },
+  {
+    title: "乱世佳人", channel: "romance",
+    color: "#6E3A3A", textColor: "#F5E6E0",
+    tagline: "战火烧尽一切，她靠什么活下去、又错过了什么",
+    authorDeathYear: 1949,
+    candidates: [
+      { name: "斯嘉丽", hook: "为了活下去不择手段，却直到失去才懂自己爱谁——坚强是不是也是一种盲目", dominantDomains: ["生存底线", "感情关系"] },
+      { name: "白瑞德", hook: "看透她也纵容她，爱到最后却选择转身离开——真正的爱要不要有底线", dominantDomains: ["感情关系", "背叛信任"] },
+    ],
+  },
+  {
+    title: "傲慢与偏见", channel: "romance",
+    color: "#5A6E8A", textColor: "#EAF0FA",
+    tagline: "先入为主的判断差点错过一生所爱——你敢不敢承认自己看错了人",
+    authorDeathYear: 1817,
+    candidates: [
+      { name: "伊丽莎白", hook: "用偏见筑起高墙，也靠清醒守住自尊——她放下成见需要多大的勇气", dominantDomains: ["感情关系", "身份认同"] },
+      { name: "达西", hook: "笨拙的骄傲藏着深情——放下身段去爱一个不如自己门第的人，值吗", dominantDomains: ["感情关系", "职场权力"] },
+    ],
+  },
+
+  // ── 人间世相·扩充 ─────────────────────────────────────
+  {
+    title: "追风筝的人", channel: "world",
+    color: "#8A5A2A", textColor: "#F5E8D2",
+    tagline: "一次背叛背了一辈子——有些错，要用一生去赎",
+    authorDeathYear: 9999,
+    candidates: [
+      { name: "阿米尔", hook: "小时候的懦弱害了最忠诚的朋友，多年后有了赎罪的机会——迟来的勇敢还算勇敢吗", dominantDomains: ["背叛信任", "身份认同"] },
+    ],
+  },
+  {
+    title: "四世同堂", channel: "world",
+    color: "#4A3A28", textColor: "#F0E6D2",
+    tagline: "国难当头的胡同里，每个普通人都在被逼着选边站",
+    authorDeathYear: 1966,
+    candidates: [
+      { name: "祁瑞宣", hook: "想尽孝又想报国，夹在家族责任与民族气节之间——两难时他能不能不做懦夫", dominantDomains: ["家庭代际", "身份认同"] },
+      { name: "冠晓荷", hook: "为了活得体面不惜投敌献媚——他是坏，还是只是把生存看得比一切都重", dominantDomains: ["生存底线", "背叛信任"] },
+    ],
+  },
+  {
+    title: "月亮与六便士", channel: "world",
+    color: "#2A3A5A", textColor: "#E6ECFA",
+    tagline: "抛下妻儿去追一个虚无的梦——这是伟大还是自私",
+    authorDeathYear: 1965,
+    candidates: [
+      { name: "斯特里克兰德", hook: "四十岁抛下一切去画画，冷酷得近乎无情——追求纯粹能不能成为伤害别人的理由", dominantDomains: ["身份认同", "背叛信任"] },
+    ],
+  },
 ];
 
 function pickRandom<T>(arr: T[]): T {
