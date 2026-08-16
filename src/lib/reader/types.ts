@@ -794,6 +794,161 @@ const EXTRA_BOOKS: LooseBookDef[] = [
       { name: "斯特里克兰德", hook: "四十岁抛下一切去画画，冷酷得近乎无情——追求纯粹能不能成为伤害别人的理由", dominantDomains: ["身份认同", "背叛信任"] },
     ],
   },
+
+  // ── 言情小说（网文向为主）────────────────────────────────────
+  {
+    title: "何以笙箫默", channel: "webromance",
+    color: "#8A5A6E", textColor: "#FBEEF3",
+    tagline: "如果世界上真有奇迹，那只是努力的另一个名字",
+    authorDeathYear: 9999,
+    candidates: [
+      { name: "赵默笙", hook: "被误会、被冷落七年，还要不要回头等那个人", dominantDomains: ["感情关系", "背叛信任"] },
+      { name: "何以琛", hook: "用七年沉默惩罚一个人，也惩罚了自己——骄傲和爱哪个更重", dominantDomains: ["感情关系", "身份认同"] },
+    ],
+  },
+  {
+    title: "东宫", channel: "webromance",
+    color: "#6E4A5A", textColor: "#FBEEF3",
+    tagline: "国仇家恨压下来，爱一个人是奢侈还是背叛",
+    authorDeathYear: 9999,
+    candidates: [
+      { name: "小枫", hook: "为家国饮下忘川水，忘了此生最爱的人——遗忘是解脱还是更痛", dominantDomains: ["感情关系", "命运偏爱"] },
+      { name: "李承鄞", hook: "为权力亲手毁掉爱人的族人，坐上皇位后只剩空城", dominantDomains: ["背叛信任", "生存底线"] },
+    ],
+  },
+  {
+    title: "三生三世十里桃花", channel: "webromance",
+    color: "#B76E79", textColor: "#FBEEF3",
+    tagline: "三世纠缠，跳下诛仙台的那一刻你恨的到底是谁",
+    authorDeathYear: 9999,
+    candidates: [
+      { name: "白浅", hook: "被挖了眼、跳下诛仙台，重生后要不要原谅那个害她的人", dominantDomains: ["背叛信任", "感情关系"] },
+      { name: "夜华", hook: "为爱一次次赴死，深情到近乎偏执——这样的爱是负担吗", dominantDomains: ["感情关系", "命运偏爱"] },
+    ],
+  },
+  {
+    title: "步步惊心", channel: "webromance",
+    color: "#5A5A7E", textColor: "#ECECFA",
+    tagline: "穿越回九子夺嫡，明知结局还要不要爱上他",
+    authorDeathYear: 9999,
+    candidates: [
+      { name: "若曦", hook: "知道每个人的结局，却改变不了任何人——预知未来是幸运还是酷刑", dominantDomains: ["命运偏爱", "感情关系"] },
+      { name: "四阿哥", hook: "为登上皇位步步为营，得到天下却失去了她", dominantDomains: ["生存底线", "背叛信任"] },
+    ],
+  },
+  {
+    title: "琉璃美人煞", channel: "webromance",
+    color: "#4A6E6E", textColor: "#E6FAF5",
+    tagline: "十世情劫，为一个人甘愿堕入魔道值不值",
+    authorDeathYear: 9999,
+    candidates: [
+      { name: "褚璇玑", hook: "生来六识残缺被当作废柴，觉醒后要不要向轻视她的人复仇", dominantDomains: ["身份认同", "命运偏爱"] },
+      { name: "禹司凤", hook: "为救她一次次牺牲自己——护一个人到底能护到什么程度", dominantDomains: ["感情关系", "生存底线"] },
+    ],
+  },
+  {
+    title: "微微一笑很倾城", channel: "webromance",
+    color: "#7E5A8A", textColor: "#F5EEFB",
+    tagline: "从游戏里的一场联姻，到现实中的一见倾心",
+    authorDeathYear: 9999,
+    candidates: [
+      { name: "贝微微", hook: "在虚拟和现实都足够优秀，爱情来得太顺时要不要怀疑", dominantDomains: ["感情关系", "身份认同"] },
+      { name: "肖奈", hook: "样样第一的天之骄子，唯独在感情里选择主动——完美的人也会低头吗", dominantDomains: ["感情关系", "命运偏爱"] },
+    ],
+  },
+  {
+    title: "花千骨", channel: "webromance",
+    color: "#8A6E4A", textColor: "#FBF3E6",
+    tagline: "爱上自己的师父，是成全还是毁灭",
+    authorDeathYear: 9999,
+    candidates: [
+      { name: "花千骨", hook: "被最信任的师父刺穿身体，从痴心弟子变成魔尊——爱能不能变成恨", dominantDomains: ["背叛信任", "感情关系"] },
+      { name: "白子画", hook: "身为师父守着清规，为苍生亲手伤了唯一在乎的人", dominantDomains: ["生存底线", "感情关系"] },
+    ],
+  },
+  {
+    title: "甄嬛传", channel: "webromance",
+    color: "#7E4A4A", textColor: "#FBEAEA",
+    tagline: "从不争的少女到心机深沉的太后，是她变了还是被逼的",
+    authorDeathYear: 9999,
+    candidates: [
+      { name: "甄嬛", hook: "一次次被背叛后学会算计，赢了后宫却输了真心——生存和纯真只能二选一吗", dominantDomains: ["背叛信任", "生存底线"] },
+      { name: "沈眉庄", hook: "看透宫斗后不再争宠，只求活得清醒——退出游戏也是一种反抗吗", dominantDomains: ["身份认同", "感情关系"] },
+    ],
+  },
+
+  // ── 剧本杀 ──────────────────────────────────────────────────
+  {
+    title: "年轮", channel: "scriptmurder",
+    color: "#3E4A5C", textColor: "#E6ECFA",
+    tagline: "一场跨越三十年的还魂局，你敢不敢面对真相",
+    authorDeathYear: 9999,
+    candidates: [
+      { name: "追凶者", hook: "为查清亲人死因潜入局中，越接近真相越发现自己也脱不了干系", dominantDomains: ["背叛信任", "命运偏爱"] },
+      { name: "守秘人", hook: "背着三十年的秘密活着，说出真相意味着毁掉所有人——沉默算不算共谋", dominantDomains: ["生存底线", "背叛信任"] },
+    ],
+  },
+  {
+    title: "孤舟", channel: "scriptmurder",
+    color: "#2E4A4A", textColor: "#E6FAF5",
+    tagline: "一座孤岛，八个陌生人，谁在说谎谁在赴死",
+    authorDeathYear: 9999,
+    candidates: [
+      { name: "船长", hook: "掌握所有人的把柄，是主持正义还是操控人心", dominantDomains: ["生存底线", "背叛信任"] },
+      { name: "幸存者", hook: "为活下去出卖同伴，上岸后能不能原谅那个夜晚的自己", dominantDomains: ["生存底线", "身份认同"] },
+    ],
+  },
+  {
+    title: "第七号当铺", channel: "scriptmurder",
+    color: "#5C3E5C", textColor: "#F5EEFB",
+    tagline: "用最珍贵的东西，换一个改写过去的机会——你换不换",
+    authorDeathYear: 9999,
+    candidates: [
+      { name: "典当人", hook: "拿寿命换回逝去的爱人，得到后才发现代价远不止如此", dominantDomains: ["感情关系", "命运偏爱"] },
+      { name: "当铺掌柜", hook: "看尽人心贪婪，却始终不让自己动心——旁观别人的欲望是不是也是一种冷酷", dominantDomains: ["身份认同", "背叛信任"] },
+    ],
+  },
+  {
+    title: "民国旧梦", channel: "scriptmurder",
+    color: "#6E4A3E", textColor: "#FBF3E6",
+    tagline: "十里洋场，一封绝笔信牵出七个人的旧账",
+    authorDeathYear: 9999,
+    candidates: [
+      { name: "报社记者", hook: "为一篇独家新闻步步深挖，真相会毁掉一个自己敬重的人", dominantDomains: ["身份认同", "背叛信任"] },
+      { name: "交际花", hook: "周旋在权贵之间求生，感情和情报到底哪个是真的", dominantDomains: ["感情关系", "生存底线"] },
+      { name: "落魄少爷", hook: "家道中落后学会算计，为翻身能不能出卖旧友", dominantDomains: ["生存底线", "家庭代际"] },
+    ],
+  },
+  {
+    title: "长夜", channel: "scriptmurder",
+    color: "#3E3E5C", textColor: "#ECECFA",
+    tagline: "封闭山庄一夜连环命案，凶手就在你们中间",
+    authorDeathYear: 9999,
+    candidates: [
+      { name: "侦探", hook: "凭逻辑锁定真凶，可证据指向的偏偏是你最不愿怀疑的人", dominantDomains: ["身份认同", "背叛信任"] },
+      { name: "复仇者", hook: "为死去的至亲精心布局这一夜，动手前的最后一刻会不会犹豫", dominantDomains: ["背叛信任", "命运偏爱"] },
+    ],
+  },
+  {
+    title: "镜中人", channel: "scriptmurder",
+    color: "#4A5C6E", textColor: "#E6ECFA",
+    tagline: "醒来失去记忆，你要如何证明自己不是凶手",
+    authorDeathYear: 9999,
+    candidates: [
+      { name: "失忆者", hook: "所有证据都指向自己，连你都开始怀疑自己是不是真凶", dominantDomains: ["身份认同", "生存底线"] },
+      { name: "目击者", hook: "看见了真相却选择隐瞒，是为了保护谁——还是保护自己", dominantDomains: ["背叛信任", "感情关系"] },
+    ],
+  },
+  {
+    title: "古董局中局", channel: "scriptmurder",
+    color: "#5C4A2E", textColor: "#FBF3E6",
+    tagline: "一件真伪难辨的国宝，一局爷孙两代的恩怨",
+    authorDeathYear: 9999,
+    candidates: [
+      { name: "掌眼人", hook: "为洗清祖上冤名踏入骗局，越查越发现家族的荣耀本就是假的", dominantDomains: ["身份认同", "家庭代际"] },
+      { name: "设局者", hook: "用一场惊天骗局向仇家复仇，赢了之后还剩下什么", dominantDomains: ["背叛信任", "命运偏爱"] },
+    ],
+  },
 ];
 
 function pickRandom<T>(arr: T[]): T {
