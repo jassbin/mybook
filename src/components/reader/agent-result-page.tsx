@@ -252,6 +252,47 @@ export function AgentResultPage({
           </div>
         </ResultSection>
 
+        {/* ── 爽感结算：评级卡 + 爽点人格画像（先爽后照见）───────── */}
+        {(() => {
+          const tc = getThrillConfig((worldState.channel ?? undefined) as any);
+          const meter = worldState.thrillMeter ?? 20;
+          const rating = pickRating(meter, tc.ratingTiers);
+          const profile = buildThrillProfile((worldState.thrillHistory ?? []) as any);
+          return (
+            <ResultSection index="✦" title="本局爽感" hint={`${tc.label} ${meter}/100`}>
+              {/* 评级大卡 */}
+              <div className="rounded-xl px-4 py-4 mb-3 text-center relative overflow-hidden"
+                style={{ background: `linear-gradient(135deg, ${tc.color}, ${tc.color}cc)` }}>
+                <div className="text-[10px] font-black tracking-[.35em] mb-1" style={{ color: "rgba(255,255,255,.85)" }}>{tc.icon} 评级</div>
+                <div className="text-[30px] font-black" style={{ fontFamily: "'Ma Shan Zheng', serif", color: "#fff", letterSpacing: "3px" }}>{rating}</div>
+                <div className="flex items-center justify-center gap-4 mt-2 text-[11px] font-bold" style={{ color: "rgba(255,255,255,.92)" }}>
+                  <span>{tc.label} {meter}</span>
+                  <span>·</span>
+                  <span>名场面 ×{profile.climaxCount}</span>
+                  <span>·</span>
+                  <span>{profile.riskAppetite}型</span>
+                </div>
+              </div>
+              {/* 爽点人格画像 = 照见自己（爽感数据反哺） */}
+              {profile.dominantPersona && (
+                <div className="rounded-lg px-4 py-3" style={{ background: `${spineColor}12`, borderLeft: `3px solid ${spineColor}` }}>
+                  <div className="text-[10px] font-black tracking-[.15em] mb-1" style={{ color: `${spineColor}cc` }}>
+                    🪞 你追求的爽 · {profile.dominantPersona}
+                  </div>
+                  <p className="text-[13px] leading-relaxed font-bold" style={{ color: "rgba(1,1,1,.82)" }}>
+                    {profile.insight}
+                  </p>
+                  {typeof profile.peakAct === "number" && profile.peakDelta > 0 && (
+                    <p className="text-[11px] leading-relaxed mt-2 italic" style={{ color: `${spineColor}b0` }}>
+                      你在第 {profile.peakAct} 幕爽点涨得最猛（+{profile.peakDelta}）——那一刻的情节，正是你最吃的那种刺激。
+                    </p>
+                  )}
+                </div>
+              )}
+            </ResultSection>
+          );
+        })()}
+
         {/* ── 块2：价值倾向 ─────────────────────────────────────── */}
         <ResultSection index="2" title="价值倾向" hint="你为何在这">
           <div className="flex flex-col gap-3">
