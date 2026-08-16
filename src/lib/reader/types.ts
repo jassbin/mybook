@@ -139,6 +139,22 @@ export function isCopyrightSafe(_authorDeathYear: number): boolean {
 }
 
 // ── 非四大名著：有时代共鸣的书库 ──────────────────────────────────
+// ── 频道分类（首页芯片分频道展示书库）──────────────────────────────
+export type ChannelKey = "classic" | "world" | "xianxia" | "romance" | "modern";
+
+export interface ChannelDef {
+  key: ChannelKey;
+  label: string;
+}
+
+export const CHANNELS: ChannelDef[] = [
+  { key: "classic", label: "经典殿堂" },
+  { key: "world", label: "人间世相" },
+  { key: "romance", label: "儿女情长" },
+  { key: "xianxia", label: "江湖仙侠" },
+  { key: "modern", label: "热血今潮" },
+];
+
 interface LooseBookDef {
   title: string;
   color: string;
@@ -146,6 +162,7 @@ interface LooseBookDef {
   tagline: string;
   candidates: CharCandidate[];
   authorDeathYear: number;  // 用于版权判断，作者去世年份
+  channel?: ChannelKey;     // 频道归属；不填默认「人间世相」(world)
 }
 
 const EXTRA_BOOKS: LooseBookDef[] = [
