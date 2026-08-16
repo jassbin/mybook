@@ -301,7 +301,7 @@ export function AgentGameEngine({
     const csMatches = cs && (!cs.triggerChoiceId || cs.triggerChoiceId === choice.id);
     if (climaxNow && cs && csMatches) {
       setClimaxPopup({ title: cs.title, text: cs.text });
-      setTimeout(() => setClimaxPopup(null), 2600);
+      setTimeout(() => setClimaxPopup(null), 4200);
     }
 
     // 方案A：陷阱选项不再「游戏结束」，而是「付出重大代价后继续」——
