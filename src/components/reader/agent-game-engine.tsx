@@ -524,11 +524,25 @@ export function AgentGameEngine({
 
           {showChoices && !choiceDone && (
             <div ref={choicesAnchorRef} className="anim-ink" style={{ scrollMarginTop: 12 }}>
-              <ChoicePanel
-                choices={currentAct.choices as any}
-                lockedIds={lockedIds}
-                onChoice={handleChoice as any}
-              />
+              {currentAct.choices.length > 0 ? (
+                <ChoicePanel
+                  choices={currentAct.choices as any}
+                  lockedIds={lockedIds}
+                  onChoice={handleChoice as any}
+                />
+              ) : choicesLoading ? (
+                // 正文已就位、选项异步生成中：显示轻量占位骨架，而不是空白
+                <div className="flex flex-col gap-2.5 py-1">
+                  <div className="flex items-center gap-2 text-[13px]" style={{ color: "rgba(1,1,1,.5)" }}>
+                    <span className="animate-pulse inline-block rounded-full" style={{ width: 6, height: 6, background: spineColor }} />
+                    正在为你铺开三条路……
+                  </div>
+                  {[0, 1, 2].map(i => (
+                    <div key={i} className="rounded-lg animate-pulse"
+                      style={{ height: 52, background: "rgba(1,1,1,.05)", border: "1px solid rgba(1,1,1,.06)" }} />
+                  ))}
+                </div>
+              ) : null}
             </div>
           )}
 
