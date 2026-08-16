@@ -143,7 +143,9 @@ export function buildThrillProfile(records: ThrillRecord[]): ThrillProfile {
   const dominantPersona = personaShare[0]?.[0];
   const riskAppetite: ThrillProfile["riskAppetite"] =
     highRisk > lowRisk + 1 ? "冒险" : lowRisk > highRisk + 1 ? "稳健" : "均衡";
-  const base = dominantPersona ? PERSONA_INSIGHT[dominantPersona] : "";
+  const base = dominantPersona
+    ? (STRATEGY_INSIGHT[dominantPersona] ?? PERSONA_INSIGHT[dominantPersona] ?? "")
+    : "";
   const riskLine =
     riskAppetite === "冒险" ? "而且你偏爱高风险高回报——宁可搏一把，也不要温吞的稳妥。"
     : riskAppetite === "稳健" ? "而且你偏爱稳妥的小步累积——你要的是可控的爽，不是失控的赌。"
