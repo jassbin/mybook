@@ -10,6 +10,7 @@ import {
 import { PageTopbar } from "./page-topbar";
 import { ResultSection } from "./result-section";
 import { Flame, Share2, Drama } from "lucide-react";
+import { getThrillConfig, buildThrillProfile, pickRating } from "@/lib/agent/thrill";
 
 interface AgentResultPageProps {
   worldState: WorldState;
