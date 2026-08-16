@@ -399,9 +399,9 @@ ${sceneText || "（无正文，按当前叙事状态设困境）"}
 请仅生成本幕的【三个选项 + 后果】，输出严格JSON：
 {
   "choices": [
-    {"id":"A","label":"甲","text":"选项简短描述","innerVoice":"内心独白——赤裸真实动机，50字","revealText":"点破语——30字内，白话，直击这个选择意味着什么","socialTag":"当代社会焦虑标签（参考：${dilemmas.map(d=>d.modernTag).join("/")}）","scores":{"${axesKeys.split("，")[0]}":10},"isTrap":false,"isSelfPreserve":false,"isSacrifice":false},
-    {"id":"B","label":"乙","text":"...","innerVoice":"...","revealText":"...","socialTag":"...","scores":{},"isTrap":false,"isSelfPreserve":false,"isSacrifice":false},
-    {"id":"C","label":"丙","text":"...","innerVoice":"...","revealText":"...","socialTag":"...","scores":{},"isTrap":${isTrapAllowed},"isSelfPreserve":false,"isSacrifice":false}
+    {"id":"A","label":"甲","text":"选项简短描述","innerVoice":"内心独白——赤裸真实动机，50字","revealText":"点破语——30字内，白话，直击这个选择意味着什么","socialTag":"当代社会焦虑标签（参考：${dilemmas.map(d=>d.modernTag).join("/")}）","scores":{"${axesKeys.split("，")[0]}":10},"isTrap":false,"isSelfPreserve":false,"isSacrifice":false${thrillFieldsJson}},
+    {"id":"B","label":"乙","text":"...","innerVoice":"...","revealText":"...","socialTag":"...","scores":{},"isTrap":false,"isSelfPreserve":false,"isSacrifice":false${thrillFieldsJson}},
+    {"id":"C","label":"丙","text":"...","innerVoice":"...","revealText":"...","socialTag":"...","scores":{},"isTrap":${isTrapAllowed},"isSelfPreserve":false,"isSacrifice":false${thrillFieldsJson}}
   ],
   "trapEndingText":"（仅isTrap=true时填写）选了极端选项后付出的沉重代价（2-3句，写代价而非结局）",
   "consequenceMap":{
@@ -409,10 +409,11 @@ ${sceneText || "（无正文，按当前叙事状态设困境）"}
     "B":[{"id":"cb1","type":"narrator","text":"选B后的即时后果"}],
     "C":[]
   },
-  "forcedContinue":[{"id":"fc1","type":"system","text":"无论如何，故事继续……"}]
+  "forcedContinue":[{"id":"fc1","type":"system","text":"无论如何，故事继续……"}]${climaxFieldJson}
 }
 要求：
 ${outletsReq}
+${thrillReq}
 - isSelfPreserve/isSacrifice 按语义填 true/false；scores 键名必须是：${axesKeys}
 - ${trapHint}
 - consequenceMap 的后果必须与上文既定事实一致，不得推翻。`,
