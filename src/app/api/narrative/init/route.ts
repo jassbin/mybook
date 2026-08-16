@@ -290,7 +290,7 @@ ${lockClause}`
 
   // 三问 = 角色一生的命题：作为全程隐性暗线注入，渐显不说破
   const lifeQuestions: string[] = (state as any).lifeQuestions ?? [];
-  const isEndPhase = state.storyPhase === "合" || state.storyPhase === "尾声";
+  const isEndPhase = state.actNumber / Math.max(state.maxActs, 1) >= 0.75;
   const lifeBlock = lifeQuestions.length >= 3
     ? `\n【角色一生的命题——全程隐性暗线，不是本幕台词】
 「${state.character}」一生的底色：核心伤口是「${lifeQuestions[0]}」；他在守护「${lifeQuestions[1]}」；最怕失去「${lifeQuestions[2]}」。
