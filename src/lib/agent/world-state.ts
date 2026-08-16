@@ -119,6 +119,10 @@ export function applyChoice(
   newTensions: string[],
   newTone: WorldState["emotionalTone"],
   newAnchors: string[] = [],
+  thrill?: {
+    delta?: number; personaAxis?: string;
+    riskLevel?: "low" | "mid" | "high"; triggeredClimax?: boolean;
+  },
 ): WorldState {
   const next = { ...state };
 
@@ -127,6 +131,22 @@ export function applyChoice(
     ...a,
     score: Math.min(100, Math.max(0, a.score + (scoreDelta[a.key] ?? 0))),
   }));
+
+  // ── 爽感层：应用数值增量 + 记录 ──
+  const delta = thrill?.delta ?? 0;
+  const meterAfter = Math.min(100, Math.max(0, state.thrillMeter + delta));
+  next.thrillMeter = meterAfter;
+  next.thrillHistory = [
+    ...state.thrillHistory,
+    {
+      act: state.actNumber,
+      delta,
+      meterAfter,
+      personaAxis: thrill?.personaAxis,
+      riskLevel: thrill?.riskLevel,
+      triggeredClimax: !!thrill?.triggeredClimax,
+    },
+  ];
 
   // 追加历史
   next.choiceHistory = [...state.choiceHistory, record];
