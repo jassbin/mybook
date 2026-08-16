@@ -519,7 +519,6 @@ export function AgentGameEngine({
           />
         </div>
 
-        {/* 爽感 HUD：常驻数值条，选完随 worldState 更新时数字/进度带跳动 */}
         {/* 爽感数值不再展示——爽靠"选完即时爽点兑现"与名场面，不靠计分条 */}
         <div ref={scrollContainerRef} className="flex-1 overflow-y-auto px-4 py-4 flex flex-col gap-3" style={{ scrollBehavior: "smooth" }}>
           {(() => {
