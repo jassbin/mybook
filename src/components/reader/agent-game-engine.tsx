@@ -15,15 +15,20 @@ import { getThrillConfig, shouldTriggerClimax } from "@/lib/agent/thrill";
 
 /** 由所选选项 + 当前爽感数值，算出要随 next-act 上报的爽感参数（含名场面双触发判定） */
 function thrillArgsFor(
-  choice: { thrillDelta?: number; personaAxis?: string; riskLevel?: "low" | "mid" | "high"; triggersClimax?: boolean },
+  choice: { thrillDelta?: number; personaAxis?: string; riskLevel?: "low" | "mid" | "high"; triggersClimax?: boolean; choiceKind?: "dilemma" | "thrill"; strategy?: string },
   meterBefore: number,
 ) {
-  const delta = choice.thrillDelta ?? 0;
+  // 无显式数值时，按风险等级给一个内部增量（数值不再展示，但仍驱动名场面破阈自动触发）
+  const fallback = choice.riskLevel === "high" ? 16 : choice.riskLevel === "low" ? 7 : 11;
+  const delta = choice.choiceKind === "thrill"
+    ? (choice.thrillDelta ?? fallback)
+    : (choice.thrillDelta ?? 0);
   const meterAfter = Math.min(100, Math.max(0, meterBefore + delta));
   const triggeredClimax = shouldTriggerClimax(meterBefore, meterAfter, [40, 70, 90], !!choice.triggersClimax);
   return {
     thrillDelta: delta,
-    personaAxis: choice.personaAxis,
+    // 爽点幕：记录"爽法"(硬刚/智取/被宠…)作为人格轴，用于偏好统计；两难幕沿用 personaAxis
+    personaAxis: choice.choiceKind === "thrill" ? (choice.strategy ?? choice.personaAxis) : choice.personaAxis,
     riskLevel: choice.riskLevel,
     triggeredClimax,
   };
