@@ -310,7 +310,7 @@ ${lockClause}`
 
   const contextBlock = `你是《${state.book}》「${state.character}」故事的叙事导演。
 
-${buildProhibitionsBlock()}
+${buildProhibitionsBlock(intensifyMode)}
 
 【角色定位】${state.characterTagline}
 ${canonicalBlock}${lifeBlock}
