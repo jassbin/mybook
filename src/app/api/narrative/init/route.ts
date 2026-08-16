@@ -314,8 +314,63 @@ ${dilemmaHints}
 
 【本幕开场钩子】${openingHook ?? "续接上一幕的张力，不要另起炉灶"}`;
 
-  // 暴露拆分生成所需的上下文与派生量，供 callActScene / callActChoices 复用
-  actPromptCtx = { contextBlock, axesKeys, isTrapAllowed, dilemmas, state, trapHint };
+  // ── 拆分生成：phase="scene" 只出正文(快)，phase="choices" 只出选项(据已生成正文续写)，"full"=旧的整幕 ──
+  if (phase === "scene") {
+    return runActLLM({
+      prompt: `${contextBlock}
+
+请生成第${state.actNumber}幕（${state.storyPhase}段）的【正文部分】，只输出正文，不要生成选项。输出严格JSON：
+{
+  "title": "幕标题（8字内，体现本幕核心张力）",
+  "sceneName": "本幕对应的原著知名桥段/场景名（越有名越好，如「空城计」「挥泪斩马谡」；若非知名桥段则用6字内场景概括）",
+  "messages": [
+    {"id":"m1","type":"narrator/dialog/inner","text":"内容","delay":0},
+    {"id":"m2","type":"...","text":"...","delay":400}
+  ],
+  "newTensions":["本幕引入的新伏笔，字符串数组"],
+  "newAnchors":["本幕出现的1-2个具体场景细节（地点名/人名/道具）"],
+  "newEmotionalTone":"平静/压抑/紧张/绝望/愤怒/悲凉/释然",
+  "shouldContinue":true
+}
+要求：
+- messages 3-5条，情绪递进，场景必须有原著依据（人名/地点/道具不得凭空发明）
+- 【铁律·承接既定事实】本幕开场与全部内容必须严格承接上文【已成定局·不可推翻的事实】，玩家之前选择的结果是唯一发生过的历史，禁止推翻/改写。
+- 正文要把玩家带到一个"即将做抉择"的临界点，但不要写出选项本身。
+- shouldContinue：如果故事张力已充分释放（通常≥8幕后）可设为false表示本幕是最后一幕`,
+      validate: (p) => Array.isArray(p.messages) && p.messages.length >= 1,
+    });
+  }
+  if (phase === "choices") {
+    const sceneText = (sceneContext?.messages ?? []).map((m: { text: string }) => m.text).join("\n");
+    return runActLLM({
+      prompt: `${contextBlock}
+
+【本幕正文（已生成，选项必须紧扣它收尾于此处的临界抉择）】
+${sceneText || "（无正文，按当前叙事状态设困境）"}
+
+请仅生成本幕的【三个选项 + 后果】，输出严格JSON：
+{
+  "choices": [
+    {"id":"A","label":"甲","text":"选项简短描述","innerVoice":"内心独白——赤裸真实动机，50字","revealText":"点破语——30字内，白话，直击这个选择意味着什么","socialTag":"当代社会焦虑标签（参考：${dilemmas.map(d=>d.modernTag).join("/")}）","scores":{"${axesKeys.split("，")[0]}":10},"isTrap":false,"isSelfPreserve":false,"isSacrifice":false},
+    {"id":"B","label":"乙","text":"...","innerVoice":"...","revealText":"...","socialTag":"...","scores":{},"isTrap":false,"isSelfPreserve":false,"isSacrifice":false},
+    {"id":"C","label":"丙","text":"...","innerVoice":"...","revealText":"...","socialTag":"...","scores":{},"isTrap":${isTrapAllowed},"isSelfPreserve":false,"isSacrifice":false}
+  ],
+  "trapEndingText":"（仅isTrap=true时填写）选了极端选项后付出的沉重代价（2-3句，写代价而非结局）",
+  "consequenceMap":{
+    "A":[{"id":"ca1","type":"narrator","text":"选A后的即时后果（1-2句）"}],
+    "B":[{"id":"cb1","type":"narrator","text":"选B后的即时后果"}],
+    "C":[]
+  },
+  "forcedContinue":[{"id":"fc1","type":"system","text":"无论如何，故事继续……"}]
+}
+要求：
+- 【核心·选项就是困境的三个出口】三个选项必须是本幕正文那一个核心困境的三种价值排序解法：甲=优先保全自己/维持现状（代价最轻但需妥协良知）、乙=中间路线（各让一步、两头不讨好）、丙=承受最重代价去坚持某种价值。三者势均力敌、都真的难受、都有痛点，绝不允许有"明显正确"的答案；三个选项要同题。
+- isSelfPreserve/isSacrifice 按语义填 true/false；scores 键名必须是：${axesKeys}
+- ${trapHint}
+- consequenceMap 的后果必须与上文既定事实一致，不得推翻。`,
+      validate: (p) => Array.isArray(p.choices) && p.choices.length >= 2,
+    });
+  }
 
   const prompt = `${contextBlock}
 
