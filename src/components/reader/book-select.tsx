@@ -131,7 +131,7 @@ export function BookSelect({ onSelect }: BookSelectProps) {
             className="font-black leading-none"
             style={{
               fontFamily: "'Ma Shan Zheng', serif",
-              color: "#2e8577",
+              color: "#0f5c52",
               fontSize: 38,
               letterSpacing: "3px",
               marginLeft: 2,
@@ -149,15 +149,15 @@ export function BookSelect({ onSelect }: BookSelectProps) {
                 width: 26,
                 height: 2,
                 borderRadius: 2,
-                background: "linear-gradient(90deg, transparent, #0f5c52)",
+                background: "linear-gradient(90deg, transparent, #2e8577)",
               }}
             />
             <span
               className="font-black leading-none"
               style={{
                 fontFamily: "'Ma Shan Zheng', serif",
-                color: "#0f5c52",
-                fontSize: 26,
+                color: "#2e8577",
+                fontSize: 24,
                 letterSpacing: "4px",
               }}
             >
