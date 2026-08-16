@@ -11,6 +11,23 @@ import { ChoicePanel } from "./choice-panel";
 import { TrapScreen } from "./trap-screen";
 import { PageTopbar } from "./page-topbar";
 import { buildAgentStoryShareUrl } from "@/lib/reader/share-codec";
+import { getThrillConfig, shouldTriggerClimax } from "@/lib/agent/thrill";
+
+/** 由所选选项 + 当前爽感数值，算出要随 next-act 上报的爽感参数（含名场面双触发判定） */
+function thrillArgsFor(
+  choice: { thrillDelta?: number; personaAxis?: string; riskLevel?: "low" | "mid" | "high"; triggersClimax?: boolean },
+  meterBefore: number,
+) {
+  const delta = choice.thrillDelta ?? 0;
+  const meterAfter = Math.min(100, Math.max(0, meterBefore + delta));
+  const triggeredClimax = shouldTriggerClimax(meterBefore, meterAfter, [40, 70, 90], !!choice.triggersClimax);
+  return {
+    thrillDelta: delta,
+    personaAxis: choice.personaAxis,
+    riskLevel: choice.riskLevel,
+    triggeredClimax,
+  };
+}
 
 interface ActData {
   title: string;
@@ -384,6 +401,7 @@ export function AgentGameEngine({
           newTone: act.newEmotionalTone ?? "平静",
           modernTension: DILEMMA_LIBRARY.find(d => d.modernTag === choice.socialTag)?.modernTension,
           normalChoiceHistory,
+          ...thrillArgsFor(choice, worldStateRef.current.thrillMeter),
         }),
       });
       if (!res.ok) throw new Error("next-act failed");
