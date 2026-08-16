@@ -220,6 +220,8 @@ export function AgentGameEngine({
           normalChoiceHistory,
           ...thrillArgsFor(choice, currentState.thrillMeter),
         }),
+      });
+      // 第一段（正文）到手就先存下，让「继续」能立刻渲染正文；此时目标仍需最新
       if (res.ok && prefetchingIdRef.current === choice.id) {
         const data = await res.json() as {
           state: WorldState;
