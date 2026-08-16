@@ -441,10 +441,10 @@ ${thrillReq}
       "scores":{"${axesKeys.split("，")[0]}":10},
       "isTrap":false,
       "isSelfPreserve":false,
-      "isSacrifice":false
+      "isSacrifice":false${thrillFieldsJson}
     },
-    {"id":"B","label":"乙","text":"...","innerVoice":"...","revealText":"...","socialTag":"...","scores":{},"isTrap":false,"isSelfPreserve":false,"isSacrifice":false},
-    {"id":"C","label":"丙","text":"...","innerVoice":"...","revealText":"...","socialTag":"...","scores":{},"isTrap":${isTrapAllowed},"isSelfPreserve":false,"isSacrifice":false}
+    {"id":"B","label":"乙","text":"...","innerVoice":"...","revealText":"...","socialTag":"...","scores":{},"isTrap":false,"isSelfPreserve":false,"isSacrifice":false${thrillFieldsJson}},
+    {"id":"C","label":"丙","text":"...","innerVoice":"...","revealText":"...","socialTag":"...","scores":{},"isTrap":${isTrapAllowed},"isSelfPreserve":false,"isSacrifice":false${thrillFieldsJson}}
   ],
   "trapEndingText":"（仅isTrap=true时填写）选了这个极端选项后、你付出的沉重代价描述（2-3句）——写代价而非结局，故事会带着这个代价继续",
   "trapRevivalText":"（可留空）不再使用",
@@ -457,13 +457,14 @@ ${thrillReq}
   "newTensions":["本幕引入的新伏笔，字符串数组"],
   "newAnchors":["本幕出现的1-2个具体场景细节（地点名/人名/道具），如「教演场」「那封信」「高衙内」，用于下一幕保持连贯"],
   "newEmotionalTone":"平静/压抑/紧张/绝望/愤怒/悲凉/释然",
-  "shouldContinue":true
+  "shouldContinue":true${climaxFieldJson}
 }
 
 要求：
 - messages 3-5条，情绪递进，场景必须有原著依据（人名/地点/道具不得凭空发明）
 - ${factClause}
 ${outletsReq}
+${thrillReq}
 - isSelfPreserve/isSacrifice 根据选项语义填写true/false
 - scores 键名必须是：${axesKeys}
 - ${trapHint}
