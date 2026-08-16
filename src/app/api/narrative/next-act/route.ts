@@ -55,10 +55,14 @@ export async function POST(request: NextRequest) {
     };
 
     // 2. 更新 WorldState（newAnchors 来自上一幕 AI 返回，由前端随请求体传入）
+    // 【伏笔来源收窄】普通模式砍掉 AI 自造伏笔（newTensions 一律清空），伏笔只依赖原著锚点自带的线索，
+    // 从源头杜绝「AI 自造伏笔与原著锚点打架→回收时变质」。极限模式=平行推演，保留自造伏笔以支撑架空张力。
+    const isIntensifyMode = !!(state as unknown as { intensifyMode?: boolean }).intensifyMode;
+    const effectiveNewTensions = isIntensifyMode ? newTensions : [];
     const nextState = applyChoice(
       state, record, scoreDelta,
       isSelfPreserve, isSacrifice,
-      newTensions, newTone,
+      effectiveNewTensions, newTone,
       newAnchors ?? [],
     );
 
