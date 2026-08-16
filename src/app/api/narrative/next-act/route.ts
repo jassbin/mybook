@@ -97,17 +97,23 @@ export async function POST(request: NextRequest) {
       intensifyTargetBlock = buildIntensifyDirectiveForAct(profile, nextState.actNumber);
     }
 
-    // 5. 生成下一幕
-    const act = await callActGenerator({
+    // 5. 只生成【正文段】——快，玩家点继续后立刻能读到新一幕；选项由 /act-choices 异步补齐
+    const scene = await callActGenerator({
       state: nextState,
       dilemmas,
       instructions,
       isFirstAct: false,
       intensifyMode: isIntensify,
       intensifyTargetBlock,
+      phase: "scene",
     });
 
-    return NextResponse.json({ state: nextState, act });
+    // 返回正文 + 回传选项段所需的上下文（dilemmas 由 state 派生一致，前端原样带回给 /act-choices）
+    return NextResponse.json({
+      state: nextState,
+      scene,
+      choicesContext: { intensifyMode: isIntensify, intensifyTargetBlock },
+    });
   } catch (err) {
     console.error("[narrative/next-act]", err);
     return NextResponse.json({ error: "下一幕生成失败，请重试" }, { status: 500 });
