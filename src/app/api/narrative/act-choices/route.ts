@@ -26,9 +26,10 @@ export async function POST(request: NextRequest) {
     const dna = getCharacterDNA(state.character, state.book);
     const domains = dna?.dominantDomains ?? [];
     const isIntensify = choicesContext?.intensifyMode ?? !!(state as unknown as { intensifyMode?: boolean }).intensifyMode;
+    const progress = state.actNumber / Math.max(state.maxActs, 1);
     const intensity: 1 | 2 | 3 = isIntensify ? 3
-      : state.storyPhase === "合" || state.storyPhase === "尾声" ? 3
-      : state.storyPhase === "转" ? 2 : 1;
+      : progress >= 0.75 ? 3
+      : progress >= 0.45 ? 2 : 1;
     const affinityText = dna ? `${dna.coreWound}${dna.protects}${dna.fears}` : "";
     const dilemmas = selectDilemmas(domains, intensity, [], 3, affinityText);
 
