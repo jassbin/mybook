@@ -673,6 +673,8 @@ const EXTRA_BOOKS: LooseBookDef[] = [
     candidates: [
       { name: "罗辑", hook: "被迫背负全人类的命运，用最冷酷的威慑换和平——救世主和刽子手只差一念", dominantDomains: ["生存底线", "身份认同"] },
       { name: "叶文洁", hook: "对人类彻底失望，按下了那个按钮——她是罪人，还是被时代逼疯的清醒者", dominantDomains: ["背叛信任", "命运偏爱"] },
+      { name: "章北海", hook: "为了让人类活下去，不惜隐瞒、逃亡、甚至开枪——铁石心肠是懦弱还是最深的责任", dominantDomains: ["生存底线", "背叛信任"] },
+      { name: "程心", hook: "两次在关键抉择上选择了善良，两次把人类推向深渊——好人做错事，该不该被原谅", dominantDomains: ["身份认同", "生存底线"] },
     ],
   },
   {
@@ -691,6 +693,7 @@ const EXTRA_BOOKS: LooseBookDef[] = [
     authorDeathYear: 9999,
     candidates: [
       { name: "胡八一", hook: "为钱下墓，却总在生死关头选择救人——他嘴上的规矩和心里的底线哪个更硬", dominantDomains: ["生存底线", "背叛信任"] },
+      { name: "王胖子", hook: "贪财、怕死、爱占便宜，可真到关头从不丢下兄弟——市侩和义气能不能共存", dominantDomains: ["生存底线", "感情关系"] },
     ],
   },
 
