@@ -31,6 +31,8 @@ function thrillArgsFor(
     personaAxis: choice.choiceKind === "thrill" ? (choice.strategy ?? choice.personaAxis) : choice.personaAxis,
     riskLevel: choice.riskLevel,
     triggeredClimax,
+    choiceKind: choice.choiceKind,
+    strategy: choice.choiceKind === "thrill" ? choice.strategy : undefined,
   };
 }
 

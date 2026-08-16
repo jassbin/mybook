@@ -28,6 +28,8 @@ export async function POST(request: NextRequest) {
       personaAxis,
       riskLevel,
       triggeredClimax,
+      choiceKind,
+      strategy,
     } = await request.json() as {
       state: WorldState;
       choiceId: string;
@@ -48,6 +50,8 @@ export async function POST(request: NextRequest) {
       personaAxis?: string;
       riskLevel?: "low" | "mid" | "high";
       triggeredClimax?: boolean;
+      choiceKind?: "dilemma" | "thrill";
+      strategy?: string;
     };
 
     // 1. 记录本次选择（含结构性张力 + 爽感层）
@@ -62,6 +66,8 @@ export async function POST(request: NextRequest) {
       ...(modernTension ? { modernTension } : {}),
       ...(typeof thrillDelta === "number" ? { thrillDelta } : {}),
       ...(personaAxis ? { personaAxis } : {}),
+      ...(choiceKind ? { choiceKind } : {}),
+      ...(strategy ? { strategy } : {}),
       ...(riskLevel ? { riskLevel } : {}),
       ...(triggeredClimax ? { triggeredClimax } : {}),
     };
