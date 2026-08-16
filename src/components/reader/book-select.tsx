@@ -125,29 +125,24 @@ export function BookSelect({ onSelect }: BookSelectProps) {
           margin: "9px auto",
         }}
       >
-        {/* Header：标题 + 副标题同一行，紧凑 */}
-        <header className="relative z-10 flex flex-col items-stretch gap-1 mx-4 mt-4 mb-2 px-5 py-4 rounded-2xl"
-          style={{
-            background: "rgba(16,185,129,.06)",
-            border: "1.5px solid rgba(16,185,129,.4)",
-          }}
-        >
+        {/* Header：标题两行错落，纯净白底，靠字体与间距撑场面 */}
+        <header className="relative z-10 flex flex-col items-stretch gap-0.5 mx-4 mt-6 mb-3 px-1">
           <div
-            className="text-[30px] font-black leading-tight tracking-tight text-left"
+            className="text-[32px] font-black leading-tight tracking-tight text-left"
             style={{
               fontFamily: "'Ma Shan Zheng', serif",
               color: "#06463c",
-              letterSpacing: "1px",
+              letterSpacing: "2px",
             }}
           >
             附身角色
           </div>
           <div
-            className="text-[30px] font-black leading-tight tracking-tight text-right"
+            className="text-[32px] font-black leading-tight tracking-tight text-right"
             style={{
               fontFamily: "'Ma Shan Zheng', serif",
-              color: "#06463c",
-              letterSpacing: "1px",
+              color: "#0d9488",
+              letterSpacing: "2px",
             }}
           >
             照亮你的价值观
@@ -190,17 +185,17 @@ export function BookSelect({ onSelect }: BookSelectProps) {
               className={`relative overflow-hidden text-left transition-all duration-[220ms] active:scale-[.985] hover:-translate-y-1 flex flex-col rounded-2xl${didAnimate.current ? "" : " anim-spine"}`}
               style={{
                 background: "#ffffff",
-                border: "1.5px solid rgba(16,185,129,.4)",
+                border: "1px solid rgba(16,185,129,.14)",
                 animationDelay: didAnimate.current ? undefined : `${i * 70}ms`,
                 boxShadow: hovered === book.key
-                  ? "0 12px 28px rgba(16,185,129,.28), 0 0 0 1px rgba(16,185,129,.5)"
-                  : "0 4px 16px rgba(6,60,50,.1)",
+                  ? "0 10px 22px rgba(16,185,129,.16), 0 0 0 1px rgba(16,185,129,.3)"
+                  : "0 2px 10px rgba(6,60,50,.06)",
               }}
             >
               {/* 书名区：清爽实色浅绿底 + 书脊色大字书名（无厚重描边，颜色鲜明） */}
               <div
                 className="relative flex items-center justify-center shrink-0 px-3"
-                style={{ minHeight: 60, paddingTop: 10, paddingBottom: 10, background: "#d7f5ec", borderBottom: "1px solid rgba(16,185,129,.3)" }}
+                style={{ minHeight: 60, paddingTop: 10, paddingBottom: 10, background: "#f4fbf9", borderBottom: "1px solid rgba(16,185,129,.12)" }}
               >
                 <span
                   className="relative z-10 text-center w-full"
