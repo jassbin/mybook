@@ -141,7 +141,7 @@ export function BookSelect({ onSelect }: BookSelectProps) {
           </div>
           <div
             className="flex items-center gap-2"
-            style={{ marginLeft: 52, marginTop: 2 }}
+            style={{ marginLeft: 84, marginTop: 2 }}
           >
             <span
               style={{
@@ -149,14 +149,14 @@ export function BookSelect({ onSelect }: BookSelectProps) {
                 width: 26,
                 height: 2,
                 borderRadius: 2,
-                background: "linear-gradient(90deg, transparent, #0d9488)",
+                background: "linear-gradient(90deg, transparent, #5bc4b1)",
               }}
             />
             <span
               className="font-black leading-none"
               style={{
                 fontFamily: "'Ma Shan Zheng', serif",
-                color: "#0d9488",
+                color: "#5bc4b1",
                 fontSize: 26,
                 letterSpacing: "4px",
               }}
