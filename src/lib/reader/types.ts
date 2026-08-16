@@ -860,19 +860,29 @@ export function buildPresetBooks(): BookMeta[] {
 }
 
 /**
- * 按频道返回该频道下的全部书（不截断，书多）。
- * classic=四大名著；其余频道从 EXTRA_BOOKS 按 channel 筛（未标 channel 的书默认归 world）。
+ * 按频道返回该频道的精选书（每个频道随机取 4 本，样式整齐）。
+ * any=全库随机（含四大名著，但无硬置顶）；classic=四大名著；其余频道从 EXTRA_BOOKS 按 channel 筛。
  * 只返回版权安全的书。
  */
 export function buildBooksByChannel(channel: ChannelKey): BookMeta[] {
+  const N = 4;
+  // 不限：四大名著 + 全部安全额外书，一起随机，无硬置顶
+  if (channel === "any") {
+    const classicsAsBooks = CLASSICS.map(d =>
+      buildBookMeta(d.key, d.title, d.color, d.textColor, d.tagline, d.candidates));
+    const extrasAsBooks = EXTRA_BOOKS
+      .filter(b => isCopyrightSafe(b.authorDeathYear))
+      .map(buildFromLoose);
+    return shuffled([...classicsAsBooks, ...extrasAsBooks]).slice(0, N);
+  }
   if (channel === "classic") {
-    return shuffled(CLASSICS).map(d =>
+    return shuffled(CLASSICS).slice(0, N).map(d =>
       buildBookMeta(d.key, d.title, d.color, d.textColor, d.tagline, d.candidates));
   }
   const pool = EXTRA_BOOKS
     .filter(b => isCopyrightSafe(b.authorDeathYear))
     .filter(b => (b.channel ?? "world") === channel);
-  return shuffled(pool).map(buildFromLoose);
+  return shuffled(pool).slice(0, N).map(buildFromLoose);
 }
 
 // ── 主题偏好 ────────────────────────────────────────────────────
