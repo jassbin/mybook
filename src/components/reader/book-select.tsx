@@ -1,7 +1,7 @@
 "use client";
 // src/components/reader/book-select.tsx
 import { useEffect, useRef, useState, useMemo } from "react";
-import { buildBooksByChannel, lookupBook, ALL_BOOKS, CHANNELS, type ChannelKey, type BookMeta } from "@/lib/reader/types";
+import { buildBooksByChannel, lookupBook, ALL_BOOKS, CHANNELS, type ChannelKey, type ThemeKey, type BookMeta } from "@/lib/reader/types";
 import { darkenForCard } from "@/lib/reader/color";
 
 interface BookSelectProps {
