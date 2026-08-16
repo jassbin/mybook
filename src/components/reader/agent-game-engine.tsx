@@ -338,11 +338,12 @@ export function AgentGameEngine({
       });
       setNextActLoading(false);
       if (prefetchedRef.current) {
-        const fetched = prefetchedRef.current as { state: WorldState; act: ActData };
+        const fetched = prefetchedRef.current as { state: WorldState; act: ActData; choicesPending?: boolean };
         prefetchedRef.current = null;
         if (!fetched.act.shouldContinue || fetched.state.actNumber > fetched.state.maxActs) {
           onComplete(fetched.state); return;
         }
+        setChoicesLoading(!!fetched.choicesPending && fetched.act.choices.length === 0);
         setWorldState(fetched.state);
         setCurrentAct(fetched.act);
         return;
