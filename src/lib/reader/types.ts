@@ -150,6 +150,8 @@ export interface ChannelDef {
 // 「不限」置顶：随机展示全库，没有四大名著硬置顶约束
 export const CHANNELS: ChannelDef[] = [
   { key: "any", label: "不限" },
+  { key: "webromance", label: "言情小说" },
+  { key: "scriptmurder", label: "剧本杀" },
   { key: "classic", label: "经典殿堂" },
   { key: "romance", label: "儿女情长" },
   { key: "xianxia", label: "江湖仙侠" },
