@@ -208,6 +208,8 @@ export async function callActGenerator({
   isFirstAct,
   intensifyMode = false,
   intensifyTargetBlock = "",
+  phase = "full",
+  sceneContext,
 }: {
   state: ReturnType<typeof createWorldState>;
   dilemmas: ReturnType<typeof selectDilemmas>;
@@ -216,6 +218,8 @@ export async function callActGenerator({
   isFirstAct: boolean;
   intensifyMode?: boolean;
   intensifyTargetBlock?: string;
+  phase?: "full" | "scene" | "choices";
+  sceneContext?: { messages?: { text: string }[] };
 }) {
   const axesKeys = state.axes.map(a => a.key).join("，");
   const stateSummary = summarizeState(state);
