@@ -175,30 +175,43 @@ export function AgentComparePage({
           </p>
         </div>
 
-        {/* ── 块1：逐幕对照（新字段：桥段名 + 今天困境；只列两边都有的幕）── */}
-        <ResultSection index="1" title="逐幕对照">
+        {/* ── 块1：逐幕对照（两条轨迹展全：取两者最大幕数；缺的一侧显示占位；每侧补玩家选择）── */}
+        <ResultSection index="1" title="逐幕对照" hint={`普通${normalState.choiceHistory.length}幕 · 极压${intensifyState.choiceHistory.length}幕`}>
           <div className="grid grid-cols-2 gap-2 mb-3">
             <div className="text-[10px] font-bold text-center py-1 px-2 rounded-sm"
               style={{ background: spineColor, color: "#EFE6C9" }}>普通版</div>
             <div className="text-[10px] font-bold text-center py-1 px-2 rounded-sm flex items-center justify-center gap-1"
               style={{ background: intensifyColor, color: "#EFE6C9" }}><Flame size={11} strokeWidth={2.4} /> 极压版</div>
           </div>
-          {Array.from({ length: Math.min(normalState.choiceHistory.length, intensifyState.choiceHistory.length) }).map((_, i) => {
+          {Array.from({ length: Math.max(normalState.choiceHistory.length, intensifyState.choiceHistory.length) }).map((_, i) => {
             const n = normalState.choiceHistory[i];
             const x = intensifyState.choiceHistory[i];
-            const isFlipped = (n.choiceId === "A" && x.choiceId === "C") || (n.choiceId === "C" && x.choiceId === "A");
+            const isFlipped = !!n && !!x && ((n.choiceId === "A" && x.choiceId === "C") || (n.choiceId === "C" && x.choiceId === "A"));
             return (
               <div key={i} className="grid grid-cols-2 gap-2 mb-2.5">
                 {/* 普通 */}
                 <div className="text-[11px] leading-snug p-2"
                   style={{ background: `${spineColor}0f`, borderLeft: `2px solid ${spineColor}70` }}>
-                  <div className="text-[13px] font-black leading-snug"
-                    style={{ fontFamily: "'Ma Shan Zheng', serif", color: "rgba(1,1,1,.88)" }}>
-                    {n.sceneName || n.choiceText}
-                  </div>
-                  <div className="text-[10px] mt-1 leading-relaxed" style={{ color: spineColor }}>
-                    → {n.modernTension || n.socialTag}
-                  </div>
+                  {n ? (
+                    <>
+                      <div className="text-[13px] font-black leading-snug"
+                        style={{ fontFamily: "'Ma Shan Zheng', serif", color: "rgba(1,1,1,.88)" }}>
+                        {n.sceneName || `第${i + 1}幕`}
+                      </div>
+                      {n.choiceText && (
+                        <div className="text-[10px] mt-1 leading-relaxed" style={{ color: "rgba(1,1,1,.7)" }}>
+                          你选：{n.choiceText}
+                        </div>
+                      )}
+                      {(n.modernTension || n.socialTag) && (
+                        <div className="text-[10px] mt-0.5 leading-relaxed" style={{ color: spineColor }}>
+                          → {n.modernTension || n.socialTag}
+                        </div>
+                      )}
+                    </>
+                  ) : (
+                    <div className="text-[11px] text-center py-2" style={{ color: "rgba(1,1,1,.3)" }}>—（普通版无此幕）</div>
+                  )}
                 </div>
                 {/* 极压 */}
                 <div className="text-[11px] leading-snug p-2 relative"
@@ -207,14 +220,27 @@ export function AgentComparePage({
                     <span className="absolute top-1 right-1 text-[8px] px-1 py-0.5 font-black"
                       style={{ background: intensifyColor, color: "#EFE6C9" }}>翻转</span>
                   )}
-                  <div className="text-[13px] font-black leading-snug"
-                    style={{ fontFamily: "'Ma Shan Zheng', serif", color: isFlipped ? intensifyColor : "rgba(1,1,1,.85)" }}>
-                    {x.sceneName || x.choiceText}
-                  </div>
-                  <div className="text-[10px] mt-1 leading-relaxed"
-                    style={{ color: isFlipped ? intensifyColor : "rgba(195,74,40,.7)" }}>
-                    → {x.modernTension || x.socialTag}
-                  </div>
+                  {x ? (
+                    <>
+                      <div className="text-[13px] font-black leading-snug"
+                        style={{ fontFamily: "'Ma Shan Zheng', serif", color: isFlipped ? intensifyColor : "rgba(1,1,1,.85)" }}>
+                        {x.sceneName || `第${i + 1}幕`}
+                      </div>
+                      {x.choiceText && (
+                        <div className="text-[10px] mt-1 leading-relaxed" style={{ color: "rgba(1,1,1,.7)" }}>
+                          你选：{x.choiceText}
+                        </div>
+                      )}
+                      {(x.modernTension || x.socialTag) && (
+                        <div className="text-[10px] mt-0.5 leading-relaxed"
+                          style={{ color: isFlipped ? intensifyColor : "rgba(195,74,40,.7)" }}>
+                          → {x.modernTension || x.socialTag}
+                        </div>
+                      )}
+                    </>
+                  ) : (
+                    <div className="text-[11px] text-center py-2" style={{ color: "rgba(195,74,40,.4)" }}>—（极压版无此幕）</div>
+                  )}
                 </div>
               </div>
             );
