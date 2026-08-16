@@ -366,7 +366,7 @@ ${tensionField}  "newAnchors":["本幕出现的1-2个具体场景细节（地点
 - messages 3-5条，场景必须有原著依据（人名/地点/道具不得凭空发明）
 - ${factClause}
 - 【情绪必须承接并推进一格】本幕情绪要从上一幕的基调「${state.emotionalTone}」自然承接、并向前推进一格（如 压抑→紧张→绝望，或 紧张→短暂释然→更深的压抑），不得原地复读上一幕的情绪；情绪推进要靠情节和细节自然带出，绝不靠旁白直接说「气氛很紧张」。
-${tensionReq}
+${tensionReq}${sceneExtremeReq}
 - 正文要把玩家带到一个"即将做抉择"的临界点，但不要写出选项本身。
 - shouldContinue：如果故事张力已充分释放（通常≥8幕后）可设为false表示本幕是最后一幕`,
       validate: (p) => Array.isArray(p.messages) && p.messages.length >= 1,
