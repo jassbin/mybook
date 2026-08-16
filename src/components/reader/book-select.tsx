@@ -170,34 +170,6 @@ export function BookSelect({ onSelect }: BookSelectProps) {
           </div>
         </div>
 
-        {/* 主题偏好：说明 + 芯片同一行，横向滑动，不换行 */}
-        <div className="relative z-10 px-4 pt-1 pb-1.5">
-          <div
-            className="flex items-center gap-2 overflow-x-auto no-scrollbar"
-            style={{ scrollbarWidth: "none" }}
-          >
-            {THEMES.map((tdef) => {
-              const active = theme === tdef.key;
-              return (
-                <button
-                  key={tdef.key}
-                  onClick={() => handleThemeChange(tdef.key)}
-                  className="shrink-0 px-3.5 py-1.5 text-[13px] font-bold rounded-full border-2 transition-all active:scale-95 whitespace-nowrap"
-                  style={{
-                    background: active ? "linear-gradient(135deg,#0f766e,#0d9488)" : "rgba(255,255,255,.65)",
-                    color: active ? "#ffffff" : "#0f5c52",
-                    borderColor: active ? "#0f766e" : "rgba(15,118,110,.55)",
-                    boxShadow: active ? "0 4px 14px rgba(13,148,136,.35)" : "none",
-                    fontFamily: "'Noto Serif SC', serif",
-                  }}
-                >
-                  {tdef.label}
-                </button>
-              );
-            })}
-          </div>
-        </div>
-
         {/* Book shelf：书少时按内容高度、不强行撑满（避免与搜索区之间出现大片空白）；书多时可滚动 */}
         <div className="relative z-10 flex-none min-h-0 overflow-y-auto grid grid-cols-2 gap-2 px-4 pt-3 pb-2 content-start" style={{ maxHeight: "calc(100dvh - 320px)" }}>
           {books.map((book, i) => (
