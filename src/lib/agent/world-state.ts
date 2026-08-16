@@ -168,7 +168,7 @@ ${establishedList}`;
     ? `已有场景锚点（必须在本幕中引用至少一个）：${state.narrativeAnchors.join("、")}`
     : "";
 
-  return `当前第${state.actNumber}幕（${state.storyPhase}段），情绪基调：${state.emotionalTone}
+  return `当前第${state.actNumber}/${state.maxActs}幕，情绪基调：${state.emotionalTone}
 价值轴：${axesSummary}
 
 ${establishedBlock}
