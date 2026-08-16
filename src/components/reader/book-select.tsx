@@ -126,7 +126,12 @@ export function BookSelect({ onSelect }: BookSelectProps) {
         }}
       >
         {/* Header：标题 + 副标题同一行，紧凑 */}
-        <header className="relative z-10 flex flex-col items-center gap-1 px-5 pt-5 pb-3 text-center">
+        <header className="relative z-10 flex flex-col items-center gap-1 mx-4 mt-4 mb-2 px-5 py-4 text-center rounded-2xl"
+          style={{
+            background: "rgba(16,185,129,.06)",
+            border: "1.5px solid rgba(16,185,129,.4)",
+          }}
+        >
           <div
             className="text-[30px] font-black leading-tight tracking-tight"
             style={{
