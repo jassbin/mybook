@@ -159,6 +159,7 @@ export default function Home() {
           character: meta?.recommendedChar,
           characterDomains: meta?.charDomains ?? [],
           themeDomains: getThemeDomains(themeRef.current),
+          channel: meta?.channel,
         }),
       });
       if (!res.ok) throw new Error((await res.json().catch(() => ({}))).error ?? "初始化失败");
@@ -211,6 +212,7 @@ export default function Home() {
           character: chosenName,
           characterDomains: chosenDomains ?? [],
           themeDomains: getThemeDomains(themeRef.current),
+          channel: bookMeta?.channel,
         }),
       });
       if (!res.ok) throw new Error((await res.json().catch(() => ({}))).error ?? "初始化失败");
@@ -252,6 +254,7 @@ export default function Home() {
           intensify: true,
           // 把普通版完整选择历史传给极压 init，用于针对性施压
           normalChoiceHistory: agentFinalState.choiceHistory,
+          channel: bookMeta?.channel ?? agentFinalState.channel,
         }),
       });
       if (!res.ok) throw new Error((await res.json().catch(() => ({}))).error ?? "极压初始化失败");
