@@ -240,7 +240,7 @@ const EXTRA_BOOKS: LooseBookDef[] = [
     ],
   },
   {
-    title: "长恨歌",
+    title: "长恨歌", channel: "romance",
     color: "#B5707A", textColor: "#EFE6C9",
     tagline: "一座城市的繁华背后，一个女人用一生换来了什么",
     authorDeathYear: 9999, // 王安忆在世，版权保护中
@@ -269,7 +269,7 @@ const EXTRA_BOOKS: LooseBookDef[] = [
     ],
   },
   {
-    title: "雪国",
+    title: "雪国", channel: "romance",
     color: "#5A7A8A", textColor: "#EFE6C9",
     tagline: "明知没有结果，还是去了——这是浪漫还是自欺",
     authorDeathYear: 1972, // 川端康成，中国标准2022年公版（边缘，保守处理）
@@ -297,7 +297,7 @@ const EXTRA_BOOKS: LooseBookDef[] = [
     ],
   },
   {
-    title: "挪威的森林",
+    title: "挪威的森林", channel: "romance",
     color: "#2C5F4A", textColor: "#EFE6C9",
     tagline: "青春期的爱，浓烈到自己都不知道会把人烧成什么样",
     authorDeathYear: 9999, // 村上春树在世，版权保护中
@@ -381,7 +381,7 @@ const EXTRA_BOOKS: LooseBookDef[] = [
     ],
   },
   {
-    title: "伤逝",
+    title: "伤逝", channel: "romance",
     color: "#5C4A38", textColor: "#EFE6C9",
     tagline: "爱情烧得最旺的时候，生活的代价就开始显现了",
     authorDeathYear: 1936, // 鲁迅，1986年已公版 ✅
@@ -393,7 +393,7 @@ const EXTRA_BOOKS: LooseBookDef[] = [
 
   // 外国经典（作者去世满50年）
   {
-    title: "安娜·卡列尼娜",
+    title: "安娜·卡列尼娜", channel: "romance",
     color: "#7A3A3A", textColor: "#EFE6C9",
     tagline: "她只是想要真实地活着，却被整个社会判了死刑",
     authorDeathYear: 1910, // 列夫·托尔斯泰，1960年已公版 ✅
@@ -465,7 +465,7 @@ const EXTRA_BOOKS: LooseBookDef[] = [
     ],
   },
   {
-    title: "简·爱",
+    title: "简·爱", channel: "romance",
     color: "#7A5A6A", textColor: "#EFE6C9",
     tagline: "一个一无所有的女人，坚持说：我和你地位平等",
     authorDeathYear: 1855, // 夏洛蒂·勃朗特，1905年已公版 ✅
@@ -475,7 +475,7 @@ const EXTRA_BOOKS: LooseBookDef[] = [
     ],
   },
   {
-    title: "呼啸山庄",
+    title: "呼啸山庄", channel: "romance",
     color: "#3A3028", textColor: "#EFE6C9",
     tagline: "他用一生去报复，却不知道自己究竟是在恨还是在爱",
     authorDeathYear: 1848, // 艾米莉·勃朗特，1898年已公版 ✅
@@ -524,7 +524,7 @@ const EXTRA_BOOKS: LooseBookDef[] = [
     ],
   },
   {
-    title: "包法利夫人",
+    title: "包法利夫人", channel: "romance",
     color: "#8A5A6A", textColor: "#EFE6C9",
     tagline: "她以为浪漫可以填满生活，直到债主上门",
     authorDeathYear: 1880, // 福楼拜，1930年已公版 ✅
@@ -565,7 +565,7 @@ const EXTRA_BOOKS: LooseBookDef[] = [
   },
   // ── 言情 ──────────────────────────────────────────────
   {
-    title: "牡丹亭",
+    title: "牡丹亭", channel: "romance",
     color: "#B0447A", textColor: "#FBEAF1",
     tagline: "情不知所起，一往而深——为爱而死，值不值得",
     authorDeathYear: 1616, // 汤显祖，已公版 ✅
@@ -575,7 +575,7 @@ const EXTRA_BOOKS: LooseBookDef[] = [
     ],
   },
   {
-    title: "半生缘",
+    title: "半生缘", channel: "romance",
     color: "#8A5A6E", textColor: "#F5E8EE",
     tagline: "他们回不去了——被命运和至亲联手拆散的爱情",
     authorDeathYear: 1995, // 张爱玲
@@ -586,7 +586,7 @@ const EXTRA_BOOKS: LooseBookDef[] = [
   },
   // ── 仙侠 ──────────────────────────────────────────────
   {
-    title: "蜀山剑侠传",
+    title: "蜀山剑侠传", channel: "xianxia",
     color: "#2E6B7A", textColor: "#E8F6FA",
     tagline: "长生、飞升、诛邪——修的是道，还是心中放不下的执念",
     authorDeathYear: 1961, // 还珠楼主
@@ -595,7 +595,7 @@ const EXTRA_BOOKS: LooseBookDef[] = [
     ],
   },
   {
-    title: "诛仙",
+    title: "诛仙", channel: "xianxia",
     color: "#3A4A7A", textColor: "#E8ECFA",
     tagline: "何为正，何为邪——当正道逼你堕入魔道，你还守什么",
     authorDeathYear: 9999, // 萧鼎在世·网文
@@ -606,7 +606,7 @@ const EXTRA_BOOKS: LooseBookDef[] = [
   },
   // ── 网文 ──────────────────────────────────────────────
   {
-    title: "琅琊榜",
+    title: "琅琊榜", channel: "modern",
     color: "#3A5A4A", textColor: "#E8F5EE",
     tagline: "背负血海深仇归来，用尽算计复仇——赢了棋局，输了什么",
     authorDeathYear: 9999, // 海宴·网文
@@ -616,7 +616,7 @@ const EXTRA_BOOKS: LooseBookDef[] = [
     ],
   },
   {
-    title: "全职高手",
+    title: "全职高手", channel: "modern",
     color: "#2A5A6E", textColor: "#E8F4FA",
     tagline: "巅峰跌落后从零再来——尊严、热爱与现实，你为哪个坚持",
     authorDeathYear: 9999, // 蝴蝶蓝·网文
