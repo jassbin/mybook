@@ -56,6 +56,7 @@ export async function POST(request: NextRequest) {
       forcedContinue: choicesPart.forcedContinue ?? [{ id: "fc1", type: "system", text: "无论如何，故事继续……" }],
       trapEndingText: choicesPart.trapEndingText ?? "",
       trapRevivalText: choicesPart.trapRevivalText ?? "",
+      climaxScene: choicesPart.climaxScene ?? null,
     });
   } catch (err) {
     console.error("[narrative/act-choices]", err);
