@@ -44,10 +44,22 @@ export function BookSelect({ onSelect }: BookSelectProps) {
     }
   }, [books.length]);
 
-  // 切换主题偏好：重建书架（优先推荐命中主题的书与角色）
+  // 切换主题偏好：重建书架（优先推荐命中主题的书与角色）。切主题时退出频道视图。
   const handleThemeChange = (next: ThemeKey) => {
     setTheme(next);
+    setChannel(null);
     setBooks(next === "any" ? buildPresetBooks() : buildPresetBooksByTheme(next));
+  };
+
+  // 切换频道：显示该频道全部书（书多）。再次点击已选频道→回到推荐精选。
+  const handleChannelChange = (next: ChannelKey) => {
+    if (channel === next) {
+      setChannel(null);
+      setBooks(theme === "any" ? buildPresetBooks() : buildPresetBooksByTheme(theme));
+      return;
+    }
+    setChannel(next);
+    setBooks(buildBooksByChannel(next));
   };
 
   // 实时模糊候选
