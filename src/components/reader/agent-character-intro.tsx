@@ -67,6 +67,8 @@ export function AgentCharacterIntro({
         style={{
           margin: "9px auto",
           minHeight: "calc(100dvh - var(--safe-top) - var(--safe-bottom) - 18px)",
+          background: "linear-gradient(170deg, rgba(215,245,236,.96), rgba(198,238,225,.92))",
+          border: "1.5px solid rgba(16,185,129,.5)",
         }}
       >
         {/* 返回：圆形箭头图标按钮，浮在左上角，不遮挡内容 */}
