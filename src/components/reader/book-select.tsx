@@ -141,7 +141,7 @@ export function BookSelect({ onSelect }: BookSelectProps) {
           </div>
           <div
             className="flex items-center gap-2"
-            style={{ marginLeft: 84, marginTop: 2 }}
+            style={{ marginLeft: 108, marginTop: 2 }}
           >
             <span
               style={{
