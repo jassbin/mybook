@@ -471,9 +471,27 @@ export function AgentGameEngine({
 
         {/* 消息流 */}
         <div ref={scrollContainerRef} className="flex-1 overflow-y-auto px-4 py-4 flex flex-col gap-3" style={{ scrollBehavior: "smooth" }}>
-          {displayedMsgs.map(msg => (
-            <SceneMessage key={msg.key} message={msg as any} />
-          ))}
+          {(() => {
+            // 找出「本幕后果段」的第一条消息下标——用于在已读正文与新出现的后果之间插入一条分隔线，
+            // 让玩家一眼分清「刚才读的正文」与「选择后新发生的内容」。
+            const firstConseqIdx = displayedMsgs.findIndex(
+              m => /^(conseq|forced|trapcost)-/.test(m.key)
+            );
+            return displayedMsgs.map((msg, i) => (
+              <div key={msg.key} className="contents">
+                {i === firstConseqIdx && firstConseqIdx > 0 && (
+                  <div className="flex items-center gap-2 my-1 anim-ink" aria-hidden>
+                    <div className="flex-1 h-px" style={{ background: `${spineColor}44` }} />
+                    <span className="text-[10px] font-bold tracking-widest shrink-0" style={{ color: `${spineColor}aa` }}>
+                      你的选择之后
+                    </span>
+                    <div className="flex-1 h-px" style={{ background: `${spineColor}44` }} />
+                  </div>
+                )}
+                <SceneMessage message={msg as any} />
+              </div>
+            ));
+          })()}
 
           {revealText && (
             <div className="text-sm italic text-[rgba(1,1,1,.6)] border-l-4 pl-3 py-1 anim-ink"
