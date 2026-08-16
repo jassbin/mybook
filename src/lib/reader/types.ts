@@ -133,8 +133,10 @@ const SANGUO_CANDIDATES: CharCandidate[] = [
 // ── 版权检查 ──────────────────────────────────────────────────────
 // 中国著作权法：作者去世满50年进入公版
 const CURRENT_YEAR = new Date().getFullYear();
-export function isCopyrightSafe(authorDeathYear: number): boolean {
-  return CURRENT_YEAR - authorDeathYear >= 50;
+// 【比赛后·放开版权过滤】原本按作者去世满50年判定，现在放开：所有候选书目（含现代网文）
+// 均可进入候选池。保留 authorDeathYear 字段以便日后需要时再收紧。
+export function isCopyrightSafe(_authorDeathYear: number): boolean {
+  return true;
 }
 
 // ── 非四大名著：有时代共鸣的书库 ──────────────────────────────────
