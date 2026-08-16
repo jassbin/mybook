@@ -1,7 +1,7 @@
 "use client";
 // src/components/reader/book-select.tsx
 import { useEffect, useRef, useState, useMemo } from "react";
-import { buildPresetBooks, buildPresetBooksByTheme, buildBooksByChannel, lookupBook, ALL_BOOKS, THEMES, CHANNELS, type ThemeKey, type ChannelKey, type BookMeta } from "@/lib/reader/types";
+import { buildBooksByChannel, lookupBook, ALL_BOOKS, CHANNELS, type ChannelKey, type BookMeta } from "@/lib/reader/types";
 import { darkenForCard } from "@/lib/reader/color";
 
 interface BookSelectProps {
@@ -53,7 +53,7 @@ export function BookSelect({ onSelect }: BookSelectProps) {
   const suggestions = useMemo(() => fuzzySearch(query), [query]);
 
   const handlePresetClick = (book: BookMeta) => {
-    onSelect(book.title, book, theme);
+    onSelect(book.title, book, "any");
   };
 
   const handleQueryChange = (v: string) => {
@@ -66,7 +66,7 @@ export function BookSelect({ onSelect }: BookSelectProps) {
     setQuery("");
     setShowDropdown(false);
     setNotFound(false);
-    onSelect(book.title, book, theme);
+    onSelect(book.title, book, "any");
   };
 
   const handleSubmit = () => {
@@ -79,7 +79,7 @@ export function BookSelect({ onSelect }: BookSelectProps) {
     setQuery("");
     setShowDropdown(false);
     setNotFound(false);
-    onSelect(t, null, theme);
+    onSelect(t, null, "any");
   };
 
   // 点击外部关闭下拉
