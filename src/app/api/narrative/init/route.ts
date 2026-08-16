@@ -9,7 +9,7 @@ import {
   validateAxes, pickArchetype,
   buildValueProfile, buildIntensifyDirectiveForAct,
 } from "@/lib/agent";
-import { getThrillConfig, PERSONA_AXES } from "@/lib/agent/thrill";
+import { getThrillConfig, PERSONA_AXES, THRILL_STRATEGIES } from "@/lib/agent/thrill";
 
 export async function POST(request: NextRequest) {
   try {
@@ -349,16 +349,19 @@ ${dilemmaHints}
 
   // ── 爽感层 prompt 块：让每个选项在困境后果之外，同时携带爽感增量/人格轴/风险/名场面 ──
   const tc = getThrillConfig((state.channel ?? undefined) as any);
-  const thrillMeter = state.thrillMeter ?? 20;
-  const thrillFieldsJson = `,"thrillDelta":<-5到+18的整数，选得漂亮/痛快就多涨，平淡则少涨或不涨>,"personaAxis":"<${PERSONA_AXES.join("/")} 之一，标记这个选项底层是哪种人格追求>","riskLevel":"<low|mid|high 该选项的冒险程度>","triggersClimax":<true|false 该选项本身是否是关键高光选项，选它直接引爆名场面>`;
-  const thrillReq = `- 【爽感层·与困境并存·必须逐项填写】除了困境后果，每个选项还要给出爽感字段：
-  · 本作的爽感变量是「${tc.label}${tc.icon}」（当前 ${thrillMeter}/100）。定位：${tc.vibe}
-  · thrillDelta：这一步让「${tc.label}」涨多少（-5~+18整数）。选到爽点、漂亮翻盘、双向奔赴、识破真相、一战成名之类要多涨；平庸/退缩少涨或不涨。困境的沉重和爽感并不矛盾——越是顶着代价把事做漂亮，越爽。
-  · personaAxis：标出这个选项底层是哪种人格追求（如傲娇留一手=策略型，直球表白/正面硬刚=勇敢型，压住阵脚掌控全局=掌控型，忍痛成全=奉献型，靠证据推演=理性型，凭直觉赌=直觉型，拉盟友=社交型，偏要反着来=叛逆型）。三个选项的 personaAxis 尽量不同，让玩家的选择能区分出人格。
-  · riskLevel：high=高风险高回报的激进选项，low=稳妥小涨，mid=居中。
-  · triggersClimax：仅当该选项本身就是一个"名场面级"的关键高光动作（表白/护你/揭穿真凶/名震全场）时设 true，否则 false；同一幕最多一个选项设 true。
-- 【名场面 climaxScene】如果本幕存在"爽点即将爆发"的时机，另外给出一段名场面高光文本（见下方字段）；没有则留空字符串。`;
-  const climaxFieldJson = `,\n  "climaxScene":{"title":"名场面标题（6字内，如「十里红妆」「真相大白」）","text":"名场面高光正文（2-3句，把爽点拉满：高糖/高光/翻盘时刻）","triggerChoiceId":"（选填）哪个选项选中后播放本名场面，如「B」；留空表示靠数值破阈自动触发"}`;
+  // 每个选项统一新增字段：标注它是"两难选项"还是"爽点选项(爽法)"
+  const thrillFieldsJson = `,"choiceKind":"<dilemma=价值两难代价型 | thrill=爽点爽法型>","strategy":"<仅 choiceKind=thrill 时填：${THRILL_STRATEGIES.join("/")} 之一，标记这是哪种爽法；dilemma 时留空>","personaAxis":"<${PERSONA_AXES.join("/")} 之一，该选项底层人格>","riskLevel":"<low|mid|high>","triggersClimax":<true|false 该爽点选项是否本身就是名场面级高光>`;
+  const thrillReq = `- 【本幕类型二选一·由你判断——最重要】先判断本幕正文把角色带到的是哪种时机，据此决定三个选项的性质：
+  · 若本幕是【生死/道德/无法两全的关口】→ actKind="dilemma"：三个选项是价值两难的三种解法（代价不同、都难受、无明显正确答案），choiceKind 全填 "dilemma"，consequenceMap 写"选完的代价/后果"。
+  · 若本幕是【打脸/逆袭/识破/被偏爱/名震全场之类的爽点时机】→ actKind="thrill"：三个选项是**三种不同的"爽法"**（不是代价梯度！），每个 choiceKind="thrill" 并标 strategy：
+    - 例：面对羞辱→甲「硬刚」当场顶回去 / 乙「智取」一句话让对方下不来台 / 丙「被宠」等身边人替你出头。
+    - 破案场景→「一击制胜」当场指认 / 「反杀」诈出真凶 / 「智取」用证据层层收网。
+    · 三个 strategy 必须各不相同，让玩家"想用哪种方式爽"来选。
+    · 【关键·爽点兑现】choiceKind=thrill 的选项，consequenceMap 里对应的后果**必须写成"爽点兑现"**——立刻写出打脸/反杀/被护那一下的高光即时反馈（如"话音刚落，满堂皆惊，那个瞧不起你的人涨红了脸"），让玩家读完就"就是这样！"，绝不写成代价或失去。
+  · 本作爽感基调（供参考）：${tc.vibe}
+- 每个选项还要标：personaAxis（底层人格）、riskLevel（high激进/low稳妥/mid居中）、triggersClimax（该爽点选项是否本身就是名场面级高光，同幕最多一个 true）。
+- 【名场面 climaxScene】爽点幕若有"爽点爆发"时机，给出高光文本（见字段）；两难幕通常留空。`;
+  const climaxFieldJson = `,\n  "actKind":"<dilemma | thrill 本幕类型>",\n  "climaxScene":{"title":"名场面标题（6字内，如「十里红妆」「一剑封喉」）","text":"名场面高光正文（2-3句，把爽点拉满：打脸/逆袭/被宠/破案高光）","triggerChoiceId":"（选填）哪个爽点选项选中后播放，如「B」"}`;
 
   // ── 拆分生成：phase="scene" 只出正文(快)，phase="choices" 只出选项(据已生成正文续写)，"full"=旧的整幕 ──
   if (phase === "scene") {
