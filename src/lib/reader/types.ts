@@ -634,6 +634,8 @@ const EXTRA_BOOKS: LooseBookDef[] = [
     candidates: [
       { name: "郭靖", hook: "天资平平却守着最笨的道义，家国与恩义冲突时他从不取巧——值不值", dominantDomains: ["身份认同", "背叛信任"] },
       { name: "黄蓉", hook: "聪明绝顶、为爱不管不顾——她的机变到底护住了什么、又放弃了什么", dominantDomains: ["感情关系", "命运偏爱"] },
+      { name: "杨康", hook: "认贼作父享尽荣华，还是认祖归宗一无所有——他选了前者，你会怎么选", dominantDomains: ["身份认同", "背叛信任"] },
+      { name: "梅超风", hook: "为爱偷师、练邪功、被逐出师门——世人骂她妖女，她只恨自己不够狠", dominantDomains: ["禁忌诱惑", "命运偏爱"] },
     ],
   },
   {
