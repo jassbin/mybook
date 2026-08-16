@@ -140,8 +140,8 @@ export function BookSelect({ onSelect }: BookSelectProps) {
             附身角色
           </div>
           <div
-            className="flex items-center gap-2"
-            style={{ marginLeft: 108, marginTop: 2 }}
+            className="flex items-center gap-2 whitespace-nowrap"
+            style={{ marginLeft: 88, marginTop: 2 }}
           >
             <span
               style={{
@@ -153,7 +153,7 @@ export function BookSelect({ onSelect }: BookSelectProps) {
               }}
             />
             <span
-              className="font-black leading-none"
+              className="font-black leading-none whitespace-nowrap"
               style={{
                 fontFamily: "'Ma Shan Zheng', serif",
                 color: "#2e8577",
