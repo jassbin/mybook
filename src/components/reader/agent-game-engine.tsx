@@ -74,9 +74,11 @@ export function AgentGameEngine({
 
   // 用 ref 保存预加载结果 — 避免闭包读到旧 state。记录预热对应的 choiceId，
   // 以便「选项一出现就预热默认项」：若用户点了别的选项，丢弃重来。
-  const prefetchedRef = useRef<{ state: WorldState; act: ActData; choiceId: string } | null>(null);
+  const prefetchedRef = useRef<{ state: WorldState; act: ActData; choiceId: string; choicesPending?: boolean } | null>(null);
   const prefetchingRef = useRef(false);
   const prefetchingIdRef = useRef<string | null>(null);
+  // 已到手的选项段：key=choiceId，避免旧目标的选项覆盖。存 null 表示该目标选项生成失败。
+  const choicesResultRef = useRef<{ choiceId: string; part: ChoicesPart | null } | null>(null);
   const pendingChoiceRef = useRef<{ choice: ActData["choices"][0]; act: ActData } | null>(null);
   const worldStateRef = useRef<WorldState>(initialState);
   useEffect(() => { worldStateRef.current = worldState; }, [worldState]);
