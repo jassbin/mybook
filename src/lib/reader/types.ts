@@ -20,6 +20,7 @@ export interface BookMeta {
   charHook: string;
   charDomains: string[];   // 选中角色的场域，传给 init API
   candidates: CharCandidate[];
+  channel?: ChannelKey;    // 频道归属，用于爽感变量换皮（心动/推理/气运）
 }
 
 // ── 四大名著候选池 ───────────────────────────────────────────────
@@ -977,7 +978,7 @@ function buildBookMeta(
 }
 
 function buildFromLoose(def: LooseBookDef): BookMeta {
-  return buildBookMeta(def.title, def.title, def.color, def.textColor, def.tagline, def.candidates);
+  return { ...buildBookMeta(def.title, def.title, def.color, def.textColor, def.tagline, def.candidates), channel: def.channel ?? "world" };
 }
 
 // 四大名著配置
