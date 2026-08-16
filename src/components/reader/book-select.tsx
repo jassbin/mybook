@@ -126,31 +126,31 @@ export function BookSelect({ onSelect }: BookSelectProps) {
         }}
       >
         {/* Header：标题 + 副标题同一行，紧凑 */}
-        <header className="relative z-10 flex flex-col items-center gap-1 mx-4 mt-4 mb-2 px-5 py-4 text-center rounded-2xl"
+        <header className="relative z-10 flex flex-col items-stretch gap-1 mx-4 mt-4 mb-2 px-5 py-4 rounded-2xl"
           style={{
             background: "rgba(16,185,129,.06)",
             border: "1.5px solid rgba(16,185,129,.4)",
           }}
         >
           <div
-            className="text-[30px] font-black leading-tight tracking-tight"
+            className="text-[30px] font-black leading-tight tracking-tight text-left"
             style={{
               fontFamily: "'Ma Shan Zheng', serif",
               color: "#06463c",
               letterSpacing: "1px",
             }}
           >
-            附身名著角色
+            附身角色
           </div>
           <div
-            className="text-[30px] font-black leading-tight tracking-tight"
+            className="text-[30px] font-black leading-tight tracking-tight text-right"
             style={{
               fontFamily: "'Ma Shan Zheng', serif",
               color: "#06463c",
               letterSpacing: "1px",
             }}
           >
-            测测你的价值观
+            照亮你的价值观
           </div>
         </header>
 
