@@ -520,27 +520,7 @@ export function AgentGameEngine({
         </div>
 
         {/* 爽感 HUD：常驻数值条，选完随 worldState 更新时数字/进度带跳动 */}
-        {(() => {
-          const tc = getThrillConfig((worldState.channel ?? undefined) as any);
-          const meter = worldState.thrillMeter ?? 20;
-          const justClimaxed = worldState.thrillHistory?.[worldState.thrillHistory.length - 1]?.triggeredClimax;
-          return (
-            <div className="relative shrink-0 px-4 pt-2 pb-1.5 flex items-center gap-2"
-              style={{ background: "rgba(1,1,1,.06)" }}>
-              <span className="text-[13px] shrink-0" style={{ filter: "saturate(1.2)" }}>{tc.icon}</span>
-              <span className="text-[11px] font-bold shrink-0 tracking-wide" style={{ color: tc.color }}>{tc.label}</span>
-              <div className="flex-1 h-2 rounded-full overflow-hidden" style={{ background: "rgba(1,1,1,.1)" }}>
-                <div className="h-full rounded-full transition-all duration-700 ease-out"
-                  style={{ width: `${meter}%`, background: `linear-gradient(90deg, ${tc.color}bb, ${tc.color})` }} />
-              </div>
-              <span key={meter} className="text-[12px] font-black tabular-nums shrink-0 anim-thrill-pop"
-                style={{ color: tc.color }}>{meter}</span>
-              {justClimaxed && (
-                <span className="text-[10px] font-black shrink-0 anim-ink" style={{ color: tc.color }}>名场面!</span>
-              )}
-            </div>
-          );
-        })()}
+        {/* 爽感数值不再展示——爽靠"选完即时爽点兑现"与名场面，不靠计分条 */}
         <div ref={scrollContainerRef} className="flex-1 overflow-y-auto px-4 py-4 flex flex-col gap-3" style={{ scrollBehavior: "smooth" }}>
           {(() => {
             // 找出「本幕后果段」的第一条消息下标——用于在已读正文与新出现的后果之间插入一条分隔线，
