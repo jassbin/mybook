@@ -23,18 +23,17 @@ function fuzzySearch(query: string, n = 6): BookMeta[] {
 
 export function BookSelect({ onSelect }: BookSelectProps) {
   const [books, setBooks] = useState<BookMeta[]>([]);
-  const [theme, setTheme] = useState<ThemeKey>("any");
-  // 频道分类：null=推荐(默认精选4本)；选中某频道→显示该频道全部书
-  const [channel, setChannel] = useState<ChannelKey | null>(null);
+  // 频道分类（一行芯片）：默认「不限」=全库随机 4 本，无四大名著硬置顶
+  const [channel, setChannel] = useState<ChannelKey>("any");
   const [query, setQuery] = useState("");
   const [showDropdown, setShowDropdown] = useState(false);
   const [notFound, setNotFound] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
-  // 是否已经播过首屏入场动画：切换主题重建书架时不再重播，避免书名"跳一下"
+  // 是否已经播过首屏入场动画：切换频道重建书架时不再重播，避免书名"跳一下"
   const didAnimate = useRef(false);
 
-  useEffect(() => { setBooks(buildPresetBooks()); }, []);
+  useEffect(() => { setBooks(buildBooksByChannel("any")); }, []);
 
   // 首屏书架渲染后，标记入场动画已完成（延迟到动画结束）
   useEffect(() => {
@@ -44,20 +43,8 @@ export function BookSelect({ onSelect }: BookSelectProps) {
     }
   }, [books.length]);
 
-  // 切换主题偏好：重建书架（优先推荐命中主题的书与角色）。切主题时退出频道视图。
-  const handleThemeChange = (next: ThemeKey) => {
-    setTheme(next);
-    setChannel(null);
-    setBooks(next === "any" ? buildPresetBooks() : buildPresetBooksByTheme(next));
-  };
-
-  // 切换频道：显示该频道全部书（书多）。再次点击已选频道→回到推荐精选。
+  // 切换频道：展示该频道精选 4 本（再次点同一频道=重新随机换一批）
   const handleChannelChange = (next: ChannelKey) => {
-    if (channel === next) {
-      setChannel(null);
-      setBooks(theme === "any" ? buildPresetBooks() : buildPresetBooksByTheme(theme));
-      return;
-    }
     setChannel(next);
     setBooks(buildBooksByChannel(next));
   };
