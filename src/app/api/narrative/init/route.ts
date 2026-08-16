@@ -388,7 +388,7 @@ ${sceneText || "（无正文，按当前叙事状态设困境）"}
   "forcedContinue":[{"id":"fc1","type":"system","text":"无论如何，故事继续……"}]
 }
 要求：
-- 【核心·选项就是困境的三个出口】三个选项必须是本幕正文那一个核心困境的三种价值排序解法：甲=优先保全自己/维持现状（代价最轻但需妥协良知）、乙=中间路线（各让一步、两头不讨好）、丙=承受最重代价去坚持某种价值。三者势均力敌、都真的难受、都有痛点，绝不允许有"明显正确"的答案；三个选项要同题。
+${outletsReq}
 - isSelfPreserve/isSacrifice 按语义填 true/false；scores 键名必须是：${axesKeys}
 - ${trapHint}
 - consequenceMap 的后果必须与上文既定事实一致，不得推翻。`,
