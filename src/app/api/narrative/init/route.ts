@@ -344,8 +344,7 @@ ${dilemmaHints}
     {"id":"m1","type":"narrator/dialog/inner","text":"内容","delay":0},
     {"id":"m2","type":"...","text":"...","delay":400}
   ],
-  "newTensions":["本幕引入的新伏笔，字符串数组"],
-  "newAnchors":["本幕出现的1-2个具体场景细节（地点名/人名/道具）"],
+${tensionField}  "newAnchors":["本幕出现的1-2个具体场景细节（地点名/人名/道具）"],
   "newEmotionalTone":"平静/压抑/紧张/绝望/愤怒/悲凉/释然",
   "shouldContinue":true
 }
@@ -353,7 +352,7 @@ ${dilemmaHints}
 - messages 3-5条，场景必须有原著依据（人名/地点/道具不得凭空发明）
 - ${factClause}
 - 【情绪必须承接并推进一格】本幕情绪要从上一幕的基调「${state.emotionalTone}」自然承接、并向前推进一格（如 压抑→紧张→绝望，或 紧张→短暂释然→更深的压抑），不得原地复读上一幕的情绪；情绪推进要靠情节和细节自然带出，绝不靠旁白直接说「气氛很紧张」。
-- 【必须回收一条旧伏笔】若上文【当前叙事状态】的「未解伏笔」非空，本幕必须显式回收其中至少一条——让它以某种方式兑现、引爆或落地，并在正文里体现出来；不要只顾埋新伏笔而把旧的一直悬着。
+${tensionReq}
 - 正文要把玩家带到一个"即将做抉择"的临界点，但不要写出选项本身。
 - shouldContinue：如果故事张力已充分释放（通常≥8幕后）可设为false表示本幕是最后一幕`,
       validate: (p) => Array.isArray(p.messages) && p.messages.length >= 1,
