@@ -166,10 +166,30 @@ export function AgentGameEngine({
           normalChoiceHistory,
         }),
       });
-      // 仅当这次预热仍是最新目标时才采纳，避免旧目标结果覆盖
+      // 第一段（正文）到手就先存下，让「继续」能立刻渲染正文；此时目标仍需最新
       if (res.ok && prefetchingIdRef.current === choice.id) {
-        const data = await res.json() as { state: WorldState; act: ActData };
-        prefetchedRef.current = { ...data, choiceId: choice.id };
+        const data = await res.json() as {
+          state: WorldState;
+          scene: Partial<ActData> & { messages: ActData["messages"] };
+          choicesContext?: { intensifyMode?: boolean; intensifyTargetBlock?: string };
+        };
+        // 组装成「正文就位、选项待补」的 act
+        const sceneAct: ActData = {
+          title: data.scene.title ?? "",
+          sceneName: data.scene.sceneName,
+          messages: data.scene.messages ?? [],
+          choices: [],
+          consequenceMap: {},
+          forcedContinue: [],
+          newTensions: data.scene.newTensions ?? [],
+          newAnchors: data.scene.newAnchors ?? [],
+          newEmotionalTone: data.scene.newEmotionalTone,
+          shouldContinue: data.scene.shouldContinue ?? true,
+        };
+        prefetchedRef.current = { state: data.state, act: sceneAct, choiceId: choice.id, choicesPending: true };
+
+        // 第二段（选项）异步补齐——玩家读正文的几秒内并行生成，读完时通常已就位
+        fetchChoicesFor(data.state, sceneAct, data.choicesContext, choice.id);
       }
     } catch (e) {
       console.warn("prefetch failed:", e);
