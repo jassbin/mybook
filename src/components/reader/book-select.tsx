@@ -126,22 +126,26 @@ export function BookSelect({ onSelect }: BookSelectProps) {
         }}
       >
         {/* Header：标题 + 副标题同一行，紧凑 */}
-        <header className="relative z-10 flex items-baseline justify-between gap-3 px-5 pt-4 pb-2.5">
+        <header className="relative z-10 flex flex-col items-center gap-1 px-5 pt-5 pb-3 text-center">
           <div
-            className="text-[38px] font-black leading-none tracking-tight shrink-0"
+            className="text-[30px] font-black leading-tight tracking-tight"
             style={{
               fontFamily: "'Ma Shan Zheng', serif",
               color: "#06463c",
-              letterSpacing: "-2px",
+              letterSpacing: "1px",
             }}
           >
-            假如你是Ta
+            附身名著角色
           </div>
           <div
-            className="text-[13px] font-bold leading-snug text-right"
-            style={{ fontFamily: "'Noto Serif SC', serif", color: "#0a4a3e" }}
+            className="text-[30px] font-black leading-tight tracking-tight"
+            style={{
+              fontFamily: "'Ma Shan Zheng', serif",
+              color: "#06463c",
+              letterSpacing: "1px",
+            }}
           >
-            附身名著角色<br />测测你的价值观
+            测测你的价值观
           </div>
         </header>
 
