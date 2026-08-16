@@ -706,6 +706,7 @@ const EXTRA_BOOKS: LooseBookDef[] = [
     candidates: [
       { name: "宁采臣", hook: "穷书生守着一身正气，面对聂小倩的深情与危险——胆小和守正只有一线之隔", dominantDomains: ["感情关系", "身份认同"] },
       { name: "聂小倩", hook: "被迫害人的女鬼想做回好人——洗清过往需要付出什么", dominantDomains: ["命运偏爱", "禁忌诱惑"] },
+      { name: "王生（画皮）", hook: "明知那女子来历不明，还是把她带回了家——色欲和警觉之间，人常常选错", dominantDomains: ["禁忌诱惑", "生存底线"] },
     ],
   },
   {
