@@ -124,12 +124,20 @@ const TIER_ORDER: Record<PrincipleTier, number> = { L1: 0, L2: 1, L3: 2 };
  * 把禁令按效力层级（L1→L2→L3）排序、拼成可注入 prompt 的一段文字。
  * 宪法级红线永远排在最前，确保 AI 最先、最重地看到不可违背的约束。
  */
-export function buildProhibitionsBlock(): string {
+export function buildProhibitionsBlock(intensifyMode = false): string {
   const sorted = [...PROHIBITIONS].sort(
     (a, b) => TIER_ORDER[a.tier] - TIER_ORDER[b.tier]
   );
-  const lines = sorted.map((p, i) => `${i + 1}. 【${p.tier}】${p.text}`);
-  return `【铁律禁令·按效力层级排序（L1宪法红线最优先，冲突时低层为高层让步）】\n${lines.join("\n")}`;
+  const lines = sorted.map((p) => {
+    // 极限模式=平行推演：把「绝不编造原著没有的结局」这条软化为「可改写结局，但需因果自洽+代价」，
+    // 避免它作为 L1 红线压死受控架空。其余红线（尤其玩家选择不可翻、当代映射、三选项等权）全部保留。
+    if (intensifyMode && p.text.startsWith("只能围绕原著真实的人物/关键情节")) {
+      return "只能围绕原著真实的人物出场，不得凭空发明原著没有的重要人物；但本局是平行推演，原著的默认结局可以被改写——前提是改写由玩家已做的选择+前文伏笔合理推导、并付出匹配的永久代价，禁止无铺垫的奇迹";
+    }
+    return p.text;
+  });
+  const numbered = sorted.map((p, i) => `${i + 1}. 【${p.tier}】${lines[i]}`);
+  return `【铁律禁令·按效力层级排序（L1宪法红线最优先，冲突时低层为高层让步）】\n${numbered.join("\n")}`;
 }
 
 /** 结局质量标准 */
