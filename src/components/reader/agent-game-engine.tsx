@@ -53,7 +53,7 @@ interface AgentGameEngineProps {
 type DisplayMsg = { id: string; type: string; text: string; key: string };
 
 // 拆分生成第二段的返回：选项 + 后果映射
-type ChoicesPart = Pick<ActData, "choices" | "consequenceMap" | "forcedContinue" | "trapEndingText" | "trapRevivalText">;
+type ChoicesPart = Pick<ActData, "choices" | "consequenceMap" | "forcedContinue" | "trapEndingText" | "trapRevivalText" | "climaxScene">;
 
 export function AgentGameEngine({
   initialState, initialAct, bookMeta, onComplete, onBack, intensifyMode = false, normalChoiceHistory,
