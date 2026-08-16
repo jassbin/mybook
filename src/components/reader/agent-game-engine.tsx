@@ -482,6 +482,21 @@ export function AgentGameEngine({
       <div className="paper-surface relative w-full max-w-sm mx-auto flex flex-col flex-1 border border-[rgba(239,230,201,.5)] overflow-hidden"
         style={{ boxShadow: "0 0 0 1px rgba(16,185,129,.22), 0 26px 80px rgba(6,60,50,.5)", margin: "8px auto" }}>
 
+        {/* 名场面高光插屏 */}
+        {climaxPopup && (() => {
+          const tc = getThrillConfig((worldState.channel ?? undefined) as any);
+          return (
+            <div className="absolute inset-0 z-40 flex flex-col items-center justify-center px-8 text-center anim-flash"
+              style={{ background: `radial-gradient(circle at 50% 40%, ${tc.color}f2, ${tc.color}d9 55%, rgba(6,20,16,.92))`, backdropFilter: "blur(2px)" }}
+              onClick={() => setClimaxPopup(null)}>
+              <div className="text-[11px] font-black tracking-[.4em] mb-3" style={{ color: "rgba(255,255,255,.85)" }}>✦ 名场面 ✦</div>
+              <div className="text-[30px] font-black mb-4 anim-thrill-pop" style={{ fontFamily: "'Ma Shan Zheng', serif", color: "#fff", letterSpacing: "2px" }}>{climaxPopup.title}</div>
+              <div className="text-[15px] leading-relaxed anim-up" style={{ color: "rgba(255,255,255,.95)", maxWidth: 280 }}>{climaxPopup.text}</div>
+              <div className="text-[11px] mt-6" style={{ color: "rgba(255,255,255,.6)" }}>轻触继续</div>
+            </div>
+          );
+        })()}
+
         {/* 顶栏：返回 + 标题 + 分享（故事页用深色古香态，与内容页统一） */}
         <PageTopbar
           title={currentAct.title}
