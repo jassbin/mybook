@@ -344,6 +344,14 @@ html { font-size: 16px; }
 .anim-up    { animation: fadeSlideUp 0.5s  cubic-bezier(.2,.8,.2,1) forwards; }
 .anim-flash { animation: flashWhite  0.8s  ease forwards; }
 
+/* 爽感数值跳动：数字更新时弹一下 */
+@keyframes thrillPop {
+  0%   { transform: scale(1); }
+  35%  { transform: scale(1.55); }
+  100% { transform: scale(1); }
+}
+.anim-thrill-pop { animation: thrillPop 0.5s cubic-bezier(.2,.9,.3,1.4); display: inline-block; }
+
 /* ── 分层入场（taste-skill MOTION：错落 + 高级缓动 + 轻微聚焦）──── */
 @keyframes riseIn {
   from { opacity: 0; transform: translateY(26px) scale(.985); filter: blur(6px); }
