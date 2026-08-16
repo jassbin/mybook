@@ -9,6 +9,7 @@ import {
   validateAxes, pickArchetype,
   buildValueProfile, buildIntensifyDirectiveForAct,
 } from "@/lib/agent";
+import { getThrillConfig, PERSONA_AXES } from "@/lib/agent/thrill";
 
 export async function POST(request: NextRequest) {
   try {
