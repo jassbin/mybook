@@ -287,6 +287,17 @@ export function AgentGameEngine({
     // 正好完全覆盖 LLM 生成时间，点「继续」时结果通常已就位 → 秒开。
     prefetchNextAct(choice, currentAct, worldStateRef.current);
 
+    // ── 名场面双触发：关键选项自带 或 数值破阈 ──
+    const meterBefore = worldStateRef.current.thrillMeter ?? 20;
+    const meterAfter = Math.min(100, Math.max(0, meterBefore + (choice.thrillDelta ?? 0)));
+    const climaxNow = shouldTriggerClimax(meterBefore, meterAfter, [40, 70, 90], !!choice.triggersClimax);
+    const cs = currentAct.climaxScene;
+    const csMatches = cs && (!cs.triggerChoiceId || cs.triggerChoiceId === choice.id);
+    if (climaxNow && cs && csMatches) {
+      setClimaxPopup({ title: cs.title, text: cs.text });
+      setTimeout(() => setClimaxPopup(null), 2600);
+    }
+
     // 方案A：陷阱选项不再「游戏结束」，而是「付出重大代价后继续」——
     // 把代价描述作为一条沉重后果插入，随后照常走到下一幕，保证最终能抵达价值观报告。
     const trapCostMsg = choice.isTrap && currentAct.trapEndingText
