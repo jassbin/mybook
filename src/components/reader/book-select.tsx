@@ -1,7 +1,7 @@
 "use client";
 // src/components/reader/book-select.tsx
 import { useEffect, useRef, useState, useMemo } from "react";
-import { buildPresetBooks, buildPresetBooksByTheme, lookupBook, ALL_BOOKS, THEMES, type ThemeKey, type BookMeta } from "@/lib/reader/types";
+import { buildPresetBooks, buildPresetBooksByTheme, buildBooksByChannel, lookupBook, ALL_BOOKS, THEMES, CHANNELS, type ThemeKey, type ChannelKey, type BookMeta } from "@/lib/reader/types";
 import { darkenForCard } from "@/lib/reader/color";
 
 interface BookSelectProps {
@@ -24,6 +24,8 @@ function fuzzySearch(query: string, n = 6): BookMeta[] {
 export function BookSelect({ onSelect }: BookSelectProps) {
   const [books, setBooks] = useState<BookMeta[]>([]);
   const [theme, setTheme] = useState<ThemeKey>("any");
+  // 频道分类：null=推荐(默认精选4本)；选中某频道→显示该频道全部书
+  const [channel, setChannel] = useState<ChannelKey | null>(null);
   const [query, setQuery] = useState("");
   const [showDropdown, setShowDropdown] = useState(false);
   const [notFound, setNotFound] = useState(false);
