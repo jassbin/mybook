@@ -546,6 +546,67 @@ const EXTRA_BOOKS: LooseBookDef[] = [
       { name: "桑丘", hook: "陪着一个疯子跑遍全国，最后收获了什么——他后悔吗", dominantDomains: ["背叛信任", "命运偏爱"] },
     ],
   },
+  // ── 言情 ──────────────────────────────────────────────
+  {
+    title: "牡丹亭",
+    color: "#B0447A", textColor: "#FBEAF1",
+    tagline: "情不知所起，一往而深——为爱而死，值不值得",
+    authorDeathYear: 1616, // 汤显祖，已公版 ✅
+    candidates: [
+      { name: "杜丽娘", hook: "被礼教关了一辈子，一场梦里的情让她甘愿去死——她疯了还是最清醒", dominantDomains: ["感情关系", "禁忌诱惑"] },
+      { name: "柳梦梅", hook: "为一个梦里的女人掘墓、还魂、赴考——痴情到底是勇气还是执念", dominantDomains: ["感情关系", "命运偏爱"] },
+    ],
+  },
+  {
+    title: "半生缘",
+    color: "#8A5A6E", textColor: "#F5E8EE",
+    tagline: "他们回不去了——被命运和至亲联手拆散的爱情",
+    authorDeathYear: 1995, // 张爱玲
+    candidates: [
+      { name: "顾曼桢", hook: "明明相爱，却被亲姐姐和整个家庭的算计一步步推开——她该恨谁", dominantDomains: ["感情关系", "背叛信任"] },
+      { name: "沈世钧", hook: "爱得不够勇敢，一次次退让，最后亲手放走了一生所爱", dominantDomains: ["感情关系", "身份认同"] },
+    ],
+  },
+  // ── 仙侠 ──────────────────────────────────────────────
+  {
+    title: "蜀山剑侠传",
+    color: "#2E6B7A", textColor: "#E8F6FA",
+    tagline: "长生、飞升、诛邪——修的是道，还是心中放不下的执念",
+    authorDeathYear: 1961, // 还珠楼主
+    candidates: [
+      { name: "李英琼", hook: "少女拜入仙门追求长生大道，正邪之间步步是选择——修仙先修心", dominantDomains: ["身份认同", "命运偏爱"] },
+    ],
+  },
+  {
+    title: "诛仙",
+    color: "#3A4A7A", textColor: "#E8ECFA",
+    tagline: "何为正，何为邪——当正道逼你堕入魔道，你还守什么",
+    authorDeathYear: 9999, // 萧鼎在世·网文
+    candidates: [
+      { name: "张小凡", hook: "出身正道却被逼向魔道，深爱的两个女子分属正邪——他到底该信谁", dominantDomains: ["感情关系", "身份认同"] },
+      { name: "陆雪琪", hook: "正道天才，一边是门派大义一边是心中所爱——剑再利，也斩不断情", dominantDomains: ["感情关系", "职场权力"] },
+    ],
+  },
+  // ── 网文 ──────────────────────────────────────────────
+  {
+    title: "琅琊榜",
+    color: "#3A5A4A", textColor: "#E8F5EE",
+    tagline: "背负血海深仇归来，用尽算计复仇——赢了棋局，输了什么",
+    authorDeathYear: 9999, // 海宴·网文
+    candidates: [
+      { name: "梅长苏", hook: "以病弱之躯运筹翻案，为复仇不惜牺牲旧友与自己——值不值", dominantDomains: ["职场权力", "背叛信任"] },
+      { name: "霓凰", hook: "等了一个人十几年，认出他却不能相认——大局与私情该怎么选", dominantDomains: ["感情关系", "身份认同"] },
+    ],
+  },
+  {
+    title: "全职高手",
+    color: "#2A5A6E", textColor: "#E8F4FA",
+    tagline: "巅峰跌落后从零再来——尊严、热爱与现实，你为哪个坚持",
+    authorDeathYear: 9999, // 蝴蝶蓝·网文
+    candidates: [
+      { name: "叶修", hook: "被俱乐部逼着退役、交出账号，从网吧重新打起——热爱能不能对抗现实", dominantDomains: ["职场权力", "身份认同"] },
+    ],
+  },
 ];
 
 function pickRandom<T>(arr: T[]): T {
