@@ -24,6 +24,10 @@ export async function POST(request: NextRequest) {
       newAnchors,
       modernTension,
       normalChoiceHistory,
+      thrillDelta,
+      personaAxis,
+      riskLevel,
+      triggeredClimax,
     } = await request.json() as {
       state: WorldState;
       choiceId: string;
@@ -40,9 +44,13 @@ export async function POST(request: NextRequest) {
       newAnchors?: string[];
       modernTension?: string;
       normalChoiceHistory?: ChoiceRecord[];
+      thrillDelta?: number;
+      personaAxis?: string;
+      riskLevel?: "low" | "mid" | "high";
+      triggeredClimax?: boolean;
     };
 
-    // 1. 记录本次选择（含结构性张力）
+    // 1. 记录本次选择（含结构性张力 + 爽感层）
     const record: ChoiceRecord = {
       act: state.actNumber,
       choiceId,
@@ -52,6 +60,10 @@ export async function POST(request: NextRequest) {
       consequenceText,
       ...(sceneName ? { sceneName } : {}),
       ...(modernTension ? { modernTension } : {}),
+      ...(typeof thrillDelta === "number" ? { thrillDelta } : {}),
+      ...(personaAxis ? { personaAxis } : {}),
+      ...(riskLevel ? { riskLevel } : {}),
+      ...(triggeredClimax ? { triggeredClimax } : {}),
     };
 
     // 2. 更新 WorldState（newAnchors 来自上一幕 AI 返回，由前端随请求体传入）
@@ -64,6 +76,7 @@ export async function POST(request: NextRequest) {
       isSelfPreserve, isSacrifice,
       effectiveNewTensions, newTone,
       newAnchors ?? [],
+      { delta: thrillDelta, personaAxis, riskLevel, triggeredClimax },
     );
 
     // 3. 检查原则，获取反转指令
