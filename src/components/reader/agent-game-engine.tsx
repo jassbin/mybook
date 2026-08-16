@@ -21,11 +21,14 @@ interface ActData {
     innerVoice: string; revealText: string; socialTag: string;
     scores: Record<string, number>;
     isTrap?: boolean; isSelfPreserve?: boolean; isSacrifice?: boolean;
+    thrillDelta?: number; personaAxis?: string;
+    riskLevel?: "low" | "mid" | "high"; triggersClimax?: boolean;
   }[];
   trapEndingText?: string;
   trapRevivalText?: string;
   consequenceMap: Record<string, { id: string; type: string; text: string }[]>;
   forcedContinue: { id: string; type: string; text: string }[];
+  climaxScene?: { title: string; text: string; triggerChoiceId?: string } | null;
   newTensions?: string[];
   newAnchors?: string[];
   newEmotionalTone?: WorldState["emotionalTone"];
