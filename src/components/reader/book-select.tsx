@@ -158,6 +158,31 @@ export function BookSelect({ onSelect }: BookSelectProps) {
           </div>
         </header>
 
+        {/* 频道分类：与主题芯片同款样式，横向滑动。选中频道→展示该频道全部书（书多） */}
+        <div className="relative z-10 px-4 pt-1.5 pb-0.5">
+          <div className="flex items-center gap-2 overflow-x-auto no-scrollbar" style={{ scrollbarWidth: "none" }}>
+            {CHANNELS.map((cdef) => {
+              const active = channel === cdef.key;
+              return (
+                <button
+                  key={cdef.key}
+                  onClick={() => handleChannelChange(cdef.key)}
+                  className="shrink-0 px-3.5 py-1.5 text-[13px] font-bold rounded-full border-2 transition-all active:scale-95 whitespace-nowrap"
+                  style={{
+                    background: active ? "linear-gradient(135deg,#b45309,#d97706)" : "rgba(255,255,255,.65)",
+                    color: active ? "#ffffff" : "#8a5a1a",
+                    borderColor: active ? "#b45309" : "rgba(180,83,9,.5)",
+                    boxShadow: active ? "0 4px 14px rgba(217,119,6,.35)" : "none",
+                    fontFamily: "'Noto Serif SC', serif",
+                  }}
+                >
+                  {cdef.label}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
         {/* 主题偏好：说明 + 芯片同一行，横向滑动，不换行 */}
         <div className="relative z-10 px-4 pt-1 pb-1.5">
           <div
