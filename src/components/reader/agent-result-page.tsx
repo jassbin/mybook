@@ -269,8 +269,10 @@ export function AgentResultPage({
           const meter = worldState.thrillMeter ?? 20;
           const rating = pickRating(meter, tc.ratingTiers);
           const profile = buildThrillProfile((worldState.thrillHistory ?? []) as any);
+          const thrillCount = worldState.choiceHistory.filter(r => r.choiceKind === "thrill").length;
+          if (thrillCount === 0) return null; // 整局没出现爽点幕就不显示这段
           return (
-            <ResultSection index="✦" title="本局爽感" hint={`${tc.label} ${meter}/100`}>
+            <ResultSection index="✦" title="本局爽感" hint={`${thrillCount} 次爽点选择`}>
               {/* 评级大卡 */}
               <div className="rounded-xl px-4 py-4 mb-3 text-center relative overflow-hidden"
                 style={{ background: `linear-gradient(135deg, ${tc.color}, ${tc.color}cc)` }}>
