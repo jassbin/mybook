@@ -157,7 +157,7 @@ export function AgentCharacterIntro({
               <div
                 key={axis.key}
                 className="flex flex-col gap-0.5 p-3 rounded-xl"
-                style={{ background: "rgba(255,255,255,.6)", border: "1px solid rgba(16,185,129,.22)" }}
+                style={{ background: "rgba(209,244,233,.85)", border: "1.5px solid rgba(16,185,129,.55)" }}
               >
                 <div className="text-xs font-black" style={{ color: accentGreen }}>
                   {axis.key}
