@@ -659,6 +659,8 @@ const EXTRA_BOOKS: LooseBookDef[] = [
     candidates: [
       { name: "令狐冲", hook: "只想自由自在，却被门派、正邪、权谋反复裹挟——洒脱是不是也要付代价", dominantDomains: ["身份认同", "背叛信任"] },
       { name: "岳不群", hook: "端着君子的体面走向深渊——他是什么时候开始骗自己的", dominantDomains: ["职场权力", "禁忌诱惑"] },
+      { name: "东方不败", hook: "为绝世武功挥刀自宫，登顶后却只想安静绣花陪爱人——权力和真心哪个是他要的", dominantDomains: ["禁忌诱惑", "职场权力"] },
+      { name: "林平之", hook: "满门被灭的受害者，为复仇一步步变成比仇人更狠的人——恨能不能有尽头", dominantDomains: ["背叛信任", "命运偏爱"] },
     ],
   },
 
