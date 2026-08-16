@@ -156,10 +156,10 @@ export function BookSelect({ onSelect }: BookSelectProps) {
                   onClick={() => handleChannelChange(cdef.key)}
                   className="shrink-0 px-3.5 py-1.5 text-[13px] font-bold rounded-full border-2 transition-all active:scale-95 whitespace-nowrap"
                   style={{
-                    background: active ? "linear-gradient(135deg,#b45309,#d97706)" : "rgba(255,255,255,.65)",
-                    color: active ? "#ffffff" : "#8a5a1a",
-                    borderColor: active ? "#b45309" : "rgba(180,83,9,.5)",
-                    boxShadow: active ? "0 4px 14px rgba(217,119,6,.35)" : "none",
+                    background: active ? "linear-gradient(135deg,#0f766e,#0d9488)" : "rgba(255,255,255,.65)",
+                    color: active ? "#ffffff" : "#0f5c52",
+                    borderColor: active ? "#0f766e" : "rgba(15,118,110,.55)",
+                    boxShadow: active ? "0 4px 14px rgba(13,148,136,.35)" : "none",
                     fontFamily: "'Noto Serif SC', serif",
                   }}
                 >
