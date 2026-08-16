@@ -145,8 +145,8 @@ export function BookSelect({ onSelect }: BookSelectProps) {
           </div>
         </header>
 
-        {/* 频道分类：与主题芯片同款样式，横向滑动。选中频道→展示该频道全部书（书多） */}
-        <div className="relative z-10 px-4 pt-1.5 pb-0.5">
+        {/* 频道分类（唯一一行芯片）：不限=全库随机；点频道→该频道精选 4 本，横向滑动 */}
+        <div className="relative z-10 px-4 pt-2 pb-2">
           <div className="flex items-center gap-2 overflow-x-auto no-scrollbar" style={{ scrollbarWidth: "none" }}>
             {CHANNELS.map((cdef) => {
               const active = channel === cdef.key;
