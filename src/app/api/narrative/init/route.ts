@@ -118,7 +118,7 @@ export async function POST(request: NextRequest) {
     }
 
     // 3. 建立 WorldState（极压模式标记到 book 字段，后续幕次识别）
-    const state = createWorldState(bookTitle, charName, charTagline, axes);
+    const state = createWorldState(bookTitle, charName, charTagline, axes, channel);
     // 自定义书：把临时生成的原著锚点挂到 state，供 callActGenerator 保真约束使用
     if (generatedMoments.length > 0) {
       (state as any).canonicalMoments = generatedMoments;
