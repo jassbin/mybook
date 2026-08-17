@@ -175,7 +175,7 @@ export async function POST(request: NextRequest) {
 
     // 6. 生成第一幕
     const themeHintBlock = themeBoostActive && themeDomains?.some(d => d === "感情关系" || d === "禁忌诱惑")
-      ? `\n【本局主题偏好——情感线加重】\n玩家选择了「爱情/恋人」主题。在忠于原著的前提下，本幕应优先呈现「${character ?? charName}」与情感/关系相关的两难（爱、羁绊、取舍、背叛、错过等），让感情线成为主要张力。严禁为了主题而发明原著不存在的恋爱关系或人物——只放大原著本就存在的情感处境。`
+      ? `\n【本局主题偏好——情感线加重·同人衍生模式】\n玩家选择了「爱情/恋人」主题。本作是同人/衍生二次创作，本幕应把「${character ?? charName}」的情感/关系张力（爱、羁绊、取舍、暧昧、错过、双向奔赴等）放在最前。**可以大胆演绎原著没有写明、甚至跨作品/影视版本的恋爱线与CP**（例如「孙悟空×紫霞仙子」这类影视衍生的经典配对），鼓励让感情线真正发生、升温、名场面化——只需守住角色的性格内核（这个角色会怎么爱、怎么反应），别写成另一个人。`
       : "";
     const firstActResult = await callActGenerator({
       state,
