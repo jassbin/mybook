@@ -53,7 +53,7 @@ export function ChoicePanel({ choices, lockedIds = [], onChoice }: ChoicePanelPr
               {/* Option label + text */}
               <div className="flex items-start gap-2 mb-2">
                 <span className="choice-label shrink-0 mt-0.5"
-                  style={isThrill ? { background: PINK, borderColor: PINK } : undefined}>{choice.label}</span>
+                  style={isThrill ? { background: PINK, borderColor: PINK, color: "#fff" } : undefined}>{choice.label}</span>
                 <span className="flex-1 text-sm font-bold text-[rgba(1,1,1,.88)] leading-snug">
                   {choice.text}
                 </span>
