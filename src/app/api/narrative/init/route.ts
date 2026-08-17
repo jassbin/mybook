@@ -356,9 +356,12 @@ ${dilemmaHints}
   const isThrillChannel = state.channel === "webromance" || state.channel === "scriptmurder";
   const recentKinds = state.choiceHistory.slice(-3).map(r => r.choiceKind ?? "dilemma");
   const consecutiveDilemma = (() => { let c = 0; for (let i = recentKinds.length - 1; i >= 0; i--) { if (recentKinds[i] === "dilemma") c++; else break; } return c; })();
+  const hadAnyThrill = state.choiceHistory.some(r => r.choiceKind === "thrill");
+  // 爽点频道：只要还没出过任何爽点幕，从第2幕起就强制本幕为爽点幕（开局幕若情节太重可让正文自然，但绝不能一路无爽）
+  const forceThrill = isThrillChannel && !hadAnyThrill && state.actNumber >= 2;
   const thrillBias = isThrillChannel
-    ? ((state.actNumber <= 1 || consecutiveDilemma >= 1)
-        ? `\n- 【本幕强烈倾向爽点幕·节奏铁律】本作是言情/剧本杀频道${state.actNumber <= 1 ? "，且这是开局幕——要让玩家一上来就先尝到爽" : "，且上一幕已是两难幕"}：本幕**优先判 actKind="thrill"**，除非正文明确把角色推到了生死/道德的绝境。哪怕情节偏抒情，也要找到一个"被偏爱/吃醋/心动/扬眉吐气/技惊四座"的切入点，给三种爽法选项。不要连续两幕都是两难。`
+    ? (forceThrill || consecutiveDilemma >= 1
+        ? `\n- 【本幕强制爽点幕·节奏铁律】本作是言情/剧本杀频道${forceThrill ? "，且到目前为止一次爽点幕都还没出现——玩家已经等太久了" : "，且上一幕已是两难幕"}：本幕**必须** actKind="thrill"。哪怕正文情节偏抒情或沉重，也要在本幕里主动制造/发掘一个"被偏爱/吃醋/心动/护短/扬眉吐气/技惊四座"的时机（可以是一个眼神、一句维护、一次反将），给三种爽法选项。绝不允许本幕再判两难。`
         : `\n- 【爽点频道·判定要大方】本作是言情/剧本杀频道，爽点时机的门槛要放低：不必"名震全场"级别——被偏爱、被护、吃醋、暗生情愫、一句话让对方心头一动、小小扬眉吐气、识破一个小破绽，都算爽点时机，就该判 actKind="thrill"。整局里爽点幕应不少于两难幕，别一路全判两难。`)
     : `\n- 【本频道以两难为主】本作偏严肃，两难幕为主；但遇到明显的一战成名/技惊四座/扬眉吐气时机时，也可判 actKind="thrill" 给三种爽法，让爽点点缀其间。`;
 
