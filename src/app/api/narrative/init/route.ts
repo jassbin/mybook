@@ -351,14 +351,26 @@ ${dilemmaHints}
   const tc = getThrillConfig((state.channel ?? undefined) as any);
   // 每个选项统一新增字段：标注它是"两难选项"还是"爽点选项(爽法)"
   const thrillFieldsJson = `,"choiceKind":"<dilemma=价值两难代价型 | thrill=爽点爽法型>","strategy":"<仅 choiceKind=thrill 时填：${THRILL_STRATEGIES.join("/")} 之一，标记这是哪种爽法；dilemma 时留空>","personaAxis":"<${PERSONA_AXES.join("/")} 之一，该选项底层人格>","riskLevel":"<low|mid|high>","triggersClimax":<true|false 该爽点选项是否本身就是名场面级高光>`;
+
+  // ── 爽点配额 + 节奏：爽点频道(言情/剧本杀)约一半幕应为爽点幕；连续两难则本幕强制爽点 ──
+  const isThrillChannel = state.channel === "webromance" || state.channel === "scriptmurder";
+  const recentKinds = state.choiceHistory.slice(-3).map(r => r.choiceKind ?? "dilemma");
+  const consecutiveDilemma = (() => { let c = 0; for (let i = recentKinds.length - 1; i >= 0; i--) { if (recentKinds[i] === "dilemma") c++; else break; } return c; })();
+  const thrillBias = isThrillChannel
+    ? (consecutiveDilemma >= 2
+        ? `\n- 【本幕强制爽点幕·节奏铁律】前面已连续 ${consecutiveDilemma} 幕都是两难幕，本幕**必须** actKind="thrill"：哪怕情节偏抒情，也要找到一个可以"扬眉吐气/被偏爱/心动高光/技惊四座"的切入点，给三种爽法选项。绝不允许再连续出两难。`
+        : `\n- 【爽点频道·判定要大方】本作是言情/剧本杀频道，爽点时机的门槛要放低：不必"名震全场"级别——被偏爱、被护、吃醋、暗生情愫、一句话让对方心头一动、小小扬眉吐气、识破一个小破绽，都算爽点时机，就该判 actKind="thrill"。整局里爽点幕与两难幕大致各半，别一路全判两难。`)
+    : `\n- 【本频道以两难为主】本作偏严肃，两难幕为主；但遇到明显的一战成名/技惊四座/扬眉吐气时机时，也可判 actKind="thrill" 给三种爽法，让爽点点缀其间。`;
+
   const thrillReq = `- 【本幕类型二选一·由你判断——最重要】先判断本幕正文把角色带到的是哪种时机，据此决定三个选项的性质：
   · 若本幕是【生死/道德/无法两全的关口】→ actKind="dilemma"：三个选项是价值两难的三种解法（代价不同、都难受、无明显正确答案），choiceKind 全填 "dilemma"，consequenceMap 写"选完的代价/后果"。
-  · 若本幕是【打脸/逆袭/识破/被偏爱/名震全场之类的爽点时机】→ actKind="thrill"：三个选项是**三种不同的"爽法"**（不是代价梯度！），每个 choiceKind="thrill" 并标 strategy：
+  · 若本幕是【打脸/逆袭/识破/被偏爱/心动/扬眉吐气之类的爽点时机】→ actKind="thrill"：三个选项是**三种不同的"爽法"**（不是代价梯度！），每个 choiceKind="thrill" 并标 strategy：
     - 例：面对羞辱→甲「硬刚」当场顶回去 / 乙「智取」一句话让对方下不来台 / 丙「被宠」等身边人替你出头。
+    - 情感高光→「硬刚」直球表白/主动亲近 / 「智取」欲擒故纵撩拨 / 「被宠」等对方先低头护你。
     - 破案场景→「一击制胜」当场指认 / 「反杀」诈出真凶 / 「智取」用证据层层收网。
     · 三个 strategy 必须各不相同，让玩家"想用哪种方式爽"来选。
-    · 【关键·爽点兑现】choiceKind=thrill 的选项，consequenceMap 里对应的后果**必须写成"爽点兑现"**——立刻写出打脸/反杀/被护那一下的高光即时反馈（如"话音刚落，满堂皆惊，那个瞧不起你的人涨红了脸"），让玩家读完就"就是这样！"，绝不写成代价或失去。
-  · 本作爽感基调（供参考）：${tc.vibe}
+    · 【关键·爽点兑现】choiceKind=thrill 的选项，consequenceMap 里对应的后果**必须写成"爽点兑现"**——立刻写出打脸/反杀/被护/心动那一下的高光即时反馈（如"话音刚落，满堂皆惊，那个瞧不起你的人涨红了脸"），让玩家读完就"就是这样！"，绝不写成代价或失去。
+  · 本作爽感基调（供参考）：${tc.vibe}${thrillBias}
 - 每个选项还要标：personaAxis（底层人格）、riskLevel（high激进/low稳妥/mid居中）、triggersClimax（该爽点选项是否本身就是名场面级高光，同幕最多一个 true）。
 - 【名场面 climaxScene】爽点幕若有"爽点爆发"时机，给出高光文本（见字段）；两难幕通常留空。`;
   const climaxFieldJson = `,\n  "actKind":"<dilemma | thrill 本幕类型>",\n  "climaxScene":{"title":"名场面标题（6字内，如「十里红妆」「一剑封喉」）","text":"名场面高光正文（2-3句，把爽点拉满：打脸/逆袭/被宠/破案高光）","triggerChoiceId":"（选填）哪个爽点选项选中后播放，如「B」"}`;
